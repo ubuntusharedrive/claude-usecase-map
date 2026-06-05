@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Claude Usecase Map</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' rx='7' fill='%23121419' stroke='%23272c36'/%3E%3Crect x='6' y='18' width='4' height='7' rx='1.5' fill='%235fcf8e'/%3E%3Crect x='12' y='14' width='4' height='11' rx='1.5' fill='%2379b8ff'/%3E%3Crect x='18' y='10' width='4' height='15' rx='1.5' fill='%23e8b04b'/%3E%3Crect x='24' y='6' width='4' height='19' rx='1.5' fill='%23f0734a'/%3E%3C/svg%3E">
 <style>
   :root{
     --bg:#0c0d10; --bg-2:#121419; --panel:#16191f; --panel-2:#1b1f27;
@@ -36,7 +37,7 @@
   .titlerow{display:flex;align-items:center;gap:13px;flex-wrap:wrap}
   h1{margin:0;font-size:34px;font-weight:600;letter-spacing:-.02em;line-height:1.05}
   h1 .dot{color:var(--accent)}
-  .sub{color:var(--text-dim);font-size:13.5px;max-width:560px;margin-top:8px}
+  .sub{color:var(--text-dim);font-size:13.5px;max-width:580px;margin-top:8px}
 
   .datebadge{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.02em;
     border-radius:9px;padding:7px 11px;border:1px solid transparent;display:inline-flex;align-items:center;gap:7px;
@@ -65,24 +66,25 @@
   .kbd{font-family:var(--mono);font-size:11px;color:var(--text-faint);border:1px solid var(--line);border-radius:6px;padding:2px 7px;background:var(--bg-2)}
   .count{font-family:var(--mono);font-size:11px;color:var(--text-faint);white-space:nowrap}
 
-  .toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 2px 14px;flex-wrap:wrap}
+  .toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 2px 8px;flex-wrap:wrap}
   .chips{display:flex;flex-wrap:wrap;gap:7px}
   .chip{font-family:var(--mono);font-size:12px;color:var(--text-dim);background:var(--panel);border:1px solid var(--line);
     border-radius:999px;padding:6px 12px;cursor:pointer;transition:all .14s;user-select:none}
   .chip:hover{border-color:var(--text-faint);color:var(--text)}
   .chip.on{background:var(--accent);border-color:var(--accent);color:#1a1304;font-weight:600}
-
   .seg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:3px;flex:none}
   .seg button{font-family:var(--mono);font-size:12px;color:var(--text-dim);background:none;border:none;cursor:pointer;
     padding:6px 14px;border-radius:6px;transition:all .14s;display:flex;align-items:center;gap:7px}
   .seg button.on{background:var(--panel-2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
   .seg svg{width:13px;height:13px}
+  .hinttip{font-family:var(--mono);font-size:11.5px;color:var(--text-faint);margin:0 2px 14px}
+  .hinttip b{color:var(--accent-2)}
 
   .rows{display:flex;flex-direction:column;gap:9px}
   .cat-head{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--text-faint);
     margin:16px 2px 2px;padding-bottom:6px;border-bottom:1px solid var(--line-soft)}
   .row{display:grid;grid-template-columns:1fr 132px 132px 78px 64px;gap:14px;align-items:center;
-    background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:13px 15px;
+    background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:13px 15px;cursor:pointer;
     transition:border-color .14s, transform .14s, background .14s;}
   .row:hover{border-color:var(--line);background:var(--panel-2);transform:translateY(-1px)}
   .row.hit{border-color:var(--accent);box-shadow:0 0 0 1px rgba(232,176,75,.25)}
@@ -96,18 +98,15 @@
   .m-opus{color:#e4cdf6}.m-opus .swatch{background:var(--opus)}
   .m-sonnet{color:#cdeee6}.m-sonnet .swatch{background:var(--sonnet)}
   .m-haiku{color:#d2e0ff}.m-haiku .swatch{background:var(--haiku)}
-
   .effort{font-family:var(--mono);font-size:12px;font-weight:600;border-radius:8px;padding:5px 9px;text-align:center;
     border:1px solid transparent;white-space:nowrap;cursor:help}
   .e-low{color:var(--eff-low);background:rgba(95,207,142,.10);border-color:rgba(95,207,142,.3)}
   .e-med{color:var(--eff-med);background:rgba(121,184,255,.10);border-color:rgba(121,184,255,.3)}
   .e-high{color:var(--eff-high);background:rgba(232,176,75,.12);border-color:rgba(232,176,75,.32)}
   .e-max{color:var(--eff-max);background:rgba(240,115,74,.12);border-color:rgba(240,115,74,.34)}
-
   .think{font-family:var(--mono);font-size:11.5px;display:inline-flex;align-items:center;gap:6px;color:var(--text-dim);cursor:help}
   .think .led{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--text-faint)}
   .think.on .led{background:var(--eff-high);border-color:var(--eff-high);box-shadow:0 0 7px rgba(232,176,75,.7)}
-
   .cost{display:flex;gap:3px;align-items:flex-end;height:18px;justify-content:flex-end;cursor:help}
   .cost i{width:5px;border-radius:2px;background:var(--line);display:block}
   .cost i.f1{background:var(--eff-low)}.cost i.f2{background:var(--eff-med)}
@@ -122,6 +121,7 @@
   thead th .arr{color:var(--accent);font-size:10px;margin-left:5px;opacity:0}
   thead th.sorted .arr{opacity:1}
   tbody td{padding:11px 14px;border-bottom:1px solid var(--line-soft);font-size:13.5px;vertical-align:middle}
+  tbody tr{cursor:pointer}
   tbody tr:last-child td{border-bottom:none}
   tbody tr:hover{background:var(--panel-2)}
   tbody tr.hit td{background:rgba(232,176,75,.06)}
@@ -157,8 +157,7 @@
   #tip .ladder{margin-top:9px;display:flex;flex-direction:column;gap:4px}
   #tip .lr{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;color:var(--text-faint)}
   #tip .lr .pill{font-weight:600;border-radius:5px;padding:2px 7px;min-width:46px;text-align:center}
-  #tip .lr.cur{color:var(--text)}
-  #tip .lr.cur .pill{outline:1px solid currentColor}
+  #tip .lr.cur{color:var(--text)} #tip .lr.cur .pill{outline:1px solid currentColor}
   #tip .note{margin-top:9px;color:var(--text-faint);font-size:11.5px}
 
   .overlay{position:fixed;inset:0;z-index:80;background:rgba(6,7,9,.72);backdrop-filter:blur(3px);
@@ -168,7 +167,7 @@
     padding:28px 30px 30px;box-shadow:0 30px 80px rgba(0,0,0,.6);animation:pop .18s ease}
   @keyframes pop{from{transform:translateY(10px) scale(.99);opacity:0}to{transform:none;opacity:1}}
   .modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:6px}
-  .modal h3{margin:0;font-size:23px;font-weight:600;letter-spacing:-.01em}
+  .modal h3{margin:0;font-size:23px;font-weight:600;letter-spacing:-.01em;line-height:1.2}
   .modal .lead{color:var(--text-dim);font-size:13.5px;margin:6px 0 20px}
   .xbtn{background:none;border:1px solid var(--line);color:var(--text-dim);border-radius:9px;width:34px;height:34px;
     cursor:pointer;font-size:18px;line-height:1;flex:none;transition:all .14s}
@@ -181,10 +180,17 @@
     font-size:12px;display:flex;align-items:center;justify-content:center}
   .steps li:not(:last-child):after{content:"";position:absolute;left:12px;top:26px;bottom:2px;width:1px;background:var(--line-soft)}
   .steps b{color:var(--text)}
-  .promptbox{position:relative;background:#0a0b0e;border:1px solid var(--line);border-radius:11px;padding:14px 14px;
+  .promptbox{position:relative;background:#0a0b0e;border:1px solid var(--line);border-radius:11px;padding:14px 42px 14px 14px;
     font-family:var(--mono);font-size:12px;color:var(--text-dim);line-height:1.6}
+  .promptbox.pre{white-space:pre-wrap}
   .promptbox .cp{position:absolute;top:9px;right:9px}
   .checklist{font-size:13px;color:var(--text-dim);margin:6px 0 0;padding-left:18px} .checklist li{margin:6px 0}
+
+  .d-cat{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
+  .d-tags{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:14px 0 18px}
+  .d-ex{font-size:14px;color:var(--text);background:var(--panel);border-left:3px solid var(--accent-2);
+    border-radius:0 8px 8px 0;padding:11px 14px;margin:0}
+  .d-note{font-size:11.5px;color:var(--text-faint);margin-top:16px;line-height:1.55}
 
   @media (max-width:760px){
     .row{grid-template-columns:1fr 1fr;gap:8px} h1{font-size:27px}
@@ -203,7 +209,7 @@
         <h1>The Claude Usecase Map<span class="dot">.</span></h1>
         <span class="datebadge" id="datebadge" data-tip="date"><span class="pip"></span><span id="datebadge-text"></span></span>
       </div>
-      <p class="sub">Dial in before you start. Search a task, or switch to Table view to browse and sort. Hover any tag for what it means. The cost meter shows how fast each combo burns your usage.</p>
+      <p class="sub">Dial in before you start. Search a task or browse the Table view, hover any tag for what it means, and <b>click a task</b> for a concrete example and a ready-to-use prompt. The cost meter shows how fast each combo burns your usage.</p>
     </div>
     <div class="headright">
       <button class="refresh-cta" id="open-refresh">
@@ -226,14 +232,11 @@
   <div class="toolbar">
     <div class="chips" id="chips"></div>
     <div class="seg" id="seg">
-      <button data-view="cards" class="on">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="7" rx="1"/><rect x="3" y="14" width="18" height="7" rx="1"/></svg>Cards
-      </button>
-      <button data-view="table">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>Table
-      </button>
+      <button data-view="cards" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="7" rx="1"/><rect x="3" y="14" width="18" height="7" rx="1"/></svg>Cards</button>
+      <button data-view="table"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>Table</button>
     </div>
   </div>
+  <div class="hinttip">↳ <b>Click any task</b> to see an example + copy a ready-made prompt.</div>
 
   <div class="rows" id="rows"></div>
   <div class="tablewrap" id="tablewrap" style="display:none"></div>
@@ -249,7 +252,6 @@
       <div class="legrow" style="margin-top:12px"><span class="think on"><span class="led"></span>thinking</span> visible reasoning — on to verify</div>
       <div class="legrow"><span class="cost"><i class="f1" style="height:6px"></i><i class="f2" style="height:9px"></i><i class="f3" style="height:12px"></i><i style="height:15px"></i><i style="height:18px"></i></span> usage burn, 1 light → 5 heavy</div>
     </div>
-
     <div class="card">
       <h2>Operating principles</h2>
       <div class="principles"><ul>
@@ -259,7 +261,6 @@
         <li><b>Lighter = more headroom.</b> Lots of small tasks? Low/Med + Haiku/Sonnet keeps you well under your limits.</li>
       </ul></div>
     </div>
-
     <div class="card">
       <h2>Monthly check-up</h2>
       <div class="freshline"><span class="dot-st" id="stdot"></span><span class="freshtxt" id="freshtxt"></span></div>
@@ -278,6 +279,24 @@
 
 <div id="tip"></div>
 
+<!-- task detail sub-page -->
+<div class="overlay" id="detail-overlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <div><div class="d-cat" id="d-cat"></div><h3 id="d-task"></h3></div>
+      <button class="xbtn" id="d-close" aria-label="Close">×</button>
+    </div>
+    <div class="d-tags" id="d-tags"></div>
+    <p class="lead" id="d-why"></p>
+    <h4>Example</h4>
+    <p class="d-ex" id="d-ex"></p>
+    <h4>Ready-to-use prompt</h4>
+    <div class="promptbox pre"><button class="btn cp" id="d-copy">copy</button><span id="d-prompt"></span></div>
+    <p class="d-note">Set <b>model</b>, <b>effort</b>, and <b>thinking</b> in Claude's menu (next to the send button) to match the tags above, then paste. Replace anything in [BRACKETS] with your specifics.</p>
+  </div>
+</div>
+
+<!-- refresh sub-page -->
 <div class="overlay" id="overlay">
   <div class="modal" role="dialog" aria-modal="true">
     <div class="modal-head">
@@ -285,22 +304,16 @@
       <button class="xbtn" id="close-modal" aria-label="Close">×</button>
     </div>
     <p class="lead">Claude's models, effort defaults, and your own habits drift over time. A quick monthly refresh keeps this reference honest. The whole thing takes under a minute.</p>
-
     <h4>The routine</h4>
     <ol class="steps">
       <li>When the date badge turns <b>orange</b> (or the check-up dot isn't green), it's time.</li>
       <li><b>Copy</b> the prompt below and paste it into a Claude chat.</li>
-      <li>Claude returns an updated HTML file — <b>download</b> it (the filename carries the new version + date).</li>
+      <li>Claude returns an updated HTML file — <b>download</b> it.</li>
       <li><b>Replace</b> the old file, or if you host it on GitHub Pages, save it as <b>index.html</b> and push.</li>
       <li>Back here, hit <b>"Mark checked today"</b> to reset the clock.</li>
     </ol>
-
     <h4>Full refresh prompt</h4>
-    <div class="promptbox">
-      <button class="btn cp" id="cpbtn">copy</button>
-      <span id="prompttext">Refresh "The Claude Usecase Map" (my Claude model + effort reference, currently v2.2). Please: (1) check Anthropic's current Claude.ai model lineup and the effort/thinking settings against the official docs and update anything that changed — new or retired models, changed defaults, renamed effort levels; (2) keep the same single-file HTML design, the Cards/Table views, the hover tooltips, the age-tinted date badge, and this refresh sub-page; (3) fold in any new recurring tasks I mention, and re-balance the model/effort/cost columns if my real usage has shown a row to be off; (4) set today's date as the new build date and bump the version number, and name the download file "The Claude Usecase Map vX.x YYYY-MM-DD.html". Then give me the updated file to download.</span>
-    </div>
-
+    <div class="promptbox"><button class="btn cp" id="cpbtn">copy</button><span id="prompttext">Refresh "The Claude Usecase Map" (my Claude model + effort reference, currently v2.3). Please: (1) check Anthropic's current Claude.ai model lineup and the effort/thinking settings against the official docs and update anything that changed — new or retired models, changed defaults, renamed effort levels; (2) keep the same single-file HTML design, the Cards/Table views, the hover tooltips, the click-to-open task examples and prompts, the favicon, the age-tinted date badge, and this refresh sub-page; (3) fold in any new recurring tasks I mention with their own example + prompt, and re-balance the model/effort/cost columns if my real usage has shown a row to be off; (4) set today's date as the new build date and bump the version number, and name the download file "The Claude Usecase Map vX.x YYYY-MM-DD.html". Then give me the updated file to download.</span></div>
     <h4>What to verify</h4>
     <ul class="checklist">
       <li>Model lineup still current? (new versions added, old ones retired)</li>
@@ -313,58 +326,99 @@
 
 <script>
 const BUILD_DATE = "2026-06-05";
-const VERSION = "v2.2";
+const VERSION = "v2.3";
 const DATA = [
-  {cat:"Chat & quick answers", task:"Casual chat / quick factual question", model:"Sonnet 4.6", effort:"Low", think:false, why:"Fast and cheap; no depth needed", tags:"chat talk casual question ask"},
-  {cat:"Chat & quick answers", task:"Quick fact lookup / definition", model:"Haiku 4.5", effort:"Low", think:false, why:"Lightest, fastest, saves the most usage", tags:"define lookup what is meaning quick"},
-  {cat:"Chat & quick answers", task:"Classify / tag / sort items", model:"Haiku 4.5", effort:"Low", think:false, why:"Clear-cut classification is Haiku's strength", tags:"categorize label sort bucket route triage"},
-  {cat:"Chat & quick answers", task:"Reformat text (markdown, JSON, CSV)", model:"Haiku 4.5", effort:"Low", think:false, why:"Mechanical transform", tags:"format reformat convert markdown json csv table clean"},
-  {cat:"Chat & quick answers", task:"Extract fields / entities from text", model:"Haiku 4.5", effort:"Low", think:false, why:"Pattern extraction, no judgement", tags:"extract pull fields entities parse scrape"},
+  {cat:"Chat & quick answers", task:"Casual chat / quick factual question", model:"Sonnet 4.6", effort:"Low", think:false, why:"Fast and cheap; no depth needed", tags:"chat talk casual question ask",
+    ex:"What's the capital of Australia?", prompt:"Answer this concisely: [YOUR QUESTION]"},
+  {cat:"Chat & quick answers", task:"Quick fact lookup / definition", model:"Haiku 4.5", effort:"Low", think:false, why:"Lightest, fastest, saves the most usage", tags:"define lookup what is meaning quick",
+    ex:"What's the latest stable Python version?", prompt:"What is [THING]? Give me the current answer in one or two sentences, no preamble."},
+  {cat:"Chat & quick answers", task:"Classify / tag / sort items", model:"Haiku 4.5", effort:"Low", think:false, why:"Clear-cut classification is Haiku's strength", tags:"categorize label sort bucket route triage",
+    ex:"Sort these 20 support tickets into bug / feature / billing.", prompt:"Classify each item below into exactly one of these categories: [CATEGORIES]. Return a list of item → category.\n\n[PASTE ITEMS]"},
+  {cat:"Chat & quick answers", task:"Reformat text (markdown, JSON, CSV)", model:"Haiku 4.5", effort:"Low", think:false, why:"Mechanical transform", tags:"format reformat convert markdown json csv table clean",
+    ex:"Turn this pasted table into clean Markdown.", prompt:"Reformat the content below into [TARGET FORMAT, e.g. a Markdown table / valid JSON]. Don't change the data, only the format.\n\n[PASTE CONTENT]"},
+  {cat:"Chat & quick answers", task:"Extract fields / entities from text", model:"Haiku 4.5", effort:"Low", think:false, why:"Pattern extraction, no judgement", tags:"extract pull fields entities parse scrape",
+    ex:"Pull every email address and company name from this thread.", prompt:"From the text below, extract [FIELDS, e.g. names, dates, amounts] and return them as a table.\n\n[PASTE TEXT]"},
 
-  {cat:"Brainstorming & ideation", task:"Brainstorming / idea generation", model:"Sonnet 4.6", effort:"High", think:true, why:"Want range plus visible reasoning to riff on", tags:"ideas brainstorm ideate explore concepts options divergent"},
-  {cat:"Brainstorming & ideation", task:"Name / title / tagline options", model:"Sonnet 4.6", effort:"Med", think:false, why:"Volume of light options", tags:"name title tagline slogan headline naming brand"},
-  {cat:"Brainstorming & ideation", task:"Challenge my idea / play devil's advocate", model:"Opus 4.8", effort:"High", think:true, why:"Wants genuine, sharp pushback", tags:"critique challenge devils advocate poke holes stress test red team"},
+  {cat:"Brainstorming & ideation", task:"Brainstorming / idea generation", model:"Sonnet 4.6", effort:"High", think:true, why:"Want range plus visible reasoning to riff on", tags:"ideas brainstorm ideate explore concepts options divergent",
+    ex:"15 feature ideas for a budgeting app aimed at students.", prompt:"Brainstorm [NUMBER] varied ideas for [GOAL]. Push for range — a few safe, a few bold, a couple unexpected. One line each, no filler."},
+  {cat:"Brainstorming & ideation", task:"Name / title / tagline options", model:"Sonnet 4.6", effort:"Med", think:false, why:"Volume of light options", tags:"name title tagline slogan headline naming brand",
+    ex:"10 tagline options for an eco-friendly cleaning brand.", prompt:"Give me [NUMBER] [name / title / tagline] options for [THING]. Vary the tone across them and note each one's vibe in 2-3 words."},
+  {cat:"Brainstorming & ideation", task:"Challenge my idea / play devil's advocate", model:"Opus 4.8", effort:"High", think:true, why:"Wants genuine, sharp pushback", tags:"critique challenge devils advocate poke holes stress test red team",
+    ex:"Poke holes in my plan to go full-time freelance next month.", prompt:"Here's my idea: [IDEA]. Play devil's advocate — give me the strongest honest objections, failure modes, and what I might be overlooking. Be direct, don't soften it."},
 
-  {cat:"Research", task:"General research / synthesis", model:"Sonnet 4.6", effort:"High", think:true, why:"Balances breadth and accuracy", tags:"research search synthesize gather overview survey"},
-  {cat:"Research", task:"Quick \"what is X\" overview", model:"Sonnet 4.6", effort:"Med", think:false, why:"Just orienting, not deciding", tags:"overview primer intro background context what is"},
-  {cat:"Research", task:"Deep research, conflicting sources", model:"Opus 4.8", effort:"Max", think:true, why:"Correctness-critical; weighs sources carefully", tags:"research deep conflicting sources verify rigorous investigate"},
-  {cat:"Research", task:"Compare options / build a comparison", model:"Opus 4.8", effort:"High", think:true, why:"Trade-offs need real weighing", tags:"compare comparison versus vs evaluate options tradeoffs matrix"},
+  {cat:"Research", task:"General research / synthesis", model:"Sonnet 4.6", effort:"High", think:true, why:"Balances breadth and accuracy", tags:"research search synthesize gather overview survey",
+    ex:"Summarize the main approaches to carbon capture and their trade-offs.", prompt:"Research [TOPIC] and give me a structured synthesis: the main approaches/viewpoints, key facts, and where sources disagree. Cite as you go."},
+  {cat:"Research", task:"Quick \"what is X\" overview", model:"Sonnet 4.6", effort:"Med", think:false, why:"Just orienting, not deciding", tags:"overview primer intro background context what is",
+    ex:"Give me a 5-minute primer on what RAG is in AI.", prompt:"Give me a quick primer on [TOPIC]: what it is, why it matters, and the 3-4 things I should understand. Keep it tight."},
+  {cat:"Research", task:"Deep research, conflicting sources", model:"Opus 4.8", effort:"Max", think:true, why:"Correctness-critical; weighs sources carefully", tags:"research deep conflicting sources verify rigorous investigate",
+    ex:"What does current evidence actually say about intermittent fasting?", prompt:"Do a careful, deep dive on [QUESTION]. Weigh conflicting sources explicitly, note the quality of the evidence, and tell me where the genuine uncertainty is. Cite everything."},
+  {cat:"Research", task:"Compare options / build a comparison", model:"Opus 4.8", effort:"High", think:true, why:"Trade-offs need real weighing", tags:"compare comparison versus vs evaluate options tradeoffs matrix",
+    ex:"Compare Notion, Obsidian, and Confluence for a small team wiki.", prompt:"Compare [OPTIONS] for [USE CASE / CONSTRAINTS]. Build a table of the key trade-offs, then give a recommendation with your reasoning."},
 
-  {cat:"Writing", task:"Writing / editing prose, emails", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Good writing without heavy reasoning", tags:"write edit email copy prose draft polish rewrite"},
-  {cat:"Writing", task:"Proofread / grammar / tighten", model:"Haiku 4.5", effort:"Low", think:false, why:"Surface-level edit", tags:"proofread grammar spelling tighten typo correct"},
-  {cat:"Writing", task:"Translate / rephrase text", model:"Sonnet 4.6", effort:"Low–Med", think:false, why:"Pattern task, light on usage", tags:"translate rephrase reword paraphrase language"},
-  {cat:"Writing", task:"Match a tone / rewrite in a voice", model:"Sonnet 4.6", effort:"Med", think:false, why:"Style transfer, modest depth", tags:"tone voice style rewrite formal casual brand"},
-  {cat:"Writing", task:"Long-form article / essay draft", model:"Opus 4.8", effort:"High", think:true, why:"Structure plus sustained quality", tags:"article essay blog long form draft write narrative"},
+  {cat:"Writing", task:"Writing / editing prose, emails", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Good writing without heavy reasoning", tags:"write edit email copy prose draft polish rewrite",
+    ex:"Tighten this three-paragraph email to my landlord.", prompt:"Edit the text below for clarity and flow. Keep my voice, don't pad it, and tell me if you changed anything important.\n\n[PASTE TEXT]"},
+  {cat:"Writing", task:"Proofread / grammar / tighten", model:"Haiku 4.5", effort:"Low", think:false, why:"Surface-level edit", tags:"proofread grammar spelling tighten typo correct",
+    ex:"Proofread this paragraph for typos and grammar.", prompt:"Proofread the text below — fix grammar, spelling, and punctuation only. Return the corrected version.\n\n[PASTE TEXT]"},
+  {cat:"Writing", task:"Translate / rephrase text", model:"Sonnet 4.6", effort:"Low–Med", think:false, why:"Pattern task, light on usage", tags:"translate rephrase reword paraphrase language",
+    ex:"Translate this paragraph into French, formal tone.", prompt:"Translate the text below into [LANGUAGE], keeping a [tone] tone. Return only the translation.\n\n[PASTE TEXT]"},
+  {cat:"Writing", task:"Match a tone / rewrite in a voice", model:"Sonnet 4.6", effort:"Med", think:false, why:"Style transfer, modest depth", tags:"tone voice style rewrite formal casual brand",
+    ex:"Rewrite this announcement to sound warmer and less corporate.", prompt:"Rewrite the text below in a [DESIRED TONE/VOICE] tone. Keep the meaning, change the feel.\n\n[PASTE TEXT]"},
+  {cat:"Writing", task:"Long-form article / essay draft", model:"Opus 4.8", effort:"High", think:true, why:"Structure plus sustained quality", tags:"article essay blog long form draft write narrative",
+    ex:"Draft a 1,200-word post on why small teams should write docs.", prompt:"Write a [LENGTH] [article/essay] on [TOPIC] for [AUDIENCE], in a [tone] tone. Give it a clear structure and a strong opening."},
 
-  {cat:"Documentation", task:"Document a chat into Confluence / wiki", model:"Sonnet 4.6", effort:"Med", think:false, why:"Reformatting known content; low ambiguity", tags:"confluence wiki notion document notes write-up page handoff"},
-  {cat:"Documentation", task:"Write a how-to / runbook", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Clear sequence, light reasoning", tags:"howto runbook guide instructions steps procedure sop"},
-  {cat:"Documentation", task:"Draft a structured spec / PRD", model:"Opus 4.8", effort:"High", think:true, why:"Structure and completeness matter", tags:"spec prd requirements design doc proposal structure"},
-  {cat:"Documentation", task:"Generate code / API docs from source", model:"Sonnet 4.6", effort:"High", think:false, why:"Mostly transformation of known code", tags:"docs api documentation docstring readme reference code"},
+  {cat:"Documentation", task:"Document a chat into Confluence / wiki", model:"Sonnet 4.6", effort:"Med", think:false, why:"Reformatting known content; low ambiguity", tags:"confluence wiki notion document notes write-up page handoff",
+    ex:"Turn everything we just discussed into a clean Confluence page.", prompt:"Turn our conversation above into a clean, well-structured [Confluence/wiki] page: a short intro, headed sections, and a summary. Output in Markdown."},
+  {cat:"Documentation", task:"Write a how-to / runbook", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Clear sequence, light reasoning", tags:"howto runbook guide instructions steps procedure sop",
+    ex:"Write a runbook for safely restarting our staging server.", prompt:"Write a step-by-step [how-to/runbook] for [TASK]. Include prerequisites, numbered steps, and what to verify at the end. Assume the reader is [audience]."},
+  {cat:"Documentation", task:"Draft a structured spec / PRD", model:"Opus 4.8", effort:"High", think:true, why:"Structure and completeness matter", tags:"spec prd requirements design doc proposal structure",
+    ex:"Draft a PRD for a 'saved searches' feature.", prompt:"Draft a [spec/PRD] for [FEATURE]. Include: problem, goals, user stories, requirements, out-of-scope, and open questions."},
+  {cat:"Documentation", task:"Generate code / API docs from source", model:"Sonnet 4.6", effort:"High", think:false, why:"Mostly transformation of known code", tags:"docs api documentation docstring readme reference code",
+    ex:"Write docstrings and a README section for this module.", prompt:"Generate clear documentation for the code below: a short overview, parameters/returns, and a usage example.\n\n[PASTE CODE]"},
 
-  {cat:"Planning & strategy", task:"Multi-step project planning", model:"Opus 4.8", effort:"High–Max", think:true, why:"Benefits from explicit planning", tags:"project planning roadmap plan milestones breakdown schedule"},
-  {cat:"Planning & strategy", task:"Break a goal into tasks", model:"Sonnet 4.6", effort:"High", think:true, why:"Decomposition with light reasoning", tags:"tasks breakdown decompose goal todo split steps"},
-  {cat:"Planning & strategy", task:"Strategy / decision under uncertainty", model:"Opus 4.8", effort:"Max", think:true, why:"High stakes, many interacting factors", tags:"strategy decision tradeoff risk uncertainty choose bet"},
-  {cat:"Planning & strategy", task:"Estimate, schedule, sequence work", model:"Sonnet 4.6", effort:"High", think:true, why:"Some reasoning, not high-stakes", tags:"estimate schedule sequence timeline order prioritize"},
+  {cat:"Planning & strategy", task:"Multi-step project planning", model:"Opus 4.8", effort:"High–Max", think:true, why:"Benefits from explicit planning", tags:"project planning roadmap plan milestones breakdown schedule",
+    ex:"Plan a 6-week rollout to migrate our blog to a new CMS.", prompt:"Help me plan [PROJECT]. Break it into phases and tasks, flag dependencies and risks, and propose a realistic sequence. Ask me anything you need first."},
+  {cat:"Planning & strategy", task:"Break a goal into tasks", model:"Sonnet 4.6", effort:"High", think:true, why:"Decomposition with light reasoning", tags:"tasks breakdown decompose goal todo split steps",
+    ex:"Break 'launch a personal portfolio site' into concrete tasks.", prompt:"Break this goal into a concrete, ordered task list: [GOAL]. Group related tasks and mark which can run in parallel."},
+  {cat:"Planning & strategy", task:"Strategy / decision under uncertainty", model:"Opus 4.8", effort:"Max", think:true, why:"High stakes, many interacting factors", tags:"strategy decision tradeoff risk uncertainty choose bet",
+    ex:"Should we build in-house or buy? Here's our situation…", prompt:"Help me think through this decision: [DECISION + CONTEXT]. Lay out the options, the key trade-offs, and what would change the answer. Then give your reasoned take."},
+  {cat:"Planning & strategy", task:"Estimate, schedule, sequence work", model:"Sonnet 4.6", effort:"High", think:true, why:"Some reasoning, not high-stakes", tags:"estimate schedule sequence timeline order prioritize",
+    ex:"Estimate and sequence these 8 tasks for a 2-week sprint.", prompt:"Here are the tasks: [LIST]. Estimate relative effort, flag dependencies, and propose a sensible sequence for [TIMEFRAME]."},
 
-  {cat:"Coding", task:"Tricky coding / subtle bug hunt", model:"Opus 4.8", effort:"Max", think:true, why:"Deep reasoning genuinely pays off", tags:"code debug bug fix algorithm tricky hard reasoning"},
-  {cat:"Coding", task:"Routine coding / boilerplate", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Capable enough, much cheaper", tags:"code routine boilerplate scaffold snippet simple crud"},
-  {cat:"Coding", task:"Explain unfamiliar code", model:"Sonnet 4.6", effort:"Med", think:false, why:"Reading + summarizing", tags:"explain code understand read walkthrough legacy"},
-  {cat:"Coding", task:"Code review / find issues", model:"Opus 4.8", effort:"High", think:true, why:"Catching subtle problems needs depth", tags:"code review pr critique security issues smell refactor"},
-  {cat:"Coding", task:"Architect a system / design tradeoffs", model:"Opus 4.8", effort:"Max", think:true, why:"Long-horizon, many constraints", tags:"architecture design system tradeoffs scale infra blueprint"},
-  {cat:"Coding", task:"Write tests", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Mostly mechanical once logic is known", tags:"tests unit test coverage pytest jest mock"},
+  {cat:"Coding", task:"Tricky coding / subtle bug hunt", model:"Opus 4.8", effort:"Max", think:true, why:"Deep reasoning genuinely pays off", tags:"code debug bug fix algorithm tricky hard reasoning",
+    ex:"This function returns the wrong total intermittently — find the bug.", prompt:"Here's the code and the bug I'm seeing: [DESCRIBE BUG]. Find the root cause, explain it, and give the fix.\n\n[PASTE CODE]"},
+  {cat:"Coding", task:"Routine coding / boilerplate", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Capable enough, much cheaper", tags:"code routine boilerplate scaffold snippet simple crud",
+    ex:"Write a Python function to validate an email address.", prompt:"Write [LANGUAGE] code that [DOES X]. Keep it clean and idiomatic, with brief comments."},
+  {cat:"Coding", task:"Explain unfamiliar code", model:"Sonnet 4.6", effort:"Med", think:false, why:"Reading + summarizing", tags:"explain code understand read walkthrough legacy",
+    ex:"Explain what this regex does, step by step.", prompt:"Explain what the code below does, step by step, and call out anything subtle or risky.\n\n[PASTE CODE]"},
+  {cat:"Coding", task:"Code review / find issues", model:"Opus 4.8", effort:"High", think:true, why:"Catching subtle problems needs depth", tags:"code review pr critique security issues smell refactor",
+    ex:"Review this pull request for bugs, security, and style.", prompt:"Review the code below. Flag bugs, security issues, edge cases, and style problems, ordered by severity, and suggest concrete fixes.\n\n[PASTE CODE]"},
+  {cat:"Coding", task:"Architect a system / design tradeoffs", model:"Opus 4.8", effort:"Max", think:true, why:"Long-horizon, many constraints", tags:"architecture design system tradeoffs scale infra blueprint",
+    ex:"Design the architecture for a URL shortener that scales to 1M/day.", prompt:"Help me design [SYSTEM] with these constraints: [CONSTRAINTS]. Propose an architecture, justify the key choices, and lay out the main trade-offs."},
+  {cat:"Coding", task:"Write tests", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Mostly mechanical once logic is known", tags:"tests unit test coverage pytest jest mock",
+    ex:"Write unit tests for this parsing function.", prompt:"Write [framework] tests for the code below. Cover the happy path, edge cases, and error handling.\n\n[PASTE CODE]"},
 
-  {cat:"Data & analysis", task:"Summarize a long document", model:"Sonnet 4.6", effort:"Med", think:false, why:"Extraction task", tags:"summarize summary tldr long document condense"},
-  {cat:"Data & analysis", task:"Detailed analysis of a long doc", model:"Opus 4.8", effort:"High–Max", think:true, why:"Nuance and cross-referencing matter", tags:"analyze analysis document deep review compare nuance"},
-  {cat:"Data & analysis", task:"Analyze a spreadsheet / dataset", model:"Opus 4.8", effort:"High", think:true, why:"Reasoning over numbers, watch for traps", tags:"data spreadsheet csv dataset analyze stats numbers excel"},
-  {cat:"Data & analysis", task:"Pull insights / trends from data", model:"Opus 4.8", effort:"High", think:true, why:"Interpretation beyond raw numbers", tags:"insights trends patterns data interpret findings"},
+  {cat:"Data & analysis", task:"Summarize a long document", model:"Sonnet 4.6", effort:"Med", think:false, why:"Extraction task", tags:"summarize summary tldr long document condense",
+    ex:"Summarize this 12-page report into one page.", prompt:"Summarize the document below into [LENGTH]. Lead with the key takeaways, then the supporting points.\n\n[PASTE OR ATTACH DOCUMENT]"},
+  {cat:"Data & analysis", task:"Detailed analysis of a long doc", model:"Opus 4.8", effort:"High–Max", think:true, why:"Nuance and cross-referencing matter", tags:"analyze analysis document deep review compare nuance",
+    ex:"Analyze this contract for risky or unusual clauses.", prompt:"Analyze the document below for [WHAT YOU CARE ABOUT, e.g. risks, gaps, inconsistencies]. Point to the relevant parts and explain each finding.\n\n[PASTE OR ATTACH DOCUMENT]"},
+  {cat:"Data & analysis", task:"Analyze a spreadsheet / dataset", model:"Opus 4.8", effort:"High", think:true, why:"Reasoning over numbers, watch for traps", tags:"data spreadsheet csv dataset analyze stats numbers excel",
+    ex:"What are the top trends in this sales CSV?", prompt:"Analyze the attached data. Tell me [WHAT YOU WANT TO KNOW], show the key numbers, flag anything surprising, and note any assumptions you made."},
+  {cat:"Data & analysis", task:"Pull insights / trends from data", model:"Opus 4.8", effort:"High", think:true, why:"Interpretation beyond raw numbers", tags:"insights trends patterns data interpret findings",
+    ex:"What story does this 6-month metrics export tell?", prompt:"Look at the data below/attached and tell me the story it's telling — the main trends, outliers, and what I should pay attention to.\n\n[PASTE OR ATTACH DATA]"},
 
-  {cat:"Math & logic", task:"Hard math / proofs", model:"Opus 4.8", effort:"Max", think:true, why:"Correctness-critical", tags:"math proof calculation equation solve theorem"},
-  {cat:"Math & logic", task:"Verify a calculation / sanity-check", model:"Sonnet 4.6", effort:"Med", think:true, why:"Thinking on surfaces the steps to check", tags:"verify check calculation sanity confirm numbers"},
-  {cat:"Math & logic", task:"Logic puzzle / careful reasoning", model:"Opus 4.8", effort:"High–Max", think:true, why:"Step-by-step rigor needed", tags:"logic puzzle reasoning riddle deduce careful"},
+  {cat:"Math & logic", task:"Hard math / proofs", model:"Opus 4.8", effort:"Max", think:true, why:"Correctness-critical", tags:"math proof calculation equation solve theorem",
+    ex:"Prove that the square root of 2 is irrational.", prompt:"Solve this carefully, showing each step: [PROBLEM]. State your assumptions and double-check the result."},
+  {cat:"Math & logic", task:"Verify a calculation / sanity-check", model:"Sonnet 4.6", effort:"Med", think:true, why:"Thinking on surfaces the steps to check", tags:"verify check calculation sanity confirm numbers",
+    ex:"Check whether this pricing calculation is right.", prompt:"Check this calculation step by step and tell me if it's correct: [CALCULATION]. If it's wrong, show where and give the right answer."},
+  {cat:"Math & logic", task:"Logic puzzle / careful reasoning", model:"Opus 4.8", effort:"High–Max", think:true, why:"Step-by-step rigor needed", tags:"logic puzzle reasoning riddle deduce careful",
+    ex:"Solve this seating-arrangement logic puzzle.", prompt:"Work through this carefully, step by step, and explain your reasoning before giving the final answer: [PUZZLE / PROBLEM]."},
 
-  {cat:"Learning & explanation", task:"Explain a concept simply (ELI5)", model:"Sonnet 4.6", effort:"Med", think:false, why:"Clear explanation, light depth", tags:"explain eli5 simple concept understand beginner"},
-  {cat:"Learning & explanation", task:"Teach me a topic step by step", model:"Sonnet 4.6", effort:"High", think:true, why:"Wants depth plus structure", tags:"teach learn topic course lesson step by step deep"},
-  {cat:"Learning & explanation", task:"Tutor / quiz me", model:"Sonnet 4.6", effort:"Med", think:false, why:"Interactive, low per-turn load", tags:"tutor quiz test practice flashcards study drill"},
+  {cat:"Learning & explanation", task:"Explain a concept simply (ELI5)", model:"Sonnet 4.6", effort:"Med", think:false, why:"Clear explanation, light depth", tags:"explain eli5 simple concept understand beginner",
+    ex:"Explain how HTTPS works like I'm five.", prompt:"Explain [CONCEPT] in simple terms, like I'm new to it. Use a plain-language analogy and avoid jargon."},
+  {cat:"Learning & explanation", task:"Teach me a topic step by step", model:"Sonnet 4.6", effort:"High", think:true, why:"Wants depth plus structure", tags:"teach learn topic course lesson step by step deep",
+    ex:"Teach me the basics of SQL joins, with examples.", prompt:"Teach me [TOPIC] from the ground up. Build it step by step with examples, and check my understanding as we go. Start with the fundamentals."},
+  {cat:"Learning & explanation", task:"Tutor / quiz me", model:"Sonnet 4.6", effort:"Med", think:false, why:"Interactive, low per-turn load", tags:"tutor quiz test practice flashcards study drill",
+    ex:"Quiz me on Spanish travel vocabulary.", prompt:"Act as my tutor for [TOPIC]. Quiz me one question at a time, wait for my answer, then give feedback before the next. Start easy and ramp up."},
 ];
 
 function effInfo(e){const s=e.toLowerCase();
@@ -379,15 +433,15 @@ function modelInfo(m){const s=m.toLowerCase();
 function costBars(model,eff){let base=modelInfo(model).rank;const add=[0,0,0.5,1,1.5][effInfo(eff).rank]||0;
   return Math.max(1,Math.min(5,Math.round(base+add)));}
 const HEIGHTS=[6,8,10,13,16,18];
-function costHTML(n){let h="";for(let i=1;i<=5;i++){const f=i<=n?"f"+n:"";h+=`<i class="${f}" style="height:${HEIGHTS[i]}px"></i>`;}
-  return `<span class="cost" data-tip="cost:${n}">${h}</span>`;}
+function costHTML(n,tip){let h="";for(let i=1;i<=5;i++){const f=i<=n?"f"+n:"";h+=`<i class="${f}" style="height:${HEIGHTS[i]}px"></i>`;}
+  return `<span class="cost"${tip?` data-tip="cost:${n}"`:""}>${h}</span>`;}
 function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
 function hl(text,q){if(!q)return esc(text);
   try{const re=new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig");return esc(text).replace(re,"<mark>$1</mark>");}
   catch(e){return esc(text);}}
-function modelTag(m){return `<span class="tag ${modelInfo(m).cls}" data-tip="model:${modelInfo(m).key}"><span class="swatch"></span>${esc(m)}</span>`;}
-function effTag(e){return `<span class="effort ${effInfo(e).cls}" data-tip="effort:${effInfo(e).key}">${esc(e)}</span>`;}
-function thinkTag(t){return `<span class="think ${t?"on":""}" data-tip="think:${t?"on":"off"}"><span class="led"></span>${t?"on":"off"}</span>`;}
+function modelTag(m,tip){return `<span class="tag ${modelInfo(m).cls}"${tip?` data-tip="model:${modelInfo(m).key}"`:""}><span class="swatch"></span>${esc(m)}</span>`;}
+function effTag(e,tip){return `<span class="effort ${effInfo(e).cls}"${tip?` data-tip="effort:${effInfo(e).key}"`:""}>${esc(e)}</span>`;}
+function thinkTag(t,tip){return `<span class="think ${t?"on":""}"${tip?` data-tip="think:${t?"on":"off"}"`:""}><span class="led"></span>${t?"on":"off"}</span>`;}
 
 const EFFORTS=[
   {key:"low",cls:"e-low",label:"LOW",desc:"Quick, cheapest. Routine, low-ambiguity work; stretches usage furthest."},
@@ -403,37 +457,29 @@ const MODELS={
 function daysBetween(a,b){return Math.floor((b-a)/86400000);}
 function buildTip(spec){
   const [kind,val]=spec.split(":");
-  if(kind==="effort"){
-    const cur=EFFORTS.find(x=>x.key===val);
+  if(kind==="effort"){const cur=EFFORTS.find(x=>x.key===val);
     const ladder=EFFORTS.map(x=>`<div class="lr ${x.key===val?'cur':''}"><span class="effort ${x.cls} pill">${x.label}</span>${x.desc.split('.')[0]}</div>`).join("");
-    return `<h4>Effort · ${cur.label}</h4>${cur.desc}<div class="ladder">${ladder}</div>`;
-  }
+    return `<h4>Effort · ${cur.label}</h4>${cur.desc}<div class="ladder">${ladder}</div>`;}
   if(kind==="model"){const m=MODELS[val];return `<h4>${m.name}</h4>${m.desc}<div class="note">${m.pr}</div>`;}
   if(kind==="think"){return val==="on"
       ? `<h4>Thinking · on</h4>Claude shows a reasoning block before answering. Turn on to <b>verify the steps</b> on math, research, and planning.`
       : `<h4>Thinking · off</h4>Claude answers directly — fine for low-ambiguity tasks and lighter on usage.`;}
-  if(kind==="cost"){return `<h4>Usage burn · ${val}/5</h4>Rough relative cost of this model + effort combo. <b>Lower means more headroom</b> in your limits. Driven mostly by the model, then nudged by effort.`;}
-  if(kind==="date"){
-    const d=daysBetween(new Date(BUILD_DATE+"T00:00:00"),new Date());
+  if(kind==="cost"){return `<h4>Usage burn · ${val}/5</h4>Rough relative cost of this model + effort combo. <b>Lower means more headroom</b> in your limits.`;}
+  if(kind==="date"){const d=daysBetween(new Date(BUILD_DATE+"T00:00:00"),new Date());
     let st = d<20?{w:"Fresh",c:"var(--ok)"} : d<=30?{w:"Getting old",c:"var(--warn)"} : {w:"Overdue",c:"var(--bad)"};
-    let html=`<h4>Build date</h4>Built <b>${BUILD_DATE}</b> · ${d} day${d===1?'':'s'} old.<div class="note" style="color:${st.c}"><b style="color:${st.c}">${st.w}.</b></div>`;
+    let html=`<h4>Build date</h4>Built <b>${BUILD_DATE}</b> · ${d} day${d===1?'':'s'} old.<div class="note"><b style="color:${st.c}">${st.w}.</b></div>`;
     if(d>=20) html+=`<div class="note">→ Click <b>"Refresh guide"</b> (top-right) to update it.</div>`;
-    return html;
-  }
+    return html;}
   return "";
 }
 const tip=document.getElementById("tip");
-function showTip(el){
-  tip.innerHTML=buildTip(el.dataset.tip);
-  tip.style.display="block";
+function showTip(el){tip.innerHTML=buildTip(el.dataset.tip);tip.style.display="block";
   const r=el.getBoundingClientRect(),tr=tip.getBoundingClientRect();
-  let top=r.top-tr.height-9+window.scrollY;
-  if(r.top-tr.height-9<4) top=r.bottom+9+window.scrollY;
+  let top=r.top-tr.height-9+window.scrollY; if(r.top-tr.height-9<4) top=r.bottom+9+window.scrollY;
   let left=r.left+r.width/2-tr.width/2+window.scrollX;
   const maxLeft=window.scrollX+document.documentElement.clientWidth-tr.width-8;
   left=Math.max(window.scrollX+8,Math.min(left,maxLeft));
-  tip.style.top=top+"px"; tip.style.left=left+"px";
-}
+  tip.style.top=top+"px"; tip.style.left=left+"px";}
 function hideTip(){tip.style.display="none";}
 document.addEventListener("mouseover",e=>{const el=e.target.closest("[data-tip]");if(el)showTip(el);});
 document.addEventListener("mouseout",e=>{const el=e.target.closest("[data-tip]");if(el && !el.contains(e.relatedTarget))hideTip();});
@@ -454,14 +500,15 @@ document.getElementById("seg").addEventListener("click",e=>{const b=e.target.clo
 
 function getFiltered(){const q=query.trim().toLowerCase();
   return DATA.filter(d=>{const catOk=activeCat==="All"||d.cat===activeCat;
-    const hay=(d.task+" "+d.why+" "+d.model+" "+d.cat+" "+d.tags).toLowerCase();
+    const hay=(d.task+" "+d.why+" "+d.model+" "+d.cat+" "+d.tags+" "+d.ex).toLowerCase();
     return catOk && (!q||hay.includes(q));});}
 
 function renderCards(filtered,q){rowsEl.style.display="flex";tableEl.style.display="none";rowsEl.innerHTML="";let lastCat=null;
   filtered.forEach(d=>{if(d.cat!==lastCat){const h=document.createElement("div");h.className="cat-head";h.textContent=d.cat;rowsEl.appendChild(h);lastCat=d.cat;}
     const row=document.createElement("div");row.className="row"+(q?" hit":"");
     row.innerHTML=`<div class="task"><div class="t">${hl(d.task,q)}</div><div class="why">${hl(d.why,q)}</div></div>
-      <div>${modelTag(d.model)}</div><div>${effTag(d.effort)}</div><div>${thinkTag(d.think)}</div><div>${costHTML(costBars(d.model,d.effort))}</div>`;
+      <div>${modelTag(d.model,true)}</div><div>${effTag(d.effort,true)}</div><div>${thinkTag(d.think,true)}</div><div>${costHTML(costBars(d.model,d.effort),true)}</div>`;
+    row.onclick=ev=>{if(ev.target.closest("[data-tip]"))return; openDetail(d);};
     rowsEl.appendChild(row);});}
 
 function sortRows(arr){const dir=sortDir;
@@ -475,10 +522,11 @@ function renderTable(filtered,q){rowsEl.style.display="none";tableEl.style.displ
   const head=cols.map(([k,label])=>`<th data-k="${k}" class="${sortKey===k?'sorted':''}">${label}<span class="arr">${sortDir===1?"▲":"▼"}</span></th>`).join("");
   const body=sorted.map(d=>`<tr class="${q?'hit':''}">
     <td><div>${hl(d.task,q)}</div><div class="why">${hl(d.why,q)}</div></td>
-    <td class="t-cat">${hl(d.cat,q)}</td><td>${modelTag(d.model)}</td><td>${effTag(d.effort)}</td>
-    <td>${thinkTag(d.think)}</td><td>${costHTML(costBars(d.model,d.effort))}</td></tr>`).join("");
+    <td class="t-cat">${hl(d.cat,q)}</td><td>${modelTag(d.model,true)}</td><td>${effTag(d.effort,true)}</td>
+    <td>${thinkTag(d.think,true)}</td><td>${costHTML(costBars(d.model,d.effort),true)}</td></tr>`).join("");
   tableEl.innerHTML=`<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
-  tableEl.querySelectorAll("th").forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=1;}render();});}
+  tableEl.querySelectorAll("th").forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=1;}render();});
+  tableEl.querySelectorAll("tbody tr").forEach((tr,i)=>tr.onclick=ev=>{if(ev.target.closest("[data-tip]"))return; openDetail(sorted[i]);});}
 
 function render(){const q=query.trim().toLowerCase();const filtered=getFiltered();
   if(view==="cards")renderCards(filtered,q);else renderTable(filtered,q);
@@ -488,19 +536,17 @@ function render(){const q=query.trim().toLowerCase();const filtered=getFiltered(
 
 qEl.addEventListener("input",e=>{query=e.target.value;render();});
 document.addEventListener("keydown",e=>{
-  if(e.key==="Escape"&&overlay.classList.contains("open")){closeModal();return;}
+  if(e.key==="Escape"){if(detailOverlay.classList.contains("open")){closeDetail();return;} if(overlay.classList.contains("open")){closeModal();return;}}
   if(e.key==="/"&&document.activeElement!==qEl){e.preventDefault();qEl.focus();qEl.select();}
   if(e.key==="Escape"&&document.activeElement===qEl){qEl.value="";query="";render();qEl.blur();}});
 
 document.getElementById("meta-line").innerHTML=VERSION+" · models: Opus 4.8 / 4.7 / 4.6<br>Sonnet 4.6 · Haiku 4.5";
 document.getElementById("footer-ver").textContent=VERSION;
 
-(function dateBadge(){
-  const d=daysBetween(new Date(BUILD_DATE+"T00:00:00"),new Date());
+(function dateBadge(){const d=daysBetween(new Date(BUILD_DATE+"T00:00:00"),new Date());
   const el=document.getElementById("datebadge");
   document.getElementById("datebadge-text").textContent=BUILD_DATE;
-  el.classList.add("datebadge", d<20?"db-ok": d<=30?"db-warn":"db-bad");
-})();
+  el.classList.add(d<20?"db-ok": d<=30?"db-warn":"db-bad");})();
 
 const KEY="themap_last_checked";
 function getChecked(){try{return localStorage.getItem(KEY);}catch(e){return null;}}
@@ -508,16 +554,21 @@ function setChecked(v){try{localStorage.setItem(KEY,v);return true;}catch(e){ret
 function freshness(){const stored=getChecked();const base=stored||BUILD_DATE;
   const d=daysBetween(new Date(base+"T00:00:00"),new Date());
   const dot=document.getElementById("stdot"),txt=document.getElementById("freshtxt");
-  let cls,msg;
-  if(d<30){cls="st-ok";msg=`Up to date · last checked <b>${d}</b> day${d===1?'':'s'} ago`;}
+  let cls,msg; if(d<30){cls="st-ok";msg=`Up to date · last checked <b>${d}</b> day${d===1?'':'s'} ago`;}
   else if(d<45){cls="st-warn";msg=`Check due · <b>${d}</b> days since last check`;}
   else{cls="st-bad";msg=`Overdue · <b>${d}</b> days since last check`;}
-  dot.className="dot-st "+cls;
-  txt.innerHTML=msg+(stored?"":" <span style='color:var(--text-faint)'>(from build date)</span>");}
+  dot.className="dot-st "+cls; txt.innerHTML=msg+(stored?"":" <span style='color:var(--text-faint)'>(from build date)</span>");}
 document.getElementById("markbtn").onclick=()=>{const today=new Date().toISOString().slice(0,10);
   const ok=setChecked(today);freshness();const b=document.getElementById("markbtn");
   b.textContent=ok?"✓ Saved":"✓ Marked (session)";setTimeout(()=>b.textContent="✓ Mark checked today",1800);};
 
+function copyFrom(spanId,btn){const txt=document.getElementById(spanId).textContent;
+  (async()=>{try{await navigator.clipboard.writeText(txt);btn.textContent="copied";}
+  catch(e){const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();
+    try{document.execCommand("copy");btn.textContent="copied";}catch(_){btn.textContent="select & copy";}document.body.removeChild(ta);}
+  setTimeout(()=>btn.textContent="copy",1500);})();}
+
+/* refresh modal */
 const overlay=document.getElementById("overlay");
 function openModal(){overlay.classList.add("open");hideTip();}
 function closeModal(){overlay.classList.remove("open");}
@@ -525,12 +576,23 @@ document.getElementById("open-refresh").onclick=openModal;
 document.getElementById("open-refresh-2").onclick=openModal;
 document.getElementById("close-modal").onclick=closeModal;
 overlay.addEventListener("click",e=>{if(e.target===overlay)closeModal();});
-document.getElementById("cpbtn").onclick=async()=>{const txt=document.getElementById("prompttext").textContent;
-  const b=document.getElementById("cpbtn");
-  try{await navigator.clipboard.writeText(txt);b.textContent="copied";}
-  catch(e){const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();
-    try{document.execCommand("copy");b.textContent="copied";}catch(_){b.textContent="select & copy";}document.body.removeChild(ta);}
-  setTimeout(()=>b.textContent="copy",1500);};
+document.getElementById("cpbtn").onclick=function(){copyFrom("prompttext",this);};
+
+/* task detail modal */
+const detailOverlay=document.getElementById("detail-overlay");
+function openDetail(d){
+  document.getElementById("d-cat").textContent=d.cat;
+  document.getElementById("d-task").textContent=d.task;
+  document.getElementById("d-why").textContent=d.why;
+  document.getElementById("d-ex").textContent="“"+d.ex+"”";
+  document.getElementById("d-prompt").textContent=d.prompt;
+  document.getElementById("d-tags").innerHTML=
+    modelTag(d.model,false)+effTag(d.effort,false)+thinkTag(d.think,false)+costHTML(costBars(d.model,d.effort),false);
+  detailOverlay.classList.add("open");hideTip();}
+function closeDetail(){detailOverlay.classList.remove("open");}
+document.getElementById("d-close").onclick=closeDetail;
+detailOverlay.addEventListener("click",e=>{if(e.target===detailOverlay)closeDetail();});
+document.getElementById("d-copy").onclick=function(){copyFrom("d-prompt",this);};
 
 render();
 freshness();
