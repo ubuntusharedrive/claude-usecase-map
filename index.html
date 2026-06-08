@@ -10,7 +10,7 @@
     --bg:#0c0d10; --bg-2:#121419; --panel:#16191f; --panel-2:#1b1f27;
     --line:#272c36; --line-soft:#1f242c;
     --text:#e7e9ee; --text-dim:#9aa1ad; --text-faint:#6b7280;
-    --accent:#e8b04b; --accent-2:#79b8ff;
+    --accent:#e8b04b; --accent-glow:rgba(232,176,75,.14);
     --eff-low:#5fcf8e; --eff-med:#79b8ff; --eff-high:#e8b04b; --eff-max:#f0734a;
     --opus:#c792ea; --sonnet:#7fd6c2; --haiku:#8fb0ff;
     --ok:#5fcf8e; --warn:#e8b04b; --bad:#f0734a;
@@ -19,14 +19,12 @@
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
-  body{
-    background:
-      radial-gradient(1200px 500px at 12% -10%, rgba(232,176,75,.06), transparent 60%),
+  body{background:
+      radial-gradient(1200px 500px at 12% -10%, var(--accent-glow), transparent 60%),
       radial-gradient(900px 600px at 110% 0%, rgba(121,184,255,.05), transparent 55%),
       var(--bg);
-    color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.5;
-    -webkit-font-smoothing:antialiased;min-height:100vh;
-  }
+    color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;}
+  #stripe{position:fixed;top:0;left:0;right:0;height:3px;background:var(--accent);z-index:50;transition:background .25s}
   .grain{position:fixed;inset:0;pointer-events:none;opacity:.025;mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
   .wrap{max-width:1080px;margin:0 auto;padding:34px 22px 80px}
@@ -34,33 +32,37 @@
   header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:6px}
   .brand{display:flex;flex-direction:column;gap:2px}
   .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--text-faint)}
-  .titlerow{display:flex;align-items:center;gap:13px;flex-wrap:wrap}
-  h1{margin:0;font-size:34px;font-weight:600;letter-spacing:-.02em;line-height:1.05}
-  h1 .dot{color:var(--accent)}
+  .titlerow{display:flex;align-items:center;gap:13px;flex-wrap:wrap;row-gap:10px}
+  h1{margin:0;font-size:33px;font-weight:600;letter-spacing:-.02em;line-height:1.05}
+  h1 .dot{color:var(--accent);transition:color .25s}
   .sub{color:var(--text-dim);font-size:13.5px;max-width:580px;margin-top:8px}
 
-  .datebadge{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.02em;
-    border-radius:9px;padding:7px 11px;border:1px solid transparent;display:inline-flex;align-items:center;gap:7px;
-    line-height:1;cursor:help;transition:all .15s}
+  .datebadge{font-family:var(--mono);font-size:12px;font-weight:600;border-radius:9px;padding:7px 11px;border:1px solid transparent;
+    display:inline-flex;align-items:center;gap:7px;line-height:1;cursor:help}
   .datebadge .pip{width:7px;height:7px;border-radius:50%;flex:none}
   .db-ok{color:var(--ok);background:rgba(95,207,142,.10);border-color:rgba(95,207,142,.32)} .db-ok .pip{background:var(--ok);box-shadow:0 0 7px var(--ok)}
   .db-warn{color:var(--warn);background:rgba(232,176,75,.12);border-color:rgba(232,176,75,.34)} .db-warn .pip{background:var(--warn);box-shadow:0 0 7px var(--warn)}
   .db-bad{color:var(--bad);background:rgba(240,115,74,.12);border-color:rgba(240,115,74,.36)} .db-bad .pip{background:var(--bad);box-shadow:0 0 7px var(--bad)}
 
+  .fseg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;flex-wrap:wrap}
+  .fseg button{font-family:var(--mono);font-size:12px;color:var(--text-dim);background:none;border:none;cursor:pointer;
+    padding:7px 13px;border-radius:7px;transition:all .15s;white-space:nowrap}
+  .fseg button:hover{color:var(--text)}
+  .fseg button.on{background:var(--accent);color:#12130f;font-weight:600}
+  .fseg .more{color:var(--text-faint);cursor:help;padding:7px 10px}
+
   .headright{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
   .meta{font-family:var(--mono);font-size:11px;color:var(--text-faint);text-align:right;line-height:1.7}
   .refresh-cta{font-family:var(--mono);font-size:12px;color:var(--text);background:var(--panel);border:1px solid var(--line);
     border-radius:9px;padding:8px 13px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .14s}
-  .refresh-cta:hover{border-color:var(--accent);color:var(--accent)}
-  .refresh-cta svg{width:13px;height:13px}
+  .refresh-cta:hover{border-color:var(--accent);color:var(--accent)} .refresh-cta svg{width:13px;height:13px}
 
   .searchbar{position:sticky;top:0;z-index:20;margin:22px 0 12px;background:linear-gradient(var(--bg) 70%, transparent);padding-top:6px}
   .search{position:relative}
-  .search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:12px;
-    padding:15px 110px 15px 46px;color:var(--text);font-family:var(--mono);font-size:15px;outline:none;
-    transition:border-color .15s, box-shadow .15s;}
+  .search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 110px 15px 46px;
+    color:var(--text);font-family:var(--mono);font-size:15px;outline:none;transition:border-color .15s, box-shadow .15s;}
   .search input::placeholder{color:var(--text-faint)}
-  .search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(232,176,75,.13)}
+  .search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
   .search .ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-faint);font-family:var(--mono)}
   .search .hint{position:absolute;right:14px;top:50%;transform:translateY(-50%);display:flex;gap:6px;align-items:center}
   .kbd{font-family:var(--mono);font-size:11px;color:var(--text-faint);border:1px solid var(--line);border-radius:6px;padding:2px 7px;background:var(--bg-2)}
@@ -71,25 +73,26 @@
   .chip{font-family:var(--mono);font-size:12px;color:var(--text-dim);background:var(--panel);border:1px solid var(--line);
     border-radius:999px;padding:6px 12px;cursor:pointer;transition:all .14s;user-select:none}
   .chip:hover{border-color:var(--text-faint);color:var(--text)}
-  .chip.on{background:var(--accent);border-color:var(--accent);color:#1a1304;font-weight:600}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#12130f;font-weight:600}
   .seg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:3px;flex:none}
   .seg button{font-family:var(--mono);font-size:12px;color:var(--text-dim);background:none;border:none;cursor:pointer;
     padding:6px 14px;border-radius:6px;transition:all .14s;display:flex;align-items:center;gap:7px}
   .seg button.on{background:var(--panel-2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
   .seg svg{width:13px;height:13px}
   .hinttip{font-family:var(--mono);font-size:11.5px;color:var(--text-faint);margin:0 2px 14px}
-  .hinttip b{color:var(--accent-2)}
+  .hinttip b{color:var(--accent)}
 
   .rows{display:flex;flex-direction:column;gap:9px}
   .cat-head{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--text-faint);
     margin:16px 2px 2px;padding-bottom:6px;border-bottom:1px solid var(--line-soft)}
-  .row{display:grid;grid-template-columns:1fr 132px 132px 78px 64px;gap:14px;align-items:center;
-    background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:13px 15px;cursor:pointer;
-    transition:border-color .14s, transform .14s, background .14s;}
+  .row{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;
+    padding:13px 15px;cursor:pointer;transition:border-color .14s, transform .14s, background .14s;}
   .row:hover{border-color:var(--line);background:var(--panel-2);transform:translateY(-1px)}
-  .row.hit{border-color:var(--accent);box-shadow:0 0 0 1px rgba(232,176,75,.25)}
+  .row.hit{border-color:var(--accent)}
+  .task{flex:1;min-width:0}
   .task .t{font-weight:600;font-size:15px}
   .task .why{color:var(--text-dim);font-size:12.5px;margin-top:3px}
+  .chipgroup{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
   mark{background:rgba(232,176,75,.28);color:#fff;border-radius:3px;padding:0 1px}
 
   .tag{font-family:var(--mono);font-size:12px;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);
@@ -107,6 +110,9 @@
   .think{font-family:var(--mono);font-size:11.5px;display:inline-flex;align-items:center;gap:6px;color:var(--text-dim);cursor:help}
   .think .led{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--text-faint)}
   .think.on .led{background:var(--eff-high);border-color:var(--eff-high);box-shadow:0 0 7px rgba(232,176,75,.7)}
+  .ptag{font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;white-space:nowrap;
+    color:var(--text-dim);background:var(--panel-2);cursor:help}
+  .ptag.tools{color:#cdeee6}
   .cost{display:flex;gap:3px;align-items:flex-end;height:18px;justify-content:flex-end;cursor:help}
   .cost i{width:5px;border-radius:2px;background:var(--line);display:block}
   .cost i.f1{background:var(--eff-low)}.cost i.f2{background:var(--eff-med)}
@@ -121,10 +127,8 @@
   thead th .arr{color:var(--accent);font-size:10px;margin-left:5px;opacity:0}
   thead th.sorted .arr{opacity:1}
   tbody td{padding:11px 14px;border-bottom:1px solid var(--line-soft);font-size:13.5px;vertical-align:middle}
-  tbody tr{cursor:pointer}
-  tbody tr:last-child td{border-bottom:none}
-  tbody tr:hover{background:var(--panel-2)}
-  tbody tr.hit td{background:rgba(232,176,75,.06)}
+  tbody tr{cursor:pointer} tbody tr:last-child td{border-bottom:none} tbody tr:hover{background:var(--panel-2)}
+  tbody tr.hit td{background:var(--accent-glow)}
   td .why{color:var(--text-faint);font-size:11.5px;margin-top:2px}
   .t-cat{font-family:var(--mono);font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em}
 
@@ -150,8 +154,7 @@
   footer a{color:var(--text-dim)}
 
   #tip{position:absolute;z-index:60;max-width:280px;background:#0a0b0e;border:1px solid var(--line);border-radius:11px;
-    padding:13px 14px;box-shadow:0 14px 40px rgba(0,0,0,.55);display:none;pointer-events:none;
-    font-size:12.5px;line-height:1.5;color:var(--text-dim)}
+    padding:13px 14px;box-shadow:0 14px 40px rgba(0,0,0,.55);display:none;pointer-events:none;font-size:12.5px;line-height:1.5;color:var(--text-dim)}
   #tip h4{margin:0 0 7px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text)}
   #tip b{color:var(--text)}
   #tip .ladder{margin-top:9px;display:flex;flex-direction:column;gap:4px}
@@ -169,15 +172,13 @@
   .modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:6px}
   .modal h3{margin:0;font-size:23px;font-weight:600;letter-spacing:-.01em;line-height:1.2}
   .modal .lead{color:var(--text-dim);font-size:13.5px;margin:6px 0 20px}
-  .xbtn{background:none;border:1px solid var(--line);color:var(--text-dim);border-radius:9px;width:34px;height:34px;
-    cursor:pointer;font-size:18px;line-height:1;flex:none;transition:all .14s}
+  .xbtn{background:none;border:1px solid var(--line);color:var(--text-dim);border-radius:9px;width:34px;height:34px;cursor:pointer;font-size:18px;line-height:1;flex:none;transition:all .14s}
   .xbtn:hover{border-color:var(--bad);color:var(--bad)}
   .modal h4{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);margin:22px 0 10px}
   .steps{counter-reset:s;list-style:none;margin:0;padding:0}
   .steps li{position:relative;padding:0 0 14px 38px;font-size:13.5px;color:var(--text-dim);line-height:1.55}
-  .steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:-1px;width:25px;height:25px;
-    border-radius:50%;background:var(--panel-2);border:1px solid var(--line);color:var(--accent);font-family:var(--mono);
-    font-size:12px;display:flex;align-items:center;justify-content:center}
+  .steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:-1px;width:25px;height:25px;border-radius:50%;
+    background:var(--panel-2);border:1px solid var(--line);color:var(--accent);font-family:var(--mono);font-size:12px;display:flex;align-items:center;justify-content:center}
   .steps li:not(:last-child):after{content:"";position:absolute;left:12px;top:26px;bottom:2px;width:1px;background:var(--line-soft)}
   .steps b{color:var(--text)}
   .promptbox{position:relative;background:#0a0b0e;border:1px solid var(--line);border-radius:11px;padding:14px 42px 14px 14px;
@@ -185,31 +186,31 @@
   .promptbox.pre{white-space:pre-wrap}
   .promptbox .cp{position:absolute;top:9px;right:9px}
   .checklist{font-size:13px;color:var(--text-dim);margin:6px 0 0;padding-left:18px} .checklist li{margin:6px 0}
+  .srclist{font-size:12.5px;color:var(--text-dim);margin:6px 0 0;padding-left:18px} .srclist li{margin:5px 0} .srclist code{color:var(--accent-2,#79b8ff)}
 
   .d-cat{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
   .d-tags{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:14px 0 18px}
-  .d-ex{font-size:14px;color:var(--text);background:var(--panel);border-left:3px solid var(--accent-2);
-    border-radius:0 8px 8px 0;padding:11px 14px;margin:0}
+  .d-ex{font-size:14px;color:var(--text);background:var(--panel);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:11px 14px;margin:0}
+  .d-tipline{font-size:13px;color:var(--text-dim);margin:0;line-height:1.55}
   .d-note{font-size:11.5px;color:var(--text-faint);margin-top:16px;line-height:1.55}
 
-  @media (max-width:760px){
-    .row{grid-template-columns:1fr 1fr;gap:8px} h1{font-size:27px}
-    thead th{top:50px} .headright{align-items:flex-start}
-  }
+  @media (max-width:760px){ h1{font-size:26px} thead th{top:50px} .headright{align-items:flex-start} .chipgroup{justify-content:flex-start} }
 </style>
 </head>
 <body>
+<div id="stripe"></div>
 <div class="grain"></div>
 <div class="wrap">
 
   <header>
     <div class="brand">
-      <span class="kicker">model · effort · thinking</span>
+      <span class="kicker" id="kicker"></span>
       <div class="titlerow">
         <h1>The Claude Usecase Map<span class="dot">.</span></h1>
         <span class="datebadge" id="datebadge" data-tip="date"><span class="pip"></span><span id="datebadge-text"></span></span>
+        <div class="fseg" id="fseg"></div>
       </div>
-      <p class="sub">Dial in before you start. Search a task or browse the Table view, hover any tag for what it means, and <b>click a task</b> for a concrete example and a ready-to-use prompt. The cost meter shows how fast each combo burns your usage.</p>
+      <p class="sub" id="sub"></p>
     </div>
     <div class="headright">
       <button class="refresh-cta" id="open-refresh">
@@ -223,8 +224,7 @@
   <div class="searchbar">
     <div class="search">
       <span class="ic">⌕</span>
-      <input id="q" type="text" autocomplete="off" spellcheck="false"
-        placeholder="Type a task… e.g. project planning, confluence, debug, research, explain">
+      <input id="q" type="text" autocomplete="off" spellcheck="false" placeholder="Type a task…">
       <span class="hint"><span class="count" id="count"></span><span class="kbd">/</span></span>
     </div>
   </div>
@@ -243,24 +243,8 @@
   <div class="empty" id="empty">No match. Try a broader word, or clear the filter.</div>
 
   <div class="panels">
-    <div class="card">
-      <h2>Legend</h2>
-      <div class="legrow"><span class="effort e-low" style="min-width:54px">LOW</span> Quick, cheapest — routine work</div>
-      <div class="legrow"><span class="effort e-med" style="min-width:54px">MED</span> A little more care, still light</div>
-      <div class="legrow"><span class="effort e-high" style="min-width:54px">HIGH</span> Best balance — usual default</div>
-      <div class="legrow"><span class="effort e-max" style="min-width:54px">MAX</span> Most thorough, priciest</div>
-      <div class="legrow" style="margin-top:12px"><span class="think on"><span class="led"></span>thinking</span> visible reasoning — on to verify</div>
-      <div class="legrow"><span class="cost"><i class="f1" style="height:6px"></i><i class="f2" style="height:9px"></i><i class="f3" style="height:12px"></i><i style="height:15px"></i><i style="height:18px"></i></span> usage burn, 1 light → 5 heavy</div>
-    </div>
-    <div class="card">
-      <h2>Operating principles</h2>
-      <div class="principles"><ul>
-        <li><b>Default to Sonnet 4.6 at High.</b> Escalate to Opus only for genuinely hard, high-stakes, or long-horizon tasks.</li>
-        <li><b>Effort before model.</b> If a Sonnet answer feels shallow, bump effort before reaching for Opus — usually enough, far cheaper.</li>
-        <li><b>Thinking on = verifiability.</b> Use it when you want to <i>check</i> the reasoning, not just get an answer.</li>
-        <li><b>Lighter = more headroom.</b> Lots of small tasks? Low/Med + Haiku/Sonnet keeps you well under your limits.</li>
-      </ul></div>
-    </div>
+    <div class="card"><h2>Legend</h2><div id="legend"></div></div>
+    <div class="card"><h2 id="principles-title">Operating principles</h2><div class="principles"><ul id="principles"></ul></div></div>
     <div class="card">
       <h2>Monthly check-up</h2>
       <div class="freshline"><span class="dot-st" id="stdot"></span><span class="freshtxt" id="freshtxt"></span></div>
@@ -273,175 +257,207 @@
 
   <footer>
     The Claude Usecase Map · <span id="footer-ver"></span> · self-contained file — save it, pin it, reopen anytime.<br>
-    Open source · MIT · settings are practical heuristics, not official Anthropic figures.
+    Open source · MIT · settings are practical heuristics, verified against Anthropic docs — not official figures.
   </footer>
 </div>
 
 <div id="tip"></div>
 
-<!-- task detail sub-page -->
 <div class="overlay" id="detail-overlay">
   <div class="modal" role="dialog" aria-modal="true">
-    <div class="modal-head">
-      <div><div class="d-cat" id="d-cat"></div><h3 id="d-task"></h3></div>
-      <button class="xbtn" id="d-close" aria-label="Close">×</button>
-    </div>
+    <div class="modal-head"><div><div class="d-cat" id="d-cat"></div><h3 id="d-task"></h3></div><button class="xbtn" id="d-close" aria-label="Close">×</button></div>
     <div class="d-tags" id="d-tags"></div>
     <p class="lead" id="d-why"></p>
+    <div id="d-tipwrap"><h4>Setup / tip</h4><p class="d-tipline" id="d-tip"></p></div>
     <h4>Example</h4>
     <p class="d-ex" id="d-ex"></p>
     <h4>Ready-to-use prompt</h4>
     <div class="promptbox pre"><button class="btn cp" id="d-copy">copy</button><span id="d-prompt"></span></div>
-    <p class="d-note">Set <b>model</b>, <b>effort</b>, and <b>thinking</b> in Claude's menu (next to the send button) to match the tags above, then paste. Replace anything in [BRACKETS] with your specifics.</p>
+    <p class="d-note" id="d-note"></p>
   </div>
 </div>
 
-<!-- refresh sub-page -->
 <div class="overlay" id="overlay">
   <div class="modal" role="dialog" aria-modal="true">
-    <div class="modal-head">
-      <h3>Refreshing the map</h3>
-      <button class="xbtn" id="close-modal" aria-label="Close">×</button>
-    </div>
-    <p class="lead">Claude's models, effort defaults, and your own habits drift over time. A quick monthly refresh keeps this reference honest. The whole thing takes under a minute.</p>
+    <div class="modal-head"><h3>Refreshing the map</h3><button class="xbtn" id="close-modal" aria-label="Close">×</button></div>
+    <p class="lead">Claude's models, settings, and your own habits drift over time. A quick monthly refresh — anchored on Anthropic's own docs — keeps this honest. Under a minute.</p>
     <h4>The routine</h4>
     <ol class="steps">
       <li>When the date badge turns <b>orange</b> (or the check-up dot isn't green), it's time.</li>
       <li><b>Copy</b> the prompt below and paste it into a Claude chat.</li>
-      <li>Claude returns an updated HTML file — <b>download</b> it.</li>
-      <li><b>Replace</b> the old file, or if you host it on GitHub Pages, save it as <b>index.html</b> and push.</li>
+      <li>Claude checks the docs, returns an updated file — <b>download</b> it.</li>
+      <li><b>Replace</b> the old file, or if you host on GitHub Pages, save as <b>index.html</b> and push.</li>
       <li>Back here, hit <b>"Mark checked today"</b> to reset the clock.</li>
     </ol>
     <h4>Full refresh prompt</h4>
-    <div class="promptbox"><button class="btn cp" id="cpbtn">copy</button><span id="prompttext">Refresh "The Claude Usecase Map" (my Claude model + effort reference, currently v2.3). Please: (1) check Anthropic's current Claude.ai model lineup and the effort/thinking settings against the official docs and update anything that changed — new or retired models, changed defaults, renamed effort levels; (2) keep the same single-file HTML design, the Cards/Table views, the hover tooltips, the click-to-open task examples and prompts, the favicon, the age-tinted date badge, and this refresh sub-page; (3) fold in any new recurring tasks I mention with their own example + prompt, and re-balance the model/effort/cost columns if my real usage has shown a row to be off; (4) set today's date as the new build date and bump the version number, and name the download file "The Claude Usecase Map vX.x YYYY-MM-DD.html". Then give me the updated file to download.</span></div>
-    <h4>What to verify</h4>
-    <ul class="checklist">
-      <li>Model lineup still current? (new versions added, old ones retired)</li>
-      <li>Effort defaults and naming unchanged?</li>
-      <li>Any tasks you keep doing that deserve their own row?</li>
-      <li>Any row where your real usage disagrees with the suggested setting?</li>
+    <div class="promptbox"><button class="btn cp" id="cpbtn">copy</button><span id="prompttext">Refresh "The Claude Usecase Map" (my Claude model/effort/usecase reference, currently v3.0). It covers three surfaces: Claude AI (chat), Claude Code, and Claude Cowork. Please: (1) verify everything against Anthropic's official docs — support.claude.com, code.claude.com/docs, platform.claude.com/docs, and anthropic.com/news — and update anything that changed: model lineup, effort levels and defaults, Claude Code permission modes, Cowork connectors/methods, and any new surface worth adding as a tab; (2) keep the single-file HTML design, the themed flavour selector, the per-tab schemas (AI: model·effort·thinking·cost; Code: model·effort·mode; Cowork: tools·method), the click-to-open examples + prompts, the favicon, the age-tinted date badge, and this refresh sub-page; (3) fold in any new recurring tasks I mention with their own example + prompt; (4) set today's date as the new build date and bump the version, naming the file "The Claude Usecase Map vX.x YYYY-MM-DD.html". Then give me the updated file to download.</span></div>
+    <h4>Trusted sources to check</h4>
+    <ul class="srclist">
+      <li>Anthropic Help Center — <code>support.claude.com</code></li>
+      <li>Claude Code docs — <code>code.claude.com/docs</code></li>
+      <li>Claude API / Platform docs — <code>platform.claude.com/docs</code></li>
+      <li>Anthropic release notes &amp; news — <code>anthropic.com/news</code></li>
     </ul>
+    <p class="d-note">Treat the official docs as the source of truth; community guides are fine for cross-checking but verify before trusting.</p>
   </div>
 </div>
 
 <script>
 const BUILD_DATE = "2026-06-05";
-const VERSION = "v2.3";
-const DATA = [
-  {cat:"Chat & quick answers", task:"Casual chat / quick factual question", model:"Sonnet 4.6", effort:"Low", think:false, why:"Fast and cheap; no depth needed", tags:"chat talk casual question ask",
-    ex:"What's the capital of Australia?", prompt:"Answer this concisely: [YOUR QUESTION]"},
-  {cat:"Chat & quick answers", task:"Quick fact lookup / definition", model:"Haiku 4.5", effort:"Low", think:false, why:"Lightest, fastest, saves the most usage", tags:"define lookup what is meaning quick",
-    ex:"What's the latest stable Python version?", prompt:"What is [THING]? Give me the current answer in one or two sentences, no preamble."},
-  {cat:"Chat & quick answers", task:"Classify / tag / sort items", model:"Haiku 4.5", effort:"Low", think:false, why:"Clear-cut classification is Haiku's strength", tags:"categorize label sort bucket route triage",
-    ex:"Sort these 20 support tickets into bug / feature / billing.", prompt:"Classify each item below into exactly one of these categories: [CATEGORIES]. Return a list of item → category.\n\n[PASTE ITEMS]"},
-  {cat:"Chat & quick answers", task:"Reformat text (markdown, JSON, CSV)", model:"Haiku 4.5", effort:"Low", think:false, why:"Mechanical transform", tags:"format reformat convert markdown json csv table clean",
-    ex:"Turn this pasted table into clean Markdown.", prompt:"Reformat the content below into [TARGET FORMAT, e.g. a Markdown table / valid JSON]. Don't change the data, only the format.\n\n[PASTE CONTENT]"},
-  {cat:"Chat & quick answers", task:"Extract fields / entities from text", model:"Haiku 4.5", effort:"Low", think:false, why:"Pattern extraction, no judgement", tags:"extract pull fields entities parse scrape",
-    ex:"Pull every email address and company name from this thread.", prompt:"From the text below, extract [FIELDS, e.g. names, dates, amounts] and return them as a table.\n\n[PASTE TEXT]"},
+const VERSION = "v3.0";
 
-  {cat:"Brainstorming & ideation", task:"Brainstorming / idea generation", model:"Sonnet 4.6", effort:"High", think:true, why:"Want range plus visible reasoning to riff on", tags:"ideas brainstorm ideate explore concepts options divergent",
-    ex:"15 feature ideas for a budgeting app aimed at students.", prompt:"Brainstorm [NUMBER] varied ideas for [GOAL]. Push for range — a few safe, a few bold, a couple unexpected. One line each, no filler."},
-  {cat:"Brainstorming & ideation", task:"Name / title / tagline options", model:"Sonnet 4.6", effort:"Med", think:false, why:"Volume of light options", tags:"name title tagline slogan headline naming brand",
-    ex:"10 tagline options for an eco-friendly cleaning brand.", prompt:"Give me [NUMBER] [name / title / tagline] options for [THING]. Vary the tone across them and note each one's vibe in 2-3 words."},
-  {cat:"Brainstorming & ideation", task:"Challenge my idea / play devil's advocate", model:"Opus 4.8", effort:"High", think:true, why:"Wants genuine, sharp pushback", tags:"critique challenge devils advocate poke holes stress test red team",
-    ex:"Poke holes in my plan to go full-time freelance next month.", prompt:"Here's my idea: [IDEA]. Play devil's advocate — give me the strongest honest objections, failure modes, and what I might be overlooking. Be direct, don't soften it."},
-
-  {cat:"Research", task:"General research / synthesis", model:"Sonnet 4.6", effort:"High", think:true, why:"Balances breadth and accuracy", tags:"research search synthesize gather overview survey",
-    ex:"Summarize the main approaches to carbon capture and their trade-offs.", prompt:"Research [TOPIC] and give me a structured synthesis: the main approaches/viewpoints, key facts, and where sources disagree. Cite as you go."},
-  {cat:"Research", task:"Quick \"what is X\" overview", model:"Sonnet 4.6", effort:"Med", think:false, why:"Just orienting, not deciding", tags:"overview primer intro background context what is",
-    ex:"Give me a 5-minute primer on what RAG is in AI.", prompt:"Give me a quick primer on [TOPIC]: what it is, why it matters, and the 3-4 things I should understand. Keep it tight."},
-  {cat:"Research", task:"Deep research, conflicting sources", model:"Opus 4.8", effort:"Max", think:true, why:"Correctness-critical; weighs sources carefully", tags:"research deep conflicting sources verify rigorous investigate",
-    ex:"What does current evidence actually say about intermittent fasting?", prompt:"Do a careful, deep dive on [QUESTION]. Weigh conflicting sources explicitly, note the quality of the evidence, and tell me where the genuine uncertainty is. Cite everything."},
-  {cat:"Research", task:"Compare options / build a comparison", model:"Opus 4.8", effort:"High", think:true, why:"Trade-offs need real weighing", tags:"compare comparison versus vs evaluate options tradeoffs matrix",
-    ex:"Compare Notion, Obsidian, and Confluence for a small team wiki.", prompt:"Compare [OPTIONS] for [USE CASE / CONSTRAINTS]. Build a table of the key trade-offs, then give a recommendation with your reasoning."},
-
-  {cat:"Writing", task:"Writing / editing prose, emails", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Good writing without heavy reasoning", tags:"write edit email copy prose draft polish rewrite",
-    ex:"Tighten this three-paragraph email to my landlord.", prompt:"Edit the text below for clarity and flow. Keep my voice, don't pad it, and tell me if you changed anything important.\n\n[PASTE TEXT]"},
-  {cat:"Writing", task:"Proofread / grammar / tighten", model:"Haiku 4.5", effort:"Low", think:false, why:"Surface-level edit", tags:"proofread grammar spelling tighten typo correct",
-    ex:"Proofread this paragraph for typos and grammar.", prompt:"Proofread the text below — fix grammar, spelling, and punctuation only. Return the corrected version.\n\n[PASTE TEXT]"},
-  {cat:"Writing", task:"Translate / rephrase text", model:"Sonnet 4.6", effort:"Low–Med", think:false, why:"Pattern task, light on usage", tags:"translate rephrase reword paraphrase language",
-    ex:"Translate this paragraph into French, formal tone.", prompt:"Translate the text below into [LANGUAGE], keeping a [tone] tone. Return only the translation.\n\n[PASTE TEXT]"},
-  {cat:"Writing", task:"Match a tone / rewrite in a voice", model:"Sonnet 4.6", effort:"Med", think:false, why:"Style transfer, modest depth", tags:"tone voice style rewrite formal casual brand",
-    ex:"Rewrite this announcement to sound warmer and less corporate.", prompt:"Rewrite the text below in a [DESIRED TONE/VOICE] tone. Keep the meaning, change the feel.\n\n[PASTE TEXT]"},
-  {cat:"Writing", task:"Long-form article / essay draft", model:"Opus 4.8", effort:"High", think:true, why:"Structure plus sustained quality", tags:"article essay blog long form draft write narrative",
-    ex:"Draft a 1,200-word post on why small teams should write docs.", prompt:"Write a [LENGTH] [article/essay] on [TOPIC] for [AUDIENCE], in a [tone] tone. Give it a clear structure and a strong opening."},
-
-  {cat:"Documentation", task:"Document a chat into Confluence / wiki", model:"Sonnet 4.6", effort:"Med", think:false, why:"Reformatting known content; low ambiguity", tags:"confluence wiki notion document notes write-up page handoff",
-    ex:"Turn everything we just discussed into a clean Confluence page.", prompt:"Turn our conversation above into a clean, well-structured [Confluence/wiki] page: a short intro, headed sections, and a summary. Output in Markdown."},
-  {cat:"Documentation", task:"Write a how-to / runbook", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Clear sequence, light reasoning", tags:"howto runbook guide instructions steps procedure sop",
-    ex:"Write a runbook for safely restarting our staging server.", prompt:"Write a step-by-step [how-to/runbook] for [TASK]. Include prerequisites, numbered steps, and what to verify at the end. Assume the reader is [audience]."},
-  {cat:"Documentation", task:"Draft a structured spec / PRD", model:"Opus 4.8", effort:"High", think:true, why:"Structure and completeness matter", tags:"spec prd requirements design doc proposal structure",
-    ex:"Draft a PRD for a 'saved searches' feature.", prompt:"Draft a [spec/PRD] for [FEATURE]. Include: problem, goals, user stories, requirements, out-of-scope, and open questions."},
-  {cat:"Documentation", task:"Generate code / API docs from source", model:"Sonnet 4.6", effort:"High", think:false, why:"Mostly transformation of known code", tags:"docs api documentation docstring readme reference code",
-    ex:"Write docstrings and a README section for this module.", prompt:"Generate clear documentation for the code below: a short overview, parameters/returns, and a usage example.\n\n[PASTE CODE]"},
-
-  {cat:"Planning & strategy", task:"Multi-step project planning", model:"Opus 4.8", effort:"High–Max", think:true, why:"Benefits from explicit planning", tags:"project planning roadmap plan milestones breakdown schedule",
-    ex:"Plan a 6-week rollout to migrate our blog to a new CMS.", prompt:"Help me plan [PROJECT]. Break it into phases and tasks, flag dependencies and risks, and propose a realistic sequence. Ask me anything you need first."},
-  {cat:"Planning & strategy", task:"Break a goal into tasks", model:"Sonnet 4.6", effort:"High", think:true, why:"Decomposition with light reasoning", tags:"tasks breakdown decompose goal todo split steps",
-    ex:"Break 'launch a personal portfolio site' into concrete tasks.", prompt:"Break this goal into a concrete, ordered task list: [GOAL]. Group related tasks and mark which can run in parallel."},
-  {cat:"Planning & strategy", task:"Strategy / decision under uncertainty", model:"Opus 4.8", effort:"Max", think:true, why:"High stakes, many interacting factors", tags:"strategy decision tradeoff risk uncertainty choose bet",
-    ex:"Should we build in-house or buy? Here's our situation…", prompt:"Help me think through this decision: [DECISION + CONTEXT]. Lay out the options, the key trade-offs, and what would change the answer. Then give your reasoned take."},
-  {cat:"Planning & strategy", task:"Estimate, schedule, sequence work", model:"Sonnet 4.6", effort:"High", think:true, why:"Some reasoning, not high-stakes", tags:"estimate schedule sequence timeline order prioritize",
-    ex:"Estimate and sequence these 8 tasks for a 2-week sprint.", prompt:"Here are the tasks: [LIST]. Estimate relative effort, flag dependencies, and propose a sensible sequence for [TIMEFRAME]."},
-
-  {cat:"Coding", task:"Tricky coding / subtle bug hunt", model:"Opus 4.8", effort:"Max", think:true, why:"Deep reasoning genuinely pays off", tags:"code debug bug fix algorithm tricky hard reasoning",
-    ex:"This function returns the wrong total intermittently — find the bug.", prompt:"Here's the code and the bug I'm seeing: [DESCRIBE BUG]. Find the root cause, explain it, and give the fix.\n\n[PASTE CODE]"},
-  {cat:"Coding", task:"Routine coding / boilerplate", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Capable enough, much cheaper", tags:"code routine boilerplate scaffold snippet simple crud",
-    ex:"Write a Python function to validate an email address.", prompt:"Write [LANGUAGE] code that [DOES X]. Keep it clean and idiomatic, with brief comments."},
-  {cat:"Coding", task:"Explain unfamiliar code", model:"Sonnet 4.6", effort:"Med", think:false, why:"Reading + summarizing", tags:"explain code understand read walkthrough legacy",
-    ex:"Explain what this regex does, step by step.", prompt:"Explain what the code below does, step by step, and call out anything subtle or risky.\n\n[PASTE CODE]"},
-  {cat:"Coding", task:"Code review / find issues", model:"Opus 4.8", effort:"High", think:true, why:"Catching subtle problems needs depth", tags:"code review pr critique security issues smell refactor",
-    ex:"Review this pull request for bugs, security, and style.", prompt:"Review the code below. Flag bugs, security issues, edge cases, and style problems, ordered by severity, and suggest concrete fixes.\n\n[PASTE CODE]"},
-  {cat:"Coding", task:"Architect a system / design tradeoffs", model:"Opus 4.8", effort:"Max", think:true, why:"Long-horizon, many constraints", tags:"architecture design system tradeoffs scale infra blueprint",
-    ex:"Design the architecture for a URL shortener that scales to 1M/day.", prompt:"Help me design [SYSTEM] with these constraints: [CONSTRAINTS]. Propose an architecture, justify the key choices, and lay out the main trade-offs."},
-  {cat:"Coding", task:"Write tests", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Mostly mechanical once logic is known", tags:"tests unit test coverage pytest jest mock",
-    ex:"Write unit tests for this parsing function.", prompt:"Write [framework] tests for the code below. Cover the happy path, edge cases, and error handling.\n\n[PASTE CODE]"},
-
-  {cat:"Data & analysis", task:"Summarize a long document", model:"Sonnet 4.6", effort:"Med", think:false, why:"Extraction task", tags:"summarize summary tldr long document condense",
-    ex:"Summarize this 12-page report into one page.", prompt:"Summarize the document below into [LENGTH]. Lead with the key takeaways, then the supporting points.\n\n[PASTE OR ATTACH DOCUMENT]"},
-  {cat:"Data & analysis", task:"Detailed analysis of a long doc", model:"Opus 4.8", effort:"High–Max", think:true, why:"Nuance and cross-referencing matter", tags:"analyze analysis document deep review compare nuance",
-    ex:"Analyze this contract for risky or unusual clauses.", prompt:"Analyze the document below for [WHAT YOU CARE ABOUT, e.g. risks, gaps, inconsistencies]. Point to the relevant parts and explain each finding.\n\n[PASTE OR ATTACH DOCUMENT]"},
-  {cat:"Data & analysis", task:"Analyze a spreadsheet / dataset", model:"Opus 4.8", effort:"High", think:true, why:"Reasoning over numbers, watch for traps", tags:"data spreadsheet csv dataset analyze stats numbers excel",
-    ex:"What are the top trends in this sales CSV?", prompt:"Analyze the attached data. Tell me [WHAT YOU WANT TO KNOW], show the key numbers, flag anything surprising, and note any assumptions you made."},
-  {cat:"Data & analysis", task:"Pull insights / trends from data", model:"Opus 4.8", effort:"High", think:true, why:"Interpretation beyond raw numbers", tags:"insights trends patterns data interpret findings",
-    ex:"What story does this 6-month metrics export tell?", prompt:"Look at the data below/attached and tell me the story it's telling — the main trends, outliers, and what I should pay attention to.\n\n[PASTE OR ATTACH DATA]"},
-
-  {cat:"Math & logic", task:"Hard math / proofs", model:"Opus 4.8", effort:"Max", think:true, why:"Correctness-critical", tags:"math proof calculation equation solve theorem",
-    ex:"Prove that the square root of 2 is irrational.", prompt:"Solve this carefully, showing each step: [PROBLEM]. State your assumptions and double-check the result."},
-  {cat:"Math & logic", task:"Verify a calculation / sanity-check", model:"Sonnet 4.6", effort:"Med", think:true, why:"Thinking on surfaces the steps to check", tags:"verify check calculation sanity confirm numbers",
-    ex:"Check whether this pricing calculation is right.", prompt:"Check this calculation step by step and tell me if it's correct: [CALCULATION]. If it's wrong, show where and give the right answer."},
-  {cat:"Math & logic", task:"Logic puzzle / careful reasoning", model:"Opus 4.8", effort:"High–Max", think:true, why:"Step-by-step rigor needed", tags:"logic puzzle reasoning riddle deduce careful",
-    ex:"Solve this seating-arrangement logic puzzle.", prompt:"Work through this carefully, step by step, and explain your reasoning before giving the final answer: [PUZZLE / PROBLEM]."},
-
-  {cat:"Learning & explanation", task:"Explain a concept simply (ELI5)", model:"Sonnet 4.6", effort:"Med", think:false, why:"Clear explanation, light depth", tags:"explain eli5 simple concept understand beginner",
-    ex:"Explain how HTTPS works like I'm five.", prompt:"Explain [CONCEPT] in simple terms, like I'm new to it. Use a plain-language analogy and avoid jargon."},
-  {cat:"Learning & explanation", task:"Teach me a topic step by step", model:"Sonnet 4.6", effort:"High", think:true, why:"Wants depth plus structure", tags:"teach learn topic course lesson step by step deep",
-    ex:"Teach me the basics of SQL joins, with examples.", prompt:"Teach me [TOPIC] from the ground up. Build it step by step with examples, and check my understanding as we go. Start with the fundamentals."},
-  {cat:"Learning & explanation", task:"Tutor / quiz me", model:"Sonnet 4.6", effort:"Med", think:false, why:"Interactive, low per-turn load", tags:"tutor quiz test practice flashcards study drill",
-    ex:"Quiz me on Spanish travel vocabulary.", prompt:"Act as my tutor for [TOPIC]. Quiz me one question at a time, wait for my answer, then give feedback before the next. Start easy and ramp up."},
+const AI_ROWS = [
+  {cat:"Chat & quick answers", task:"Casual chat / quick factual question", model:"Sonnet 4.6", effort:"Low", think:false, why:"Fast and cheap; no depth needed", tags:"chat talk casual question ask", ex:"What's the capital of Australia?", prompt:"Answer this concisely: [YOUR QUESTION]"},
+  {cat:"Chat & quick answers", task:"Quick fact lookup / definition", model:"Haiku 4.5", effort:"Low", think:false, why:"Lightest, fastest, saves the most usage", tags:"define lookup what is meaning quick", ex:"What's the latest stable Python version?", prompt:"What is [THING]? Give me the current answer in one or two sentences, no preamble."},
+  {cat:"Chat & quick answers", task:"Classify / tag / sort items", model:"Haiku 4.5", effort:"Low", think:false, why:"Clear-cut classification is Haiku's strength", tags:"categorize label sort bucket route triage", ex:"Sort these 20 support tickets into bug / feature / billing.", prompt:"Classify each item below into exactly one of these categories: [CATEGORIES]. Return a list of item → category.\n\n[PASTE ITEMS]"},
+  {cat:"Chat & quick answers", task:"Reformat text (markdown, JSON, CSV)", model:"Haiku 4.5", effort:"Low", think:false, why:"Mechanical transform", tags:"format reformat convert markdown json csv table clean", ex:"Turn this pasted table into clean Markdown.", prompt:"Reformat the content below into [TARGET FORMAT, e.g. a Markdown table / valid JSON]. Don't change the data, only the format.\n\n[PASTE CONTENT]"},
+  {cat:"Chat & quick answers", task:"Extract fields / entities from text", model:"Haiku 4.5", effort:"Low", think:false, why:"Pattern extraction, no judgement", tags:"extract pull fields entities parse scrape", ex:"Pull every email address and company name from this thread.", prompt:"From the text below, extract [FIELDS, e.g. names, dates, amounts] and return them as a table.\n\n[PASTE TEXT]"},
+  {cat:"Brainstorming & ideation", task:"Brainstorming / idea generation", model:"Sonnet 4.6", effort:"High", think:true, why:"Want range plus visible reasoning to riff on", tags:"ideas brainstorm ideate explore concepts options divergent", ex:"15 feature ideas for a budgeting app aimed at students.", prompt:"Brainstorm [NUMBER] varied ideas for [GOAL]. Push for range — a few safe, a few bold, a couple unexpected. One line each, no filler."},
+  {cat:"Brainstorming & ideation", task:"Name / title / tagline options", model:"Sonnet 4.6", effort:"Med", think:false, why:"Volume of light options", tags:"name title tagline slogan headline naming brand", ex:"10 tagline options for an eco-friendly cleaning brand.", prompt:"Give me [NUMBER] [name / title / tagline] options for [THING]. Vary the tone across them and note each one's vibe in 2-3 words."},
+  {cat:"Brainstorming & ideation", task:"Challenge my idea / play devil's advocate", model:"Opus 4.8", effort:"High", think:true, why:"Wants genuine, sharp pushback", tags:"critique challenge devils advocate poke holes stress test red team", ex:"Poke holes in my plan to go full-time freelance next month.", prompt:"Here's my idea: [IDEA]. Play devil's advocate — give me the strongest honest objections, failure modes, and what I might be overlooking. Be direct, don't soften it."},
+  {cat:"Research", task:"General research / synthesis", model:"Sonnet 4.6", effort:"High", think:true, why:"Balances breadth and accuracy", tags:"research search synthesize gather overview survey", ex:"Summarize the main approaches to carbon capture and their trade-offs.", prompt:"Research [TOPIC] and give me a structured synthesis: the main approaches/viewpoints, key facts, and where sources disagree. Cite as you go."},
+  {cat:"Research", task:"Quick \"what is X\" overview", model:"Sonnet 4.6", effort:"Med", think:false, why:"Just orienting, not deciding", tags:"overview primer intro background context what is", ex:"Give me a 5-minute primer on what RAG is in AI.", prompt:"Give me a quick primer on [TOPIC]: what it is, why it matters, and the 3-4 things I should understand. Keep it tight."},
+  {cat:"Research", task:"Deep research, conflicting sources", model:"Opus 4.8", effort:"Max", think:true, why:"Correctness-critical; weighs sources carefully", tags:"research deep conflicting sources verify rigorous investigate", ex:"What does current evidence actually say about intermittent fasting?", prompt:"Do a careful, deep dive on [QUESTION]. Weigh conflicting sources explicitly, note the quality of the evidence, and tell me where the genuine uncertainty is. Cite everything."},
+  {cat:"Research", task:"Compare options / build a comparison", model:"Opus 4.8", effort:"High", think:true, why:"Trade-offs need real weighing", tags:"compare comparison versus vs evaluate options tradeoffs matrix", ex:"Compare Notion, Obsidian, and Confluence for a small team wiki.", prompt:"Compare [OPTIONS] for [USE CASE / CONSTRAINTS]. Build a table of the key trade-offs, then give a recommendation with your reasoning."},
+  {cat:"Writing", task:"Writing / editing prose, emails", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Good writing without heavy reasoning", tags:"write edit email copy prose draft polish rewrite", ex:"Tighten this three-paragraph email to my landlord.", prompt:"Edit the text below for clarity and flow. Keep my voice, don't pad it, and tell me if you changed anything important.\n\n[PASTE TEXT]"},
+  {cat:"Writing", task:"Proofread / grammar / tighten", model:"Haiku 4.5", effort:"Low", think:false, why:"Surface-level edit", tags:"proofread grammar spelling tighten typo correct", ex:"Proofread this paragraph for typos and grammar.", prompt:"Proofread the text below — fix grammar, spelling, and punctuation only. Return the corrected version.\n\n[PASTE TEXT]"},
+  {cat:"Writing", task:"Translate / rephrase text", model:"Sonnet 4.6", effort:"Low–Med", think:false, why:"Pattern task, light on usage", tags:"translate rephrase reword paraphrase language", ex:"Translate this paragraph into French, formal tone.", prompt:"Translate the text below into [LANGUAGE], keeping a [tone] tone. Return only the translation.\n\n[PASTE TEXT]"},
+  {cat:"Writing", task:"Match a tone / rewrite in a voice", model:"Sonnet 4.6", effort:"Med", think:false, why:"Style transfer, modest depth", tags:"tone voice style rewrite formal casual brand", ex:"Rewrite this announcement to sound warmer and less corporate.", prompt:"Rewrite the text below in a [DESIRED TONE/VOICE] tone. Keep the meaning, change the feel.\n\n[PASTE TEXT]"},
+  {cat:"Writing", task:"Long-form article / essay draft", model:"Opus 4.8", effort:"High", think:true, why:"Structure plus sustained quality", tags:"article essay blog long form draft write narrative", ex:"Draft a 1,200-word post on why small teams should write docs.", prompt:"Write a [LENGTH] [article/essay] on [TOPIC] for [AUDIENCE], in a [tone] tone. Give it a clear structure and a strong opening."},
+  {cat:"Documentation", task:"Document a chat into Confluence / wiki", model:"Sonnet 4.6", effort:"Med", think:false, why:"Reformatting known content; low ambiguity", tags:"confluence wiki notion document notes write-up page handoff", ex:"Turn everything we just discussed into a clean Confluence page.", prompt:"Turn our conversation above into a clean, well-structured [Confluence/wiki] page: a short intro, headed sections, and a summary. Output in Markdown."},
+  {cat:"Documentation", task:"Write a how-to / runbook", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Clear sequence, light reasoning", tags:"howto runbook guide instructions steps procedure sop", ex:"Write a runbook for safely restarting our staging server.", prompt:"Write a step-by-step [how-to/runbook] for [TASK]. Include prerequisites, numbered steps, and what to verify at the end. Assume the reader is [audience]."},
+  {cat:"Documentation", task:"Draft a structured spec / PRD", model:"Opus 4.8", effort:"High", think:true, why:"Structure and completeness matter", tags:"spec prd requirements design doc proposal structure", ex:"Draft a PRD for a 'saved searches' feature.", prompt:"Draft a [spec/PRD] for [FEATURE]. Include: problem, goals, user stories, requirements, out-of-scope, and open questions."},
+  {cat:"Documentation", task:"Generate code / API docs from source", model:"Sonnet 4.6", effort:"High", think:false, why:"Mostly transformation of known code", tags:"docs api documentation docstring readme reference code", ex:"Write docstrings and a README section for this module.", prompt:"Generate clear documentation for the code below: a short overview, parameters/returns, and a usage example.\n\n[PASTE CODE]"},
+  {cat:"Planning & strategy", task:"Multi-step project planning", model:"Opus 4.8", effort:"High–Max", think:true, why:"Benefits from explicit planning", tags:"project planning roadmap plan milestones breakdown schedule", ex:"Plan a 6-week rollout to migrate our blog to a new CMS.", prompt:"Help me plan [PROJECT]. Break it into phases and tasks, flag dependencies and risks, and propose a realistic sequence. Ask me anything you need first."},
+  {cat:"Planning & strategy", task:"Break a goal into tasks", model:"Sonnet 4.6", effort:"High", think:true, why:"Decomposition with light reasoning", tags:"tasks breakdown decompose goal todo split steps", ex:"Break 'launch a personal portfolio site' into concrete tasks.", prompt:"Break this goal into a concrete, ordered task list: [GOAL]. Group related tasks and mark which can run in parallel."},
+  {cat:"Planning & strategy", task:"Strategy / decision under uncertainty", model:"Opus 4.8", effort:"Max", think:true, why:"High stakes, many interacting factors", tags:"strategy decision tradeoff risk uncertainty choose bet", ex:"Should we build in-house or buy? Here's our situation…", prompt:"Help me think through this decision: [DECISION + CONTEXT]. Lay out the options, the key trade-offs, and what would change the answer. Then give your reasoned take."},
+  {cat:"Planning & strategy", task:"Estimate, schedule, sequence work", model:"Sonnet 4.6", effort:"High", think:true, why:"Some reasoning, not high-stakes", tags:"estimate schedule sequence timeline order prioritize", ex:"Estimate and sequence these 8 tasks for a 2-week sprint.", prompt:"Here are the tasks: [LIST]. Estimate relative effort, flag dependencies, and propose a sensible sequence for [TIMEFRAME]."},
+  {cat:"Math & logic", task:"Hard math / proofs", model:"Opus 4.8", effort:"Max", think:true, why:"Correctness-critical", tags:"math proof calculation equation solve theorem", ex:"Prove that the square root of 2 is irrational.", prompt:"Solve this carefully, showing each step: [PROBLEM]. State your assumptions and double-check the result."},
+  {cat:"Math & logic", task:"Verify a calculation / sanity-check", model:"Sonnet 4.6", effort:"Med", think:true, why:"Thinking on surfaces the steps to check", tags:"verify check calculation sanity confirm numbers", ex:"Check whether this pricing calculation is right.", prompt:"Check this calculation step by step and tell me if it's correct: [CALCULATION]. If it's wrong, show where and give the right answer."},
+  {cat:"Math & logic", task:"Logic puzzle / careful reasoning", model:"Opus 4.8", effort:"High–Max", think:true, why:"Step-by-step rigor needed", tags:"logic puzzle reasoning riddle deduce careful", ex:"Solve this seating-arrangement logic puzzle.", prompt:"Work through this carefully, step by step, and explain your reasoning before giving the final answer: [PUZZLE / PROBLEM]."},
+  {cat:"Data & analysis", task:"Summarize a long document", model:"Sonnet 4.6", effort:"Med", think:false, why:"Extraction task", tags:"summarize summary tldr long document condense", ex:"Summarize this 12-page report into one page.", prompt:"Summarize the document below into [LENGTH]. Lead with the key takeaways, then the supporting points.\n\n[PASTE OR ATTACH DOCUMENT]"},
+  {cat:"Data & analysis", task:"Detailed analysis of a long doc", model:"Opus 4.8", effort:"High–Max", think:true, why:"Nuance and cross-referencing matter", tags:"analyze analysis document deep review compare nuance", ex:"Analyze this contract for risky or unusual clauses.", prompt:"Analyze the document below for [WHAT YOU CARE ABOUT, e.g. risks, gaps, inconsistencies]. Point to the relevant parts and explain each finding.\n\n[PASTE OR ATTACH DOCUMENT]"},
+  {cat:"Data & analysis", task:"Analyze a spreadsheet / dataset", model:"Opus 4.8", effort:"High", think:true, why:"Reasoning over numbers, watch for traps", tags:"data spreadsheet csv dataset analyze stats numbers excel", ex:"What are the top trends in this sales CSV?", prompt:"Analyze the attached data. Tell me [WHAT YOU WANT TO KNOW], show the key numbers, flag anything surprising, and note any assumptions you made."},
+  {cat:"Data & analysis", task:"Pull insights / trends from data", model:"Opus 4.8", effort:"High", think:true, why:"Interpretation beyond raw numbers", tags:"insights trends patterns data interpret findings", ex:"What story does this 6-month metrics export tell?", prompt:"Look at the data below/attached and tell me the story it's telling — the main trends, outliers, and what I should pay attention to.\n\n[PASTE OR ATTACH DATA]"},
+  {cat:"Learning & explanation", task:"Explain a concept simply (ELI5)", model:"Sonnet 4.6", effort:"Med", think:false, why:"Clear explanation, light depth", tags:"explain eli5 simple concept understand beginner", ex:"Explain how HTTPS works like I'm five.", prompt:"Explain [CONCEPT] in simple terms, like I'm new to it. Use a plain-language analogy and avoid jargon."},
+  {cat:"Learning & explanation", task:"Teach me a topic step by step", model:"Sonnet 4.6", effort:"High", think:true, why:"Wants depth plus structure", tags:"teach learn topic course lesson step by step deep", ex:"Teach me the basics of SQL joins, with examples.", prompt:"Teach me [TOPIC] from the ground up. Build it step by step with examples, and check my understanding as we go. Start with the fundamentals."},
+  {cat:"Learning & explanation", task:"Tutor / quiz me", model:"Sonnet 4.6", effort:"Med", think:false, why:"Interactive, low per-turn load", tags:"tutor quiz test practice flashcards study drill", ex:"Quiz me on Spanish travel vocabulary.", prompt:"Act as my tutor for [TOPIC]. Quiz me one question at a time, wait for my answer, then give feedback before the next. Start easy and ramp up."},
 ];
 
-function effInfo(e){const s=e.toLowerCase();
+const CODE_ROWS = [
+  {cat:"Explore & understand", task:"Map / understand a codebase", model:"Sonnet 4.6", mode:"Plan", effort:"Med", why:"Read-only mapping before touching anything", tags:"explore understand map codebase architecture read", tip:"Plan mode is read-only — let it survey and list key files before you allow edits.", ex:"Map how authentication flows through this repo.", prompt:"Explore this codebase and explain how [AREA, e.g. authentication] works end to end. Don't change anything yet — just map it and point me to the key files."},
+  {cat:"Explore & understand", task:"Quick codebase question", model:"Haiku 4.5", mode:"Default", effort:"Low", why:"Fast, cheap pointer lookup", tags:"where find locate quick question codebase", tip:"Great low-cost use — just asking where something lives.", ex:"Where is the rate-limit config defined?", prompt:"Where in this repo is [THING] defined/handled? Just point me to the file(s), don't change anything."},
+  {cat:"Explore & understand", task:"Explain / document existing code", model:"Sonnet 4.6", mode:"Accept edits", effort:"Med", why:"Reading + light editing for docs", tags:"explain document docstring comments understand", tip:"Tell it to keep behavior unchanged while adding docs.", ex:"Explain this service and add docstrings.", prompt:"Explain what [FILE/MODULE] does, then add clear docstrings/comments. Keep behavior unchanged."},
+  {cat:"Implement", task:"Implement a feature (multi-file)", model:"Opus plan", mode:"Plan → accept", effort:"High", why:"Plan first, then execute across files", tags:"implement feature build add multi-file", tip:"Approve the plan before it edits. Opus-plan = Opus plans, Sonnet executes.", ex:"Add CSV export to the reports page.", prompt:"Plan, then implement: [FEATURE]. First propose a plan and wait for my approval; then make the changes across the files needed and summarize them."},
+  {cat:"Implement", task:"Routine edit / small change", model:"Sonnet 4.6", mode:"Accept edits", effort:"Low", why:"Capable and cheap; no thinking needed", tags:"edit small change rename tweak boilerplate", tip:"No thinking keyword needed for simple edits.", ex:"Rename this variable everywhere and fix imports.", prompt:"[SMALL CHANGE, e.g. rename X to Y across the repo]. Make the edits and show me a summary of what changed."},
+  {cat:"Implement", task:"Set up CI / config / scripts", model:"Sonnet 4.6", mode:"Accept edits", effort:"Med", why:"Mostly known patterns", tags:"ci config setup github actions scripts pipeline", tip:"Name the target (e.g. GitHub Actions) and ask how to verify.", ex:"Add a GitHub Actions workflow to run tests on PRs.", prompt:"Set up [CI/CONFIG, e.g. a GitHub Actions workflow] that [GOAL]. Create the files and explain how to verify it works."},
+  {cat:"Debug & fix", task:"Fix a failing test / bug", model:"Opus 4.8", mode:"Accept edits", effort:"Max", why:"Deep reasoning earns its keep on real bugs", tags:"bug fix debug failing test error root cause", tip:"Add 'ultrathink' for gnarly bugs; have it run the test to confirm.", ex:"This test fails intermittently — find and fix the cause.", prompt:"The test [NAME/PATH] is failing: [PASTE ERROR]. Find the root cause and fix it, then run the test to confirm. Think carefully before editing."},
+  {cat:"Refactor", task:"Refactor a module", model:"Opus 4.8", mode:"Plan → accept", effort:"High", why:"Needs a plan and care to keep behavior", tags:"refactor restructure cleanup module rework", tip:"Ask for a 'think' pass + plan; apply incrementally, keep tests green.", ex:"Refactor the payment module to support multiple providers.", prompt:"Refactor [MODULE] so that [GOAL]. Think hard, propose the approach first, then apply it incrementally and keep the tests passing."},
+  {cat:"Review", task:"Review code / a PR", model:"Opus 4.8", mode:"Plan", effort:"High", why:"Catching subtle issues needs depth; read-only", tags:"review pr code critique security audit", tip:"Use plan mode so it reviews without editing.", ex:"Review the changes on this branch for bugs and security.", prompt:"Review the current changes (or [BRANCH/FILES]) for bugs, security issues, and edge cases, ordered by severity. Don't fix yet — just report."},
+  {cat:"Test", task:"Write tests", model:"Sonnet 4.6", mode:"Accept edits", effort:"Med", why:"Mostly mechanical once logic is known", tags:"tests unit test coverage pytest jest write", tip:"State the framework and what to cover; have it run them.", ex:"Add unit tests for the parser.", prompt:"Write [framework] tests for [FILE/FUNCTION], covering the happy path, edge cases, and errors. Run them and fix any failures."},
+  {cat:"Plan", task:"Plan a large change across the codebase", model:"Opus plan", mode:"Plan", effort:"Max", why:"Long-horizon; explore then phased plan", tags:"plan migration large architecture roadmap codebase", tip:"Explore first; ask for phases, risks, and affected files before any edit.", ex:"Plan a migration from REST to GraphQL.", prompt:"Plan [LARGE CHANGE] across this codebase. Explore first, then give me a phased plan with risks and the files affected. Don't implement yet."},
+  {cat:"Autonomy", task:"Autonomous multi-step task", model:"Opus 4.8", mode:"Auto", effort:"High", why:"Hands-off run with a safety net", tags:"autonomous auto agent multi-step batch checklist", tip:"Auto mode reviews each action with a safety classifier (Team/Enterprise/API plans).", ex:"Work through this checklist of fixes across the repo.", prompt:"Work through these tasks autonomously: [LIST]. Pause and ask me if anything is risky or ambiguous, and summarize what you did at the end."},
+];
+
+const COWORK_ROWS = [
+  {cat:"Research & analysis", task:"Compile a report from sources", tools:"Drive + web", method:"Connector", why:"Pull from your docs and the web, then format", tags:"report research compile competitive analysis sources doc", tip:"Connect your doc source first; Cowork prefers connectors over the screen.", ex:"Pull a competitive analysis from these docs and the web into a formatted report.", prompt:"Using [CONNECTED SOURCES + the web], research [TOPIC] and compile a formatted report with sections and a summary. Save it as a doc."},
+  {cat:"Research & analysis", task:"Web research task", tools:"web / Chrome", method:"Browser", why:"No connector fits → drives Chrome", tags:"web research browser chrome vendors compare find", tip:"When no connector fits, Cowork uses Claude in Chrome.", ex:"Find 5 vendors that meet these criteria and compare them.", prompt:"Research [TOPIC] on the web and [DELIVERABLE, e.g. compare the top 5 options in a table]. Cite your sources."},
+  {cat:"Documents & decks", task:"Build a slide deck", tools:"local files / Drive", method:"Connector", why:"Turns content into slides", tags:"deck slides presentation pptx powerpoint build", tip:"Point it at the content; keep one idea per slide.", ex:"Turn this quarterly data into a 10-slide deck.", prompt:"Create a [N]-slide deck on [TOPIC] from [SOURCE/DATA]. One idea per slide, with brief speaker notes."},
+  {cat:"Documents & decks", task:"Fill / update a spreadsheet", tools:"local files / Drive", method:"Connector", why:"Applies a rule across a sheet", tags:"spreadsheet excel sheet fill update column data", tip:"Give the sheet and the rule; tell it not to touch other columns.", ex:"Fill the 'status' column based on these rules.", prompt:"In [SPREADSHEET], [WHAT TO DO, e.g. fill column X based on rule Y]. Don't change other columns; show a summary of the edits."},
+  {cat:"Inbox & comms", task:"Triage / summarize your inbox", tools:"Gmail", method:"Connector", why:"Reads and summarizes, read-only first", tags:"email inbox gmail triage summarize unread flag", tip:"Read-only first; review before any send.", ex:"Summarize today's unread emails and flag anything urgent.", prompt:"Go through my [Gmail] from [TIMEFRAME], summarize the threads, and flag anything that needs a reply. Don't send anything yet."},
+  {cat:"Inbox & comms", task:"Draft replies / messages", tools:"Gmail / Slack", method:"Connector", why:"Drafts for your approval", tags:"draft reply email slack message respond", tip:"Have it draft; you approve before it sends.", ex:"Draft replies to these 3 emails in my voice.", prompt:"Draft replies to [WHICH MESSAGES] in a [tone] tone. Show me the drafts to approve before sending."},
+  {cat:"Data & files", task:"Analyze a folder of files", tools:"local files", method:"Computer use", why:"Reads what has no connector", tags:"files folder local pdf analyze extract computer use", tip:"Desktop must be awake; slower than a connector.", ex:"Go through this folder of PDFs and extract the key numbers.", prompt:"Look through the files in [FOLDER] and [WHAT YOU WANT, e.g. extract totals into a table]. Tell me your method and any assumptions."},
+  {cat:"Data & files", task:"Pull data from a connected app", tools:"Notion / Slack / Drive", method:"Connector", why:"Direct, authenticated read", tags:"pull data notion slack drive find search app", tip:"Name the app, or let Cowork pick the right connector.", ex:"Find all Notion pages about onboarding and summarize them.", prompt:"From [CONNECTED APP], find [WHAT] and return it as [FORMAT, e.g. a summary / table]."},
+  {cat:"Cross-tool workflows", task:"Chain a task across tools", tools:"multiple connectors", method:"Connector", why:"Reads from one tool, acts in another", tags:"workflow chain cross-tool automate notion tasks action items", tip:"Be explicit about the sequence; confirm before it writes.", ex:"Turn the action items from these notes into Notion tasks.", prompt:"Take [INPUT from tool A] and [ACTION in tool B] — e.g. turn the action items in [doc] into tasks in [Notion]. Confirm with me before writing anything."},
+  {cat:"Cross-tool workflows", task:"Test / QA an app via screen", tools:"your apps", method:"Computer use", why:"Interacts where there's no API", tags:"test qa app screen ux click computer use simulator", tip:"Best for tasks with no API; expect it to be slower.", ex:"Open the app and find UX issues in the signup flow.", prompt:"Open [APP] and [TASK, e.g. walk through the signup flow and list UX issues]. Describe what you click and what you find."},
+];
+
+const FLAVOURS = [
+  { id:"ai", short:"AI", label:"Claude AI", accent:"#e8b04b", glow:"rgba(232,176,75,.14)",
+    kicker:"model · effort · thinking", chips:["model","effort","think","cost"],
+    placeholder:"Type a task… e.g. project planning, confluence, research, explain",
+    sub:"Dial in before you start. Search a task or browse the Table view, hover any tag for what it means, and <b>click a task</b> for an example + ready-to-use prompt. The cost meter shows how fast each combo burns your usage.",
+    note:"Set model, effort, and thinking in Claude's menu (next to send) to match the tags, then paste. Replace anything in [BRACKETS].",
+    legend:`<div class="legrow"><span class="effort e-low" style="min-width:54px">LOW</span> Quick, cheapest — routine work</div>
+      <div class="legrow"><span class="effort e-med" style="min-width:54px">MED</span> A little more care, still light</div>
+      <div class="legrow"><span class="effort e-high" style="min-width:54px">HIGH</span> Best balance — usual default</div>
+      <div class="legrow"><span class="effort e-max" style="min-width:54px">MAX</span> Most thorough, priciest</div>
+      <div class="legrow" style="margin-top:12px"><span class="think on"><span class="led"></span>thinking</span> visible reasoning — on to verify</div>
+      <div class="legrow"><span class="cost"><i class="f1" style="height:6px"></i><i class="f2" style="height:9px"></i><i class="f3" style="height:12px"></i><i style="height:15px"></i><i style="height:18px"></i></span> usage burn, 1 light → 5 heavy</div>`,
+    principles:[
+      "<b>Default to Sonnet 4.6 at High.</b> Escalate to Opus only for genuinely hard, high-stakes, or long-horizon tasks.",
+      "<b>Effort before model.</b> If a Sonnet answer feels shallow, bump effort before reaching for Opus — usually enough, far cheaper.",
+      "<b>Thinking on = verifiability.</b> Use it when you want to <i>check</i> the reasoning, not just get an answer.",
+      "<b>Lighter = more headroom.</b> Lots of small tasks? Low/Med + Haiku/Sonnet keeps you well under your limits."],
+    rows:AI_ROWS },
+  { id:"code", short:"Code", label:"Claude Code", accent:"#5fcf8e", glow:"rgba(95,207,142,.14)",
+    kicker:"model · effort · mode", chips:["model","effort","mode"],
+    placeholder:"Type a task… e.g. refactor, failing test, review, plan",
+    sub:"Claude Code is agentic — it reads, plans, and edits across files. Pick the model and permission <b>mode</b>; the prompts show how to scope each task. (Cost is context-driven, so it's left out here.)",
+    note:"In Claude Code, pick the model (and effort) via /model, set the permission mode (e.g. plan), then paste. Replace anything in [BRACKETS].",
+    legend:`<div class="legrow"><span class="ptag">Plan</span> read-only — proposes a plan, no changes until you approve</div>
+      <div class="legrow"><span class="ptag">Accept edits</span> makes file changes as it goes</div>
+      <div class="legrow"><span class="ptag">Default</span> asks before each consequential action</div>
+      <div class="legrow"><span class="ptag">Auto</span> autonomous, safety-classified (Team/Ent/API)</div>
+      <div class="legrow" style="margin-top:12px"><span class="tag m-opus"><span class="swatch"></span>Opus plan</span> Opus plans, Sonnet executes</div>
+      <div class="legrow"><span class="effort e-high" style="min-width:54px">EFFORT</span> same low→max dial as chat, set in /model</div>`,
+    principles:[
+      "<b>Explore → plan → code → commit.</b> For anything multi-file, make it plan first and approve the plan.",
+      "<b>Use 'think' / 'ultrathink' before reaching for Opus.</b> The thinking cue often bridges the gap more cheaply.",
+      "<b>Routine edits don't need thinking.</b> Keep simple changes on Sonnet at low effort.",
+      "<b>Cost is context-driven.</b> Keep the working context lean — long sessions and big file reads dominate usage."],
+    rows:CODE_ROWS },
+  { id:"cowork", short:"Cowork", label:"Claude Cowork", accent:"#b88ce8", glow:"rgba(184,140,232,.15)",
+    kicker:"tools · method · prompt", chips:["tools","method"],
+    placeholder:"Type a task… e.g. report, inbox, deck, folder",
+    sub:"Cowork acts on your desktop and connected apps. The key choices are which <b>tools</b> it can use and the <b>method</b> — the prompts show what's possible. (No effort/cost dial here.)",
+    note:"In Cowork, enable the listed tools in the Customize panel first, then paste. Have Claude draft/preview before it sends or writes. Replace anything in [BRACKETS].",
+    legend:`<div class="legrow"><span class="ptag">Connector</span> direct authenticated link — fastest, preferred</div>
+      <div class="legrow"><span class="ptag">Browser</span> Claude in Chrome when no connector fits</div>
+      <div class="legrow"><span class="ptag">Computer use</span> controls your screen — flexible, slower (Pro/Max)</div>
+      <div class="legrow" style="margin-top:12px"><span class="ptag tools">Tools</span> connectors/files a task draws on — enable them first</div>`,
+    principles:[
+      "<b>Prefer connectors over the screen.</b> They're faster and more reliable than computer use.",
+      "<b>Connect the tools you use most.</b> Authorize once; Claude reuses them across sessions.",
+      "<b>Draft first, then approve.</b> Have Claude show sends/writes before it commits them.",
+      "<b>Be explicit about the sequence.</b> For cross-tool work, spell out read-from-A → act-in-B."],
+    rows:COWORK_ROWS },
+];
+
+function effInfo(e){const s=(e||"").toLowerCase();
   if(s.includes("max")) return {cls:"e-max",rank:4,key:"max"};
   if(s.includes("high")) return {cls:"e-high",rank:3,key:"high"};
   if(s.includes("med")) return {cls:"e-med",rank:2,key:"med"};
   return {cls:"e-low",rank:1,key:"low"};}
-function modelInfo(m){const s=m.toLowerCase();
+function modelInfo(m){const s=(m||"").toLowerCase();
+  if(s.includes("plan")) return {cls:"m-opus",rank:3,key:"opusplan"};
   if(s.includes("opus")) return {cls:"m-opus",rank:3,key:"opus"};
   if(s.includes("sonnet")) return {cls:"m-sonnet",rank:2,key:"sonnet"};
   return {cls:"m-haiku",rank:1,key:"haiku"};}
-function costBars(model,eff){let base=modelInfo(model).rank;const add=[0,0,0.5,1,1.5][effInfo(eff).rank]||0;
-  return Math.max(1,Math.min(5,Math.round(base+add)));}
+function modeKey(m){const s=(m||"").toLowerCase();return s.includes("plan")?"plan":s.includes("accept")?"accept":s.includes("auto")?"auto":"default";}
+function methodKey(m){const s=(m||"").toLowerCase();return s.includes("connector")?"connector":s.includes("browser")?"browser":"computer";}
+function costBars(model,eff){let base=modelInfo(model).rank;const add=[0,0,0.5,1,1.5][effInfo(eff).rank]||0;return Math.max(1,Math.min(5,Math.round(base+add)));}
 const HEIGHTS=[6,8,10,13,16,18];
-function costHTML(n,tip){let h="";for(let i=1;i<=5;i++){const f=i<=n?"f"+n:"";h+=`<i class="${f}" style="height:${HEIGHTS[i]}px"></i>`;}
-  return `<span class="cost"${tip?` data-tip="cost:${n}"`:""}>${h}</span>`;}
-function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
-function hl(text,q){if(!q)return esc(text);
-  try{const re=new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig");return esc(text).replace(re,"<mark>$1</mark>");}
-  catch(e){return esc(text);}}
+function costHTML(n,tip){let h="";for(let i=1;i<=5;i++){const f=i<=n?"f"+n:"";h+=`<i class="${f}" style="height:${HEIGHTS[i]}px"></i>`;}return `<span class="cost"${tip?` data-tip="cost:${n}"`:""}>${h}</span>`;}
+function esc(s){return (s==null?"":""+s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+function hl(text,q){if(!q)return esc(text);try{const re=new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig");return esc(text).replace(re,"<mark>$1</mark>");}catch(e){return esc(text);}}
 function modelTag(m,tip){return `<span class="tag ${modelInfo(m).cls}"${tip?` data-tip="model:${modelInfo(m).key}"`:""}><span class="swatch"></span>${esc(m)}</span>`;}
 function effTag(e,tip){return `<span class="effort ${effInfo(e).cls}"${tip?` data-tip="effort:${effInfo(e).key}"`:""}>${esc(e)}</span>`;}
 function thinkTag(t,tip){return `<span class="think ${t?"on":""}"${tip?` data-tip="think:${t?"on":"off"}"`:""}><span class="led"></span>${t?"on":"off"}</span>`;}
+function modeTag(m,tip){return `<span class="ptag"${tip?` data-tip="mode:${modeKey(m)}"`:""}>${esc(m)}</span>`;}
+function methodTag(m,tip){return `<span class="ptag"${tip?` data-tip="method:${methodKey(m)}"`:""}>${esc(m)}</span>`;}
+function toolsTag(m,tip){return `<span class="ptag tools"${tip?` data-tip="tools"`:""}>${esc(m)}</span>`;}
+function chipHTML(key,row,tip){
+  if(key==="model")return modelTag(row.model,tip);
+  if(key==="effort")return effTag(row.effort,tip);
+  if(key==="think")return thinkTag(row.think,tip);
+  if(key==="cost")return costHTML(costBars(row.model,row.effort),tip);
+  if(key==="mode")return modeTag(row.mode,tip);
+  if(key==="method")return methodTag(row.method,tip);
+  if(key==="tools")return toolsTag(row.tools,tip);
+  return "";
+}
+const COLLABEL={model:"Model",effort:"Effort",think:"Think",cost:"Cost",mode:"Mode",method:"Method",tools:"Tools"};
 
 const EFFORTS=[
   {key:"low",cls:"e-low",label:"LOW",desc:"Quick, cheapest. Routine, low-ambiguity work; stretches usage furthest."},
@@ -450,21 +466,34 @@ const EFFORTS=[
   {key:"max",cls:"e-max",label:"MAX",desc:"Most thorough and slowest; for hard, correctness-critical work."},
 ];
 const MODELS={
-  opus:{name:"Opus 4.8",desc:"Most capable — for genuinely hard, high-stakes, or long-horizon work.",pr:"Principle: reach for Opus only when Sonnet at higher effort isn't enough — it costs several times more."},
-  sonnet:{name:"Sonnet 4.6",desc:"The balanced workhorse: fast, capable, far cheaper than Opus.",pr:"Principle: default here at High; bump effort before switching models."},
-  haiku:{name:"Haiku 4.5",desc:"Fastest and lightest; great for clear-cut, high-volume tasks.",pr:"Principle: keep simple, repetitive tasks here to protect your limits."},
+  opus:{name:"Opus 4.8",desc:"Most capable — for genuinely hard, high-stakes, or long-horizon work.",pr:"Reach for Opus only when Sonnet at higher effort isn't enough — it costs several times more."},
+  opusplan:{name:"Opus plan",desc:"Opus plans, Sonnet executes — Opus's reasoning for the plan, Sonnet's efficiency for the edits.",pr:"A strong default for big, multi-file work in Code."},
+  sonnet:{name:"Sonnet 4.6",desc:"The balanced workhorse: fast, capable, far cheaper than Opus.",pr:"Default here; bump effort before switching models."},
+  haiku:{name:"Haiku 4.5",desc:"Fastest and lightest; great for clear-cut, high-volume tasks.",pr:"Keep simple, repetitive tasks here to protect your limits."},
+};
+const MODES={
+  plan:{n:"Plan mode",d:"Claude researches and proposes a plan, read-only, making no changes until you approve."},
+  accept:{n:"Accept edits",d:"Claude makes file changes as it goes (acceptEdits). Use once you trust the task."},
+  default:{n:"Default",d:"Claude asks permission before each consequential action."},
+  auto:{n:"Auto mode",d:"Claude works autonomously while a safety classifier reviews each action. (Team/Enterprise/API.)"},
+};
+const METHODS={
+  connector:{n:"Connector",d:"A direct, authenticated link to an app (Gmail, Drive, Slack…). Fastest and most reliable; Cowork prefers it."},
+  browser:{n:"Browser",d:"When no connector fits, Cowork drives Chrome via Claude in Chrome."},
+  computer:{n:"Computer use",d:"Claude controls your screen — clicking and typing. Most flexible but slower; needs your desktop awake. (Pro/Max.)"},
 };
 function daysBetween(a,b){return Math.floor((b-a)/86400000);}
 function buildTip(spec){
-  const [kind,val]=spec.split(":");
+  const i=spec.indexOf(":"); const kind=i<0?spec:spec.slice(0,i); const val=i<0?"":spec.slice(i+1);
   if(kind==="effort"){const cur=EFFORTS.find(x=>x.key===val);
     const ladder=EFFORTS.map(x=>`<div class="lr ${x.key===val?'cur':''}"><span class="effort ${x.cls} pill">${x.label}</span>${x.desc.split('.')[0]}</div>`).join("");
     return `<h4>Effort · ${cur.label}</h4>${cur.desc}<div class="ladder">${ladder}</div>`;}
   if(kind==="model"){const m=MODELS[val];return `<h4>${m.name}</h4>${m.desc}<div class="note">${m.pr}</div>`;}
-  if(kind==="think"){return val==="on"
-      ? `<h4>Thinking · on</h4>Claude shows a reasoning block before answering. Turn on to <b>verify the steps</b> on math, research, and planning.`
-      : `<h4>Thinking · off</h4>Claude answers directly — fine for low-ambiguity tasks and lighter on usage.`;}
-  if(kind==="cost"){return `<h4>Usage burn · ${val}/5</h4>Rough relative cost of this model + effort combo. <b>Lower means more headroom</b> in your limits.`;}
+  if(kind==="mode"){const m=MODES[val];return `<h4>${m.n}</h4>${m.d}`;}
+  if(kind==="method"){const m=METHODS[val];return `<h4>${m.n}</h4>${m.d}`;}
+  if(kind==="tools")return `<h4>Tools</h4>The connectors or files this task draws on. Enable them in Cowork's Customize panel first.`;
+  if(kind==="think"){return val==="on"?`<h4>Thinking · on</h4>Claude shows a reasoning block before answering. Turn on to <b>verify the steps</b> on math, research, and planning.`:`<h4>Thinking · off</h4>Claude answers directly — fine for low-ambiguity tasks and lighter on usage.`;}
+  if(kind==="cost")return `<h4>Usage burn · ${val}/5</h4>Rough relative cost of this model + effort combo. <b>Lower means more headroom</b> in your limits.`;
   if(kind==="date"){const d=daysBetween(new Date(BUILD_DATE+"T00:00:00"),new Date());
     let st = d<20?{w:"Fresh",c:"var(--ok)"} : d<=30?{w:"Getting old",c:"var(--warn)"} : {w:"Overdue",c:"var(--bad)"};
     let html=`<h4>Build date</h4>Built <b>${BUILD_DATE}</b> · ${d} day${d===1?'':'s'} old.<div class="note"><b style="color:${st.c}">${st.w}.</b></div>`;
@@ -473,7 +502,7 @@ function buildTip(spec){
   return "";
 }
 const tip=document.getElementById("tip");
-function showTip(el){tip.innerHTML=buildTip(el.dataset.tip);tip.style.display="block";
+function showTip(el){tip.innerHTML=buildTip(el.dataset.tip);if(!tip.innerHTML){return;} tip.style.display="block";
   const r=el.getBoundingClientRect(),tr=tip.getBoundingClientRect();
   let top=r.top-tr.height-9+window.scrollY; if(r.top-tr.height-9<4) top=r.bottom+9+window.scrollY;
   let left=r.left+r.width/2-tr.width/2+window.scrollX;
@@ -485,45 +514,70 @@ document.addEventListener("mouseover",e=>{const el=e.target.closest("[data-tip]"
 document.addEventListener("mouseout",e=>{const el=e.target.closest("[data-tip]");if(el && !el.contains(e.relatedTarget))hideTip();});
 document.addEventListener("scroll",hideTip,true);
 
-let view="cards", activeCat="All", query="", sortKey="cat", sortDir=1;
+let flavour=FLAVOURS[0], view="cards", activeCat="All", query="", sortKey="cat", sortDir=1;
 const rowsEl=document.getElementById("rows"), tableEl=document.getElementById("tablewrap");
 const emptyEl=document.getElementById("empty"), countEl=document.getElementById("count");
 const qEl=document.getElementById("q"), chipsEl=document.getElementById("chips");
 
-const cats=["All",...[...new Set(DATA.map(d=>d.cat))]];
-cats.forEach(c=>{const el=document.createElement("div");el.className="chip"+(c==="All"?" on":"");el.textContent=c;
-  el.onclick=()=>{activeCat=c;[...chipsEl.children].forEach(x=>x.classList.toggle("on",x.textContent===c));render();};
-  chipsEl.appendChild(el);});
+const fsegEl=document.getElementById("fseg");
+FLAVOURS.forEach(f=>{const b=document.createElement("button");b.textContent=f.short;b.dataset.fid=f.id;
+  b.onclick=()=>setFlavour(f.id);fsegEl.appendChild(b);});
+const moreBtn=document.createElement("span");moreBtn.className="more";moreBtn.textContent="+";moreBtn.dataset.tip="more";moreBtn.title="More surfaces — contribute on GitHub";fsegEl.appendChild(moreBtn);
+
+function applyFlavour(){
+  document.documentElement.style.setProperty("--accent",flavour.accent);
+  document.documentElement.style.setProperty("--accent-glow",flavour.glow);
+  document.getElementById("stripe").style.background=flavour.accent;
+  document.getElementById("kicker").textContent=flavour.kicker;
+  document.getElementById("sub").innerHTML=flavour.sub;
+  qEl.placeholder=flavour.placeholder;
+  document.getElementById("legend").innerHTML=flavour.legend;
+  document.getElementById("principles").innerHTML=flavour.principles.map(p=>`<li>${p}</li>`).join("");
+  [...fsegEl.querySelectorAll("button")].forEach(b=>b.classList.toggle("on",b.dataset.fid===flavour.id));
+  buildChips();
+}
+function buildChips(){
+  chipsEl.innerHTML="";
+  const cats=["All",...[...new Set(flavour.rows.map(d=>d.cat))]];
+  cats.forEach(c=>{const el=document.createElement("div");el.className="chip"+(c===activeCat?" on":"");el.textContent=c;
+    el.onclick=()=>{activeCat=c;[...chipsEl.children].forEach(x=>x.classList.toggle("on",x.textContent===c));render();};
+    chipsEl.appendChild(el);});
+}
+function setFlavour(id){flavour=FLAVOURS.find(f=>f.id===id);activeCat="All";query="";qEl.value="";
+  if(!["task","cat"].concat(flavour.chips).includes(sortKey)){sortKey="cat";sortDir=1;}
+  applyFlavour();render();hideTip();}
 
 document.getElementById("seg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
   view=b.dataset.view;[...document.querySelectorAll("#seg button")].forEach(x=>x.classList.toggle("on",x===b));render();});
 
 function getFiltered(){const q=query.trim().toLowerCase();
-  return DATA.filter(d=>{const catOk=activeCat==="All"||d.cat===activeCat;
-    const hay=(d.task+" "+d.why+" "+d.model+" "+d.cat+" "+d.tags+" "+d.ex).toLowerCase();
+  return flavour.rows.filter(d=>{const catOk=activeCat==="All"||d.cat===activeCat;
+    const hay=(d.task+" "+d.why+" "+d.cat+" "+(d.tags||"")+" "+(d.ex||"")+" "+(d.model||"")+" "+(d.mode||"")+" "+(d.method||"")+" "+(d.tools||"")).toLowerCase();
     return catOk && (!q||hay.includes(q));});}
 
 function renderCards(filtered,q){rowsEl.style.display="flex";tableEl.style.display="none";rowsEl.innerHTML="";let lastCat=null;
   filtered.forEach(d=>{if(d.cat!==lastCat){const h=document.createElement("div");h.className="cat-head";h.textContent=d.cat;rowsEl.appendChild(h);lastCat=d.cat;}
     const row=document.createElement("div");row.className="row"+(q?" hit":"");
-    row.innerHTML=`<div class="task"><div class="t">${hl(d.task,q)}</div><div class="why">${hl(d.why,q)}</div></div>
-      <div>${modelTag(d.model,true)}</div><div>${effTag(d.effort,true)}</div><div>${thinkTag(d.think,true)}</div><div>${costHTML(costBars(d.model,d.effort),true)}</div>`;
+    const chips=flavour.chips.map(k=>chipHTML(k,d,true)).join("");
+    row.innerHTML=`<div class="task"><div class="t">${hl(d.task,q)}</div><div class="why">${hl(d.why,q)}</div></div><div class="chipgroup">${chips}</div>`;
     row.onclick=ev=>{if(ev.target.closest("[data-tip]"))return; openDetail(d);};
     rowsEl.appendChild(row);});}
 
 function sortRows(arr){const dir=sortDir;
-  const val={task:d=>d.task.toLowerCase(),cat:d=>d.cat.toLowerCase(),model:d=>modelInfo(d.model).rank,
-    effort:d=>effInfo(d.effort).rank,think:d=>d.think?1:0,cost:d=>costBars(d.model,d.effort)}[sortKey];
+  const num={model:d=>modelInfo(d.model).rank,effort:d=>effInfo(d.effort).rank,think:d=>d.think?1:0,cost:d=>costBars(d.model,d.effort)};
+  let val;
+  if(sortKey==="task")val=d=>d.task.toLowerCase();
+  else if(sortKey==="cat")val=d=>d.cat.toLowerCase();
+  else if(num[sortKey])val=num[sortKey];
+  else val=d=>(d[sortKey]||"").toString().toLowerCase();
   return [...arr].sort((a,b)=>{const x=val(a),y=val(b);if(x<y)return -dir;if(x>y)return dir;return a.task.localeCompare(b.task);});}
 
 function renderTable(filtered,q){rowsEl.style.display="none";tableEl.style.display="block";
   const sorted=sortRows(filtered);
-  const cols=[["task","Task"],["cat","Category"],["model","Model"],["effort","Effort"],["think","Think"],["cost","Cost"]];
+  const cols=[["task","Task"],["cat","Category"]].concat(flavour.chips.map(k=>[k,COLLABEL[k]]));
   const head=cols.map(([k,label])=>`<th data-k="${k}" class="${sortKey===k?'sorted':''}">${label}<span class="arr">${sortDir===1?"▲":"▼"}</span></th>`).join("");
-  const body=sorted.map(d=>`<tr class="${q?'hit':''}">
-    <td><div>${hl(d.task,q)}</div><div class="why">${hl(d.why,q)}</div></td>
-    <td class="t-cat">${hl(d.cat,q)}</td><td>${modelTag(d.model,true)}</td><td>${effTag(d.effort,true)}</td>
-    <td>${thinkTag(d.think,true)}</td><td>${costHTML(costBars(d.model,d.effort),true)}</td></tr>`).join("");
+  const body=sorted.map(d=>{const chipCells=flavour.chips.map(k=>`<td>${chipHTML(k,d,true)}</td>`).join("");
+    return `<tr class="${q?'hit':''}"><td><div>${hl(d.task,q)}</div><div class="why">${hl(d.why,q)}</div></td><td class="t-cat">${hl(d.cat,q)}</td>${chipCells}</tr>`;}).join("");
   tableEl.innerHTML=`<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
   tableEl.querySelectorAll("th").forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=1;}render();});
   tableEl.querySelectorAll("tbody tr").forEach((tr,i)=>tr.onclick=ev=>{if(ev.target.closest("[data-tip]"))return; openDetail(sorted[i]);});}
@@ -532,7 +586,7 @@ function render(){const q=query.trim().toLowerCase();const filtered=getFiltered(
   if(view==="cards")renderCards(filtered,q);else renderTable(filtered,q);
   emptyEl.style.display=filtered.length?"none":"block";
   if(!filtered.length){rowsEl.style.display="none";tableEl.style.display="none";}
-  countEl.textContent=filtered.length+" / "+DATA.length;}
+  countEl.textContent=filtered.length+" / "+flavour.rows.length;}
 
 qEl.addEventListener("input",e=>{query=e.target.value;render();});
 document.addEventListener("keydown",e=>{
@@ -540,27 +594,24 @@ document.addEventListener("keydown",e=>{
   if(e.key==="/"&&document.activeElement!==qEl){e.preventDefault();qEl.focus();qEl.select();}
   if(e.key==="Escape"&&document.activeElement===qEl){qEl.value="";query="";render();qEl.blur();}});
 
-document.getElementById("meta-line").innerHTML=VERSION+" · models: Opus 4.8 / 4.7 / 4.6<br>Sonnet 4.6 · Haiku 4.5";
+document.getElementById("meta-line").innerHTML=VERSION+" · 3 surfaces<br>AI · Code · Cowork";
 document.getElementById("footer-ver").textContent=VERSION;
 
 (function dateBadge(){const d=daysBetween(new Date(BUILD_DATE+"T00:00:00"),new Date());
-  const el=document.getElementById("datebadge");
-  document.getElementById("datebadge-text").textContent=BUILD_DATE;
+  const el=document.getElementById("datebadge");document.getElementById("datebadge-text").textContent=BUILD_DATE;
   el.classList.add(d<20?"db-ok": d<=30?"db-warn":"db-bad");})();
 
 const KEY="themap_last_checked";
 function getChecked(){try{return localStorage.getItem(KEY);}catch(e){return null;}}
 function setChecked(v){try{localStorage.setItem(KEY,v);return true;}catch(e){return false;}}
-function freshness(){const stored=getChecked();const base=stored||BUILD_DATE;
-  const d=daysBetween(new Date(base+"T00:00:00"),new Date());
-  const dot=document.getElementById("stdot"),txt=document.getElementById("freshtxt");
-  let cls,msg; if(d<30){cls="st-ok";msg=`Up to date · last checked <b>${d}</b> day${d===1?'':'s'} ago`;}
+function freshness(){const stored=getChecked();const base=stored||BUILD_DATE;const d=daysBetween(new Date(base+"T00:00:00"),new Date());
+  const dot=document.getElementById("stdot"),txt=document.getElementById("freshtxt");let cls,msg;
+  if(d<30){cls="st-ok";msg=`Up to date · last checked <b>${d}</b> day${d===1?'':'s'} ago`;}
   else if(d<45){cls="st-warn";msg=`Check due · <b>${d}</b> days since last check`;}
   else{cls="st-bad";msg=`Overdue · <b>${d}</b> days since last check`;}
-  dot.className="dot-st "+cls; txt.innerHTML=msg+(stored?"":" <span style='color:var(--text-faint)'>(from build date)</span>");}
-document.getElementById("markbtn").onclick=()=>{const today=new Date().toISOString().slice(0,10);
-  const ok=setChecked(today);freshness();const b=document.getElementById("markbtn");
-  b.textContent=ok?"✓ Saved":"✓ Marked (session)";setTimeout(()=>b.textContent="✓ Mark checked today",1800);};
+  dot.className="dot-st "+cls;txt.innerHTML=msg+(stored?"":" <span style='color:var(--text-faint)'>(from build date)</span>");}
+document.getElementById("markbtn").onclick=()=>{const today=new Date().toISOString().slice(0,10);const ok=setChecked(today);freshness();
+  const b=document.getElementById("markbtn");b.textContent=ok?"✓ Saved":"✓ Marked (session)";setTimeout(()=>b.textContent="✓ Mark checked today",1800);};
 
 function copyFrom(spanId,btn){const txt=document.getElementById(spanId).textContent;
   (async()=>{try{await navigator.clipboard.writeText(txt);btn.textContent="copied";}
@@ -568,7 +619,6 @@ function copyFrom(spanId,btn){const txt=document.getElementById(spanId).textCont
     try{document.execCommand("copy");btn.textContent="copied";}catch(_){btn.textContent="select & copy";}document.body.removeChild(ta);}
   setTimeout(()=>btn.textContent="copy",1500);})();}
 
-/* refresh modal */
 const overlay=document.getElementById("overlay");
 function openModal(){overlay.classList.add("open");hideTip();}
 function closeModal(){overlay.classList.remove("open");}
@@ -578,22 +628,24 @@ document.getElementById("close-modal").onclick=closeModal;
 overlay.addEventListener("click",e=>{if(e.target===overlay)closeModal();});
 document.getElementById("cpbtn").onclick=function(){copyFrom("prompttext",this);};
 
-/* task detail modal */
 const detailOverlay=document.getElementById("detail-overlay");
 function openDetail(d){
-  document.getElementById("d-cat").textContent=d.cat;
+  document.getElementById("d-cat").textContent=flavour.label+" · "+d.cat;
   document.getElementById("d-task").textContent=d.task;
   document.getElementById("d-why").textContent=d.why;
+  const tw=document.getElementById("d-tipwrap");
+  if(d.tip){tw.style.display="";document.getElementById("d-tip").textContent=d.tip;}else{tw.style.display="none";}
   document.getElementById("d-ex").textContent="“"+d.ex+"”";
   document.getElementById("d-prompt").textContent=d.prompt;
-  document.getElementById("d-tags").innerHTML=
-    modelTag(d.model,false)+effTag(d.effort,false)+thinkTag(d.think,false)+costHTML(costBars(d.model,d.effort),false);
+  document.getElementById("d-note").textContent=flavour.note;
+  document.getElementById("d-tags").innerHTML=flavour.chips.map(k=>chipHTML(k,d,false)).join("");
   detailOverlay.classList.add("open");hideTip();}
 function closeDetail(){detailOverlay.classList.remove("open");}
 document.getElementById("d-close").onclick=closeDetail;
 detailOverlay.addEventListener("click",e=>{if(e.target===detailOverlay)closeDetail();});
 document.getElementById("d-copy").onclick=function(){copyFrom("d-prompt",this);};
 
+applyFlavour();
 render();
 freshness();
 window.addEventListener("load",()=>qEl.focus());
