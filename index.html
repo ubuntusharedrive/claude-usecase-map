@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Claude Usecase Map</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' rx='7' fill='%23121419' stroke='%23272c36'/%3E%3Crect x='6' y='18' width='4' height='7' rx='1.5' fill='%235fcf8e'/%3E%3Crect x='12' y='14' width='4' height='11' rx='1.5' fill='%2379b8ff'/%3E%3Crect x='18' y='10' width='4' height='15' rx='1.5' fill='%23e8b04b'/%3E%3Crect x='24' y='6' width='4' height='19' rx='1.5' fill='%23f0734a'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' rx='7' fill='%23121419' stroke='%23272c36'/%3E%3Crect x='5' y='19' width='3.6' height='6' rx='1.3' fill='%235fcf8e'/%3E%3Crect x='10' y='16' width='3.6' height='9' rx='1.3' fill='%2379b8ff'/%3E%3Crect x='15' y='12.5' width='3.6' height='12.5' rx='1.3' fill='%23e8b04b'/%3E%3Crect x='20' y='9' width='3.6' height='16' rx='1.3' fill='%23f0973f'/%3E%3Crect x='25' y='5.5' width='3.6' height='19.5' rx='1.3' fill='%23ef4f6b'/%3E%3C/svg%3E">
 <style>
   :root{
     --bg:#0c0d10; --bg-2:#121419; --panel:#16191f; --panel-2:#1b1f27;
     --line:#272c36; --line-soft:#1f242c;
     --text:#e7e9ee; --text-dim:#9aa1ad; --text-faint:#6b7280;
     --accent:#e8b04b; --accent-glow:rgba(232,176,75,.14);
-    --eff-low:#5fcf8e; --eff-med:#79b8ff; --eff-high:#e8b04b; --eff-max:#f0734a;
-    --opus:#c792ea; --sonnet:#7fd6c2; --haiku:#8fb0ff;
+    --eff-low:#5fcf8e; --eff-med:#79b8ff; --eff-high:#e8b04b; --eff-xhigh:#f0973f; --eff-max:#ef4f6b;
+    --opus:#c792ea; --sonnet:#7fd6c2; --haiku:#8fb0ff; --fable:#ff9ec4;
     --ok:#5fcf8e; --warn:#e8b04b; --bad:#f0734a;
     --mono:"Cascadia Code","Cascadia Mono",ui-monospace,"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
     --sans:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",sans-serif;
@@ -101,22 +101,26 @@
   .m-opus{color:#e4cdf6}.m-opus .swatch{background:var(--opus)}
   .m-sonnet{color:#cdeee6}.m-sonnet .swatch{background:var(--sonnet)}
   .m-haiku{color:#d2e0ff}.m-haiku .swatch{background:var(--haiku)}
+  .m-fable{color:#ffd0e4}.m-fable .swatch{background:var(--fable)}
   .effort{font-family:var(--mono);font-size:12px;font-weight:600;border-radius:8px;padding:5px 9px;text-align:center;
     border:1px solid transparent;white-space:nowrap;cursor:help}
   .e-low{color:var(--eff-low);background:rgba(95,207,142,.10);border-color:rgba(95,207,142,.3)}
   .e-med{color:var(--eff-med);background:rgba(121,184,255,.10);border-color:rgba(121,184,255,.3)}
   .e-high{color:var(--eff-high);background:rgba(232,176,75,.12);border-color:rgba(232,176,75,.32)}
-  .e-max{color:var(--eff-max);background:rgba(240,115,74,.12);border-color:rgba(240,115,74,.34)}
+  .e-xhigh{color:var(--eff-xhigh);background:rgba(240,151,63,.12);border-color:rgba(240,151,63,.34)}
+  .e-max{color:var(--eff-max);background:rgba(239,79,107,.12);border-color:rgba(239,79,107,.34)}
   .think{font-family:var(--mono);font-size:11.5px;display:inline-flex;align-items:center;gap:6px;color:var(--text-dim);cursor:help}
   .think .led{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--text-faint)}
   .think.on .led{background:var(--eff-high);border-color:var(--eff-high);box-shadow:0 0 7px rgba(232,176,75,.7)}
   .ptag{font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;white-space:nowrap;
     color:var(--text-dim);background:var(--panel-2);cursor:help}
   .ptag.tools{color:#cdeee6}
+  .ptag.out{color:#ffe0b8}
+  .ptag.warnmode{color:#f7b0a0;border-color:rgba(240,115,74,.4)}
   .cost{display:flex;gap:3px;align-items:flex-end;height:18px;justify-content:flex-end;cursor:help}
   .cost i{width:5px;border-radius:2px;background:var(--line);display:block}
   .cost i.f1{background:var(--eff-low)}.cost i.f2{background:var(--eff-med)}
-  .cost i.f3{background:var(--eff-high)}.cost i.f4{background:var(--eff-max)}.cost i.f5{background:var(--eff-max)}
+  .cost i.f3{background:var(--eff-high)}.cost i.f4{background:var(--eff-xhigh)}.cost i.f5{background:var(--eff-max)}
 
   .tablewrap{overflow-x:auto;border:1px solid var(--line-soft);border-radius:12px}
   table{border-collapse:collapse;width:100%;min-width:760px}
@@ -246,6 +250,15 @@
     <div class="card"><h2>Legend</h2><div id="legend"></div></div>
     <div class="card"><h2 id="principles-title">Operating principles</h2><div class="principles"><ul id="principles"></ul></div></div>
     <div class="card">
+      <h2>Model lineup</h2>
+      <div class="legrow"><span class="tag m-fable"><span class="swatch"></span>Fable 5</span> top tier · $10/$50 · can decline</div>
+      <div class="legrow"><span class="tag m-opus"><span class="swatch"></span>Opus 5</span> default heavyweight · 1M · $5/$25</div>
+      <div class="legrow"><span class="tag m-sonnet"><span class="swatch"></span>Sonnet 5</span> workhorse · 1M · $2/$10 → $3/$15</div>
+      <div class="legrow"><span class="tag m-haiku"><span class="swatch"></span>Haiku 4.5</span> fast and cheap · $1/$5</div>
+      <div class="legrow" style="margin-top:10px;color:var(--text-faint);font-size:12px">Legacy but available: Opus 4.8, Opus 4.7, Sonnet 4.6. Mythos 5 is Fable 5 without the classifiers — Glasswing only.</div>
+      <div class="legrow" style="color:var(--text-faint);font-size:12px">Hover any model tag for when to reach for it.</div>
+    </div>
+    <div class="card">
       <h2>Monthly check-up</h2>
       <div class="freshline"><span class="dot-st" id="stdot"></span><span class="freshtxt" id="freshtxt"></span></div>
       <div class="row-actions">
@@ -256,7 +269,7 @@
   </div>
 
   <footer>
-    The Claude Usecase Map · <span id="footer-ver"></span> · self-contained file — save it, pin it, reopen anytime.<br>
+    The Claude Usecase Map · <span id="footer-ver"></span> · built 2026-07-30 · self-contained file — save it, pin it, reopen anytime.<br>
     Open source · MIT · settings are practical heuristics, verified against Anthropic docs — not official figures.
   </footer>
 </div>
@@ -283,14 +296,24 @@
     <p class="lead">Claude's models, settings, and your own habits drift over time. A quick monthly refresh — anchored on Anthropic's own docs — keeps this honest. Under a minute.</p>
     <h4>The routine</h4>
     <ol class="steps">
-      <li>When the date badge turns <b>orange</b> (or the check-up dot isn't green), it's time.</li>
+      <li>When the date badge turns <b>orange</b> (or the check-up dot isn't green), it's time. Anthropic ships often — a month is a long time here.</li>
       <li><b>Copy</b> the prompt below and paste it into a Claude chat.</li>
       <li>Claude checks the docs, returns an updated file — <b>download</b> it.</li>
-      <li><b>Replace</b> the old file, or if you host on GitHub Pages, save as <b>index.html</b> and push.</li>
+      <li><b>Replace</b> the old file — for GitHub Pages, save as <b>index.html</b> and push (keep the versioned copy alongside it).</li>
       <li>Back here, hit <b>"Mark checked today"</b> to reset the clock.</li>
     </ol>
     <h4>Full refresh prompt</h4>
-    <div class="promptbox"><button class="btn cp" id="cpbtn">copy</button><span id="prompttext">Refresh "The Claude Usecase Map" (my Claude model/effort/usecase reference, currently v3.0). It covers three surfaces: Claude AI (chat), Claude Code, and Claude Cowork. Please: (1) verify everything against Anthropic's official docs — support.claude.com, code.claude.com/docs, platform.claude.com/docs, and anthropic.com/news — and update anything that changed: model lineup, effort levels and defaults, Claude Code permission modes, Cowork connectors/methods, and any new surface worth adding as a tab; (2) keep the single-file HTML design, the themed flavour selector, the per-tab schemas (AI: model·effort·thinking·cost; Code: model·effort·mode; Cowork: tools·method), the click-to-open examples + prompts, the favicon, the age-tinted date badge, and this refresh sub-page; (3) fold in any new recurring tasks I mention with their own example + prompt; (4) set today's date as the new build date and bump the version, naming the file "The Claude Usecase Map vX.x YYYY-MM-DD.html". Then give me the updated file to download.</span></div>
+    <div class="promptbox"><button class="btn cp" id="cpbtn">copy</button><span id="prompttext">Refresh "The Claude Usecase Map" — my Claude model/effort/usecase reference, currently v4.0 (built 2026-07-30). It covers five surfaces as flavours: Claude AI (chat), Claude Code, Claude Cowork, Claude Design, and Routines &amp; Skills.
+
+(1) VERIFY everything against Anthropic's official docs — support.claude.com, code.claude.com/docs, platform.claude.com/docs, anthropic.com/news — and update anything that changed: model lineup and IDs, pricing, context windows, effort levels and per-model defaults/restrictions, Claude Code permission modes, Cowork connectors/methods/execution modes, Claude Design capabilities and exports, routines (local vs cloud) and skills locations/precedence, and any new surface worth adding as a flavour. Prefer primary docs over blog posts; where a fact can't be confirmed officially, mark it rather than restating it.
+
+(2) KEEP the single-file HTML design and everything in it: the themed flavour selector that retints the page per surface, the per-flavour schemas (AI: model·effort·thinking·cost; Code: model·effort·mode; Cowork: tools·method; Design: model·effort·output; Routines: trigger·runtime·scope), live search with the / shortcut, the cards/table toggle with sortable columns, hover tooltips on every tag, the click-to-open detail modal with example + copyable prompt, the legend and operating-principles cards, the monthly check-up with "mark checked today", the favicon, the age-tinted date badge, and this refresh sub-page.
+
+(3) FOLD IN any new recurring tasks I mention, each with its own category, tags, example and prompt.
+
+(4) SET today's date as the new build date and bump the version, naming the file "The Claude Usecase Map vX.x YYYY-MM-DD.html".
+
+Tell me what changed and what you couldn't verify. Then give me the file.</span></div>
     <h4>Trusted sources to check</h4>
     <ul class="srclist">
       <li>Anthropic Help Center — <code>support.claude.com</code></li>
@@ -303,60 +326,66 @@
 </div>
 
 <script>
-const BUILD_DATE = "2026-06-05";
-const VERSION = "v3.0";
+const BUILD_DATE = "2026-07-30";
+const VERSION = "v4.0";
 
 const AI_ROWS = [
-  {cat:"Chat & quick answers", task:"Casual chat / quick factual question", model:"Sonnet 4.6", effort:"Low", think:false, why:"Fast and cheap; no depth needed", tags:"chat talk casual question ask", ex:"What's the capital of Australia?", prompt:"Answer this concisely: [YOUR QUESTION]"},
+  {cat:"Chat & quick answers", task:"Casual chat / quick factual question", model:"Sonnet 5", effort:"Low", think:false, why:"Fast and cheap; no depth needed", tags:"chat talk casual question ask", ex:"What's the capital of Australia?", prompt:"Answer this concisely: [YOUR QUESTION]"},
   {cat:"Chat & quick answers", task:"Quick fact lookup / definition", model:"Haiku 4.5", effort:"Low", think:false, why:"Lightest, fastest, saves the most usage", tags:"define lookup what is meaning quick", ex:"What's the latest stable Python version?", prompt:"What is [THING]? Give me the current answer in one or two sentences, no preamble."},
   {cat:"Chat & quick answers", task:"Classify / tag / sort items", model:"Haiku 4.5", effort:"Low", think:false, why:"Clear-cut classification is Haiku's strength", tags:"categorize label sort bucket route triage", ex:"Sort these 20 support tickets into bug / feature / billing.", prompt:"Classify each item below into exactly one of these categories: [CATEGORIES]. Return a list of item → category.\n\n[PASTE ITEMS]"},
   {cat:"Chat & quick answers", task:"Reformat text (markdown, JSON, CSV)", model:"Haiku 4.5", effort:"Low", think:false, why:"Mechanical transform", tags:"format reformat convert markdown json csv table clean", ex:"Turn this pasted table into clean Markdown.", prompt:"Reformat the content below into [TARGET FORMAT, e.g. a Markdown table / valid JSON]. Don't change the data, only the format.\n\n[PASTE CONTENT]"},
   {cat:"Chat & quick answers", task:"Extract fields / entities from text", model:"Haiku 4.5", effort:"Low", think:false, why:"Pattern extraction, no judgement", tags:"extract pull fields entities parse scrape", ex:"Pull every email address and company name from this thread.", prompt:"From the text below, extract [FIELDS, e.g. names, dates, amounts] and return them as a table.\n\n[PASTE TEXT]"},
-  {cat:"Brainstorming & ideation", task:"Brainstorming / idea generation", model:"Sonnet 4.6", effort:"High", think:true, why:"Want range plus visible reasoning to riff on", tags:"ideas brainstorm ideate explore concepts options divergent", ex:"15 feature ideas for a budgeting app aimed at students.", prompt:"Brainstorm [NUMBER] varied ideas for [GOAL]. Push for range — a few safe, a few bold, a couple unexpected. One line each, no filler."},
-  {cat:"Brainstorming & ideation", task:"Name / title / tagline options", model:"Sonnet 4.6", effort:"Med", think:false, why:"Volume of light options", tags:"name title tagline slogan headline naming brand", ex:"10 tagline options for an eco-friendly cleaning brand.", prompt:"Give me [NUMBER] [name / title / tagline] options for [THING]. Vary the tone across them and note each one's vibe in 2-3 words."},
-  {cat:"Brainstorming & ideation", task:"Challenge my idea / play devil's advocate", model:"Opus 4.8", effort:"High", think:true, why:"Wants genuine, sharp pushback", tags:"critique challenge devils advocate poke holes stress test red team", ex:"Poke holes in my plan to go full-time freelance next month.", prompt:"Here's my idea: [IDEA]. Play devil's advocate — give me the strongest honest objections, failure modes, and what I might be overlooking. Be direct, don't soften it."},
-  {cat:"Research", task:"General research / synthesis", model:"Sonnet 4.6", effort:"High", think:true, why:"Balances breadth and accuracy", tags:"research search synthesize gather overview survey", ex:"Summarize the main approaches to carbon capture and their trade-offs.", prompt:"Research [TOPIC] and give me a structured synthesis: the main approaches/viewpoints, key facts, and where sources disagree. Cite as you go."},
-  {cat:"Research", task:"Quick \"what is X\" overview", model:"Sonnet 4.6", effort:"Med", think:false, why:"Just orienting, not deciding", tags:"overview primer intro background context what is", ex:"Give me a 5-minute primer on what RAG is in AI.", prompt:"Give me a quick primer on [TOPIC]: what it is, why it matters, and the 3-4 things I should understand. Keep it tight."},
-  {cat:"Research", task:"Deep research, conflicting sources", model:"Opus 4.8", effort:"Max", think:true, why:"Correctness-critical; weighs sources carefully", tags:"research deep conflicting sources verify rigorous investigate", ex:"What does current evidence actually say about intermittent fasting?", prompt:"Do a careful, deep dive on [QUESTION]. Weigh conflicting sources explicitly, note the quality of the evidence, and tell me where the genuine uncertainty is. Cite everything."},
-  {cat:"Research", task:"Compare options / build a comparison", model:"Opus 4.8", effort:"High", think:true, why:"Trade-offs need real weighing", tags:"compare comparison versus vs evaluate options tradeoffs matrix", ex:"Compare Notion, Obsidian, and Confluence for a small team wiki.", prompt:"Compare [OPTIONS] for [USE CASE / CONSTRAINTS]. Build a table of the key trade-offs, then give a recommendation with your reasoning."},
-  {cat:"Writing", task:"Writing / editing prose, emails", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Good writing without heavy reasoning", tags:"write edit email copy prose draft polish rewrite", ex:"Tighten this three-paragraph email to my landlord.", prompt:"Edit the text below for clarity and flow. Keep my voice, don't pad it, and tell me if you changed anything important.\n\n[PASTE TEXT]"},
+  {cat:"Brainstorming & ideation", task:"Brainstorming / idea generation", model:"Sonnet 5", effort:"High", think:true, why:"Want range plus visible reasoning to riff on", tags:"ideas brainstorm ideate explore concepts options divergent", ex:"15 feature ideas for a budgeting app aimed at students.", prompt:"Brainstorm [NUMBER] varied ideas for [GOAL]. Push for range — a few safe, a few bold, a couple unexpected. One line each, no filler."},
+  {cat:"Brainstorming & ideation", task:"Name / title / tagline options", model:"Sonnet 5", effort:"Med", think:false, why:"Volume of light options", tags:"name title tagline slogan headline naming brand", ex:"10 tagline options for an eco-friendly cleaning brand.", prompt:"Give me [NUMBER] [name / title / tagline] options for [THING]. Vary the tone across them and note each one's vibe in 2-3 words."},
+  {cat:"Brainstorming & ideation", task:"Challenge my idea / play devil's advocate", model:"Opus 5", effort:"High", think:true, why:"Wants genuine, sharp pushback", tags:"critique challenge devils advocate poke holes stress test red team", ex:"Poke holes in my plan to go full-time freelance next month.", prompt:"Here's my idea: [IDEA]. Play devil's advocate — give me the strongest honest objections, failure modes, and what I might be overlooking. Be direct, don't soften it."},
+  {cat:"Research", task:"General research / synthesis", model:"Sonnet 5", effort:"High", think:true, why:"Balances breadth and accuracy", tags:"research search synthesize gather overview survey", ex:"Summarize the main approaches to carbon capture and their trade-offs.", prompt:"Research [TOPIC] and give me a structured synthesis: the main approaches/viewpoints, key facts, and where sources disagree. Cite as you go."},
+  {cat:"Research", task:"Quick \"what is X\" overview", model:"Sonnet 5", effort:"Med", think:false, why:"Just orienting, not deciding", tags:"overview primer intro background context what is", ex:"Give me a 5-minute primer on what RAG is in AI.", prompt:"Give me a quick primer on [TOPIC]: what it is, why it matters, and the 3-4 things I should understand. Keep it tight."},
+  {cat:"Research", task:"Deep research, conflicting sources", model:"Opus 5", effort:"Max", think:true, why:"Correctness-critical; weighs sources carefully", tags:"research deep conflicting sources verify rigorous investigate", ex:"What does current evidence actually say about intermittent fasting?", prompt:"Do a careful, deep dive on [QUESTION]. Weigh conflicting sources explicitly, note the quality of the evidence, and tell me where the genuine uncertainty is. Cite everything."},
+  {cat:"Research", task:"Compare options / build a comparison", model:"Opus 5", effort:"High", think:true, why:"Trade-offs need real weighing", tags:"compare comparison versus vs evaluate options tradeoffs matrix", ex:"Compare Notion, Obsidian, and Confluence for a small team wiki.", prompt:"Compare [OPTIONS] for [USE CASE / CONSTRAINTS]. Build a table of the key trade-offs, then give a recommendation with your reasoning."},
+  {cat:"Writing", task:"Writing / editing prose, emails", model:"Sonnet 5", effort:"Med–High", think:false, why:"Good writing without heavy reasoning", tags:"write edit email copy prose draft polish rewrite", ex:"Tighten this three-paragraph email to my landlord.", prompt:"Edit the text below for clarity and flow. Keep my voice, don't pad it, and tell me if you changed anything important.\n\n[PASTE TEXT]"},
   {cat:"Writing", task:"Proofread / grammar / tighten", model:"Haiku 4.5", effort:"Low", think:false, why:"Surface-level edit", tags:"proofread grammar spelling tighten typo correct", ex:"Proofread this paragraph for typos and grammar.", prompt:"Proofread the text below — fix grammar, spelling, and punctuation only. Return the corrected version.\n\n[PASTE TEXT]"},
-  {cat:"Writing", task:"Translate / rephrase text", model:"Sonnet 4.6", effort:"Low–Med", think:false, why:"Pattern task, light on usage", tags:"translate rephrase reword paraphrase language", ex:"Translate this paragraph into French, formal tone.", prompt:"Translate the text below into [LANGUAGE], keeping a [tone] tone. Return only the translation.\n\n[PASTE TEXT]"},
-  {cat:"Writing", task:"Match a tone / rewrite in a voice", model:"Sonnet 4.6", effort:"Med", think:false, why:"Style transfer, modest depth", tags:"tone voice style rewrite formal casual brand", ex:"Rewrite this announcement to sound warmer and less corporate.", prompt:"Rewrite the text below in a [DESIRED TONE/VOICE] tone. Keep the meaning, change the feel.\n\n[PASTE TEXT]"},
-  {cat:"Writing", task:"Long-form article / essay draft", model:"Opus 4.8", effort:"High", think:true, why:"Structure plus sustained quality", tags:"article essay blog long form draft write narrative", ex:"Draft a 1,200-word post on why small teams should write docs.", prompt:"Write a [LENGTH] [article/essay] on [TOPIC] for [AUDIENCE], in a [tone] tone. Give it a clear structure and a strong opening."},
-  {cat:"Documentation", task:"Document a chat into Confluence / wiki", model:"Sonnet 4.6", effort:"Med", think:false, why:"Reformatting known content; low ambiguity", tags:"confluence wiki notion document notes write-up page handoff", ex:"Turn everything we just discussed into a clean Confluence page.", prompt:"Turn our conversation above into a clean, well-structured [Confluence/wiki] page: a short intro, headed sections, and a summary. Output in Markdown."},
-  {cat:"Documentation", task:"Write a how-to / runbook", model:"Sonnet 4.6", effort:"Med–High", think:false, why:"Clear sequence, light reasoning", tags:"howto runbook guide instructions steps procedure sop", ex:"Write a runbook for safely restarting our staging server.", prompt:"Write a step-by-step [how-to/runbook] for [TASK]. Include prerequisites, numbered steps, and what to verify at the end. Assume the reader is [audience]."},
-  {cat:"Documentation", task:"Draft a structured spec / PRD", model:"Opus 4.8", effort:"High", think:true, why:"Structure and completeness matter", tags:"spec prd requirements design doc proposal structure", ex:"Draft a PRD for a 'saved searches' feature.", prompt:"Draft a [spec/PRD] for [FEATURE]. Include: problem, goals, user stories, requirements, out-of-scope, and open questions."},
-  {cat:"Documentation", task:"Generate code / API docs from source", model:"Sonnet 4.6", effort:"High", think:false, why:"Mostly transformation of known code", tags:"docs api documentation docstring readme reference code", ex:"Write docstrings and a README section for this module.", prompt:"Generate clear documentation for the code below: a short overview, parameters/returns, and a usage example.\n\n[PASTE CODE]"},
-  {cat:"Planning & strategy", task:"Multi-step project planning", model:"Opus 4.8", effort:"High–Max", think:true, why:"Benefits from explicit planning", tags:"project planning roadmap plan milestones breakdown schedule", ex:"Plan a 6-week rollout to migrate our blog to a new CMS.", prompt:"Help me plan [PROJECT]. Break it into phases and tasks, flag dependencies and risks, and propose a realistic sequence. Ask me anything you need first."},
-  {cat:"Planning & strategy", task:"Break a goal into tasks", model:"Sonnet 4.6", effort:"High", think:true, why:"Decomposition with light reasoning", tags:"tasks breakdown decompose goal todo split steps", ex:"Break 'launch a personal portfolio site' into concrete tasks.", prompt:"Break this goal into a concrete, ordered task list: [GOAL]. Group related tasks and mark which can run in parallel."},
-  {cat:"Planning & strategy", task:"Strategy / decision under uncertainty", model:"Opus 4.8", effort:"Max", think:true, why:"High stakes, many interacting factors", tags:"strategy decision tradeoff risk uncertainty choose bet", ex:"Should we build in-house or buy? Here's our situation…", prompt:"Help me think through this decision: [DECISION + CONTEXT]. Lay out the options, the key trade-offs, and what would change the answer. Then give your reasoned take."},
-  {cat:"Planning & strategy", task:"Estimate, schedule, sequence work", model:"Sonnet 4.6", effort:"High", think:true, why:"Some reasoning, not high-stakes", tags:"estimate schedule sequence timeline order prioritize", ex:"Estimate and sequence these 8 tasks for a 2-week sprint.", prompt:"Here are the tasks: [LIST]. Estimate relative effort, flag dependencies, and propose a sensible sequence for [TIMEFRAME]."},
-  {cat:"Math & logic", task:"Hard math / proofs", model:"Opus 4.8", effort:"Max", think:true, why:"Correctness-critical", tags:"math proof calculation equation solve theorem", ex:"Prove that the square root of 2 is irrational.", prompt:"Solve this carefully, showing each step: [PROBLEM]. State your assumptions and double-check the result."},
-  {cat:"Math & logic", task:"Verify a calculation / sanity-check", model:"Sonnet 4.6", effort:"Med", think:true, why:"Thinking on surfaces the steps to check", tags:"verify check calculation sanity confirm numbers", ex:"Check whether this pricing calculation is right.", prompt:"Check this calculation step by step and tell me if it's correct: [CALCULATION]. If it's wrong, show where and give the right answer."},
-  {cat:"Math & logic", task:"Logic puzzle / careful reasoning", model:"Opus 4.8", effort:"High–Max", think:true, why:"Step-by-step rigor needed", tags:"logic puzzle reasoning riddle deduce careful", ex:"Solve this seating-arrangement logic puzzle.", prompt:"Work through this carefully, step by step, and explain your reasoning before giving the final answer: [PUZZLE / PROBLEM]."},
-  {cat:"Data & analysis", task:"Summarize a long document", model:"Sonnet 4.6", effort:"Med", think:false, why:"Extraction task", tags:"summarize summary tldr long document condense", ex:"Summarize this 12-page report into one page.", prompt:"Summarize the document below into [LENGTH]. Lead with the key takeaways, then the supporting points.\n\n[PASTE OR ATTACH DOCUMENT]"},
-  {cat:"Data & analysis", task:"Detailed analysis of a long doc", model:"Opus 4.8", effort:"High–Max", think:true, why:"Nuance and cross-referencing matter", tags:"analyze analysis document deep review compare nuance", ex:"Analyze this contract for risky or unusual clauses.", prompt:"Analyze the document below for [WHAT YOU CARE ABOUT, e.g. risks, gaps, inconsistencies]. Point to the relevant parts and explain each finding.\n\n[PASTE OR ATTACH DOCUMENT]"},
-  {cat:"Data & analysis", task:"Analyze a spreadsheet / dataset", model:"Opus 4.8", effort:"High", think:true, why:"Reasoning over numbers, watch for traps", tags:"data spreadsheet csv dataset analyze stats numbers excel", ex:"What are the top trends in this sales CSV?", prompt:"Analyze the attached data. Tell me [WHAT YOU WANT TO KNOW], show the key numbers, flag anything surprising, and note any assumptions you made."},
-  {cat:"Data & analysis", task:"Pull insights / trends from data", model:"Opus 4.8", effort:"High", think:true, why:"Interpretation beyond raw numbers", tags:"insights trends patterns data interpret findings", ex:"What story does this 6-month metrics export tell?", prompt:"Look at the data below/attached and tell me the story it's telling — the main trends, outliers, and what I should pay attention to.\n\n[PASTE OR ATTACH DATA]"},
-  {cat:"Learning & explanation", task:"Explain a concept simply (ELI5)", model:"Sonnet 4.6", effort:"Med", think:false, why:"Clear explanation, light depth", tags:"explain eli5 simple concept understand beginner", ex:"Explain how HTTPS works like I'm five.", prompt:"Explain [CONCEPT] in simple terms, like I'm new to it. Use a plain-language analogy and avoid jargon."},
-  {cat:"Learning & explanation", task:"Teach me a topic step by step", model:"Sonnet 4.6", effort:"High", think:true, why:"Wants depth plus structure", tags:"teach learn topic course lesson step by step deep", ex:"Teach me the basics of SQL joins, with examples.", prompt:"Teach me [TOPIC] from the ground up. Build it step by step with examples, and check my understanding as we go. Start with the fundamentals."},
-  {cat:"Learning & explanation", task:"Tutor / quiz me", model:"Sonnet 4.6", effort:"Med", think:false, why:"Interactive, low per-turn load", tags:"tutor quiz test practice flashcards study drill", ex:"Quiz me on Spanish travel vocabulary.", prompt:"Act as my tutor for [TOPIC]. Quiz me one question at a time, wait for my answer, then give feedback before the next. Start easy and ramp up."},
+  {cat:"Writing", task:"Translate / rephrase text", model:"Sonnet 5", effort:"Low–Med", think:false, why:"Pattern task, light on usage", tags:"translate rephrase reword paraphrase language", ex:"Translate this paragraph into French, formal tone.", prompt:"Translate the text below into [LANGUAGE], keeping a [tone] tone. Return only the translation.\n\n[PASTE TEXT]"},
+  {cat:"Writing", task:"Match a tone / rewrite in a voice", model:"Sonnet 5", effort:"Med", think:false, why:"Style transfer, modest depth", tags:"tone voice style rewrite formal casual brand", ex:"Rewrite this announcement to sound warmer and less corporate.", prompt:"Rewrite the text below in a [DESIRED TONE/VOICE] tone. Keep the meaning, change the feel.\n\n[PASTE TEXT]"},
+  {cat:"Writing", task:"Long-form article / essay draft", model:"Opus 5", effort:"High", think:true, why:"Structure plus sustained quality", tags:"article essay blog long form draft write narrative", ex:"Draft a 1,200-word post on why small teams should write docs.", prompt:"Write a [LENGTH] [article/essay] on [TOPIC] for [AUDIENCE], in a [tone] tone. Give it a clear structure and a strong opening."},
+  {cat:"Documentation", task:"Document a chat into Confluence / wiki", model:"Sonnet 5", effort:"Med", think:false, why:"Reformatting known content; low ambiguity", tags:"confluence wiki notion document notes write-up page handoff", ex:"Turn everything we just discussed into a clean Confluence page.", prompt:"Turn our conversation above into a clean, well-structured [Confluence/wiki] page: a short intro, headed sections, and a summary. Output in Markdown."},
+  {cat:"Documentation", task:"Write a how-to / runbook", model:"Sonnet 5", effort:"Med–High", think:false, why:"Clear sequence, light reasoning", tags:"howto runbook guide instructions steps procedure sop", ex:"Write a runbook for safely restarting our staging server.", prompt:"Write a step-by-step [how-to/runbook] for [TASK]. Include prerequisites, numbered steps, and what to verify at the end. Assume the reader is [audience]."},
+  {cat:"Documentation", task:"Draft a structured spec / PRD", model:"Opus 5", effort:"High", think:true, why:"Structure and completeness matter", tags:"spec prd requirements design doc proposal structure", ex:"Draft a PRD for a 'saved searches' feature.", prompt:"Draft a [spec/PRD] for [FEATURE]. Include: problem, goals, user stories, requirements, out-of-scope, and open questions."},
+  {cat:"Documentation", task:"Generate code / API docs from source", model:"Sonnet 5", effort:"High", think:false, why:"Mostly transformation of known code", tags:"docs api documentation docstring readme reference code", ex:"Write docstrings and a README section for this module.", prompt:"Generate clear documentation for the code below: a short overview, parameters/returns, and a usage example.\n\n[PASTE CODE]"},
+  {cat:"Planning & strategy", task:"Multi-step project planning", model:"Opus 5", effort:"High–Max", think:true, why:"Benefits from explicit planning", tags:"project planning roadmap plan milestones breakdown schedule", ex:"Plan a 6-week rollout to migrate our blog to a new CMS.", prompt:"Help me plan [PROJECT]. Break it into phases and tasks, flag dependencies and risks, and propose a realistic sequence. Ask me anything you need first."},
+  {cat:"Planning & strategy", task:"Break a goal into tasks", model:"Sonnet 5", effort:"High", think:true, why:"Decomposition with light reasoning", tags:"tasks breakdown decompose goal todo split steps", ex:"Break 'launch a personal portfolio site' into concrete tasks.", prompt:"Break this goal into a concrete, ordered task list: [GOAL]. Group related tasks and mark which can run in parallel."},
+  {cat:"Planning & strategy", task:"Strategy / decision under uncertainty", model:"Opus 5", effort:"Max", think:true, why:"High stakes, many interacting factors", tags:"strategy decision tradeoff risk uncertainty choose bet", ex:"Should we build in-house or buy? Here's our situation…", prompt:"Help me think through this decision: [DECISION + CONTEXT]. Lay out the options, the key trade-offs, and what would change the answer. Then give your reasoned take."},
+  {cat:"Planning & strategy", task:"Estimate, schedule, sequence work", model:"Sonnet 5", effort:"High", think:true, why:"Some reasoning, not high-stakes", tags:"estimate schedule sequence timeline order prioritize", ex:"Estimate and sequence these 8 tasks for a 2-week sprint.", prompt:"Here are the tasks: [LIST]. Estimate relative effort, flag dependencies, and propose a sensible sequence for [TIMEFRAME]."},
+  {cat:"Math & logic", task:"Hard math / proofs", model:"Opus 5", effort:"Max", think:true, why:"Correctness-critical", tags:"math proof calculation equation solve theorem", ex:"Prove that the square root of 2 is irrational.", prompt:"Solve this carefully, showing each step: [PROBLEM]. State your assumptions and double-check the result."},
+  {cat:"Math & logic", task:"Verify a calculation / sanity-check", model:"Sonnet 5", effort:"Med", think:true, why:"Thinking on surfaces the steps to check", tags:"verify check calculation sanity confirm numbers", ex:"Check whether this pricing calculation is right.", prompt:"Check this calculation step by step and tell me if it's correct: [CALCULATION]. If it's wrong, show where and give the right answer."},
+  {cat:"Math & logic", task:"Logic puzzle / careful reasoning", model:"Opus 5", effort:"High–Max", think:true, why:"Step-by-step rigor needed", tags:"logic puzzle reasoning riddle deduce careful", ex:"Solve this seating-arrangement logic puzzle.", prompt:"Work through this carefully, step by step, and explain your reasoning before giving the final answer: [PUZZLE / PROBLEM]."},
+  {cat:"Data & analysis", task:"Summarize a long document", model:"Sonnet 5", effort:"Med", think:false, why:"Extraction task", tags:"summarize summary tldr long document condense", ex:"Summarize this 12-page report into one page.", prompt:"Summarize the document below into [LENGTH]. Lead with the key takeaways, then the supporting points.\n\n[PASTE OR ATTACH DOCUMENT]"},
+  {cat:"Data & analysis", task:"Detailed analysis of a long doc", model:"Opus 5", effort:"High–Max", think:true, why:"Nuance and cross-referencing matter", tags:"analyze analysis document deep review compare nuance", ex:"Analyze this contract for risky or unusual clauses.", prompt:"Analyze the document below for [WHAT YOU CARE ABOUT, e.g. risks, gaps, inconsistencies]. Point to the relevant parts and explain each finding.\n\n[PASTE OR ATTACH DOCUMENT]"},
+  {cat:"Data & analysis", task:"Analyze a spreadsheet / dataset", model:"Opus 5", effort:"High", think:true, why:"Reasoning over numbers, watch for traps", tags:"data spreadsheet csv dataset analyze stats numbers excel", ex:"What are the top trends in this sales CSV?", prompt:"Analyze the attached data. Tell me [WHAT YOU WANT TO KNOW], show the key numbers, flag anything surprising, and note any assumptions you made."},
+  {cat:"Data & analysis", task:"Pull insights / trends from data", model:"Opus 5", effort:"High", think:true, why:"Interpretation beyond raw numbers", tags:"insights trends patterns data interpret findings", ex:"What story does this 6-month metrics export tell?", prompt:"Look at the data below/attached and tell me the story it's telling — the main trends, outliers, and what I should pay attention to.\n\n[PASTE OR ATTACH DATA]"},
+  {cat:"Learning & explanation", task:"Explain a concept simply (ELI5)", model:"Sonnet 5", effort:"Med", think:false, why:"Clear explanation, light depth", tags:"explain eli5 simple concept understand beginner", ex:"Explain how HTTPS works like I'm five.", prompt:"Explain [CONCEPT] in simple terms, like I'm new to it. Use a plain-language analogy and avoid jargon."},
+  {cat:"Learning & explanation", task:"Teach me a topic step by step", model:"Sonnet 5", effort:"High", think:true, why:"Wants depth plus structure", tags:"teach learn topic course lesson step by step deep", ex:"Teach me the basics of SQL joins, with examples.", prompt:"Teach me [TOPIC] from the ground up. Build it step by step with examples, and check my understanding as we go. Start with the fundamentals."},
+  {cat:"SOC & operations", task:"Triage a suspicious alert chain", model:"Sonnet 5", effort:"High", think:true, why:"Correlate signals and rank hypotheses before writing anything up", tags:"soc alert triage siem incident detection log correlate hypothesis", ex:"Here's the alert chain and the log window around it — what do I check next?", prompt:"Act as a second pair of eyes on a SOC triage. Here is the alert chain and the surrounding log window:\n\n[PASTE]\n\nAlready ruled out: [WHAT YOU CHECKED AND FOUND CLEAN]\n\nGive me:\n1. Ranked hypotheses, most to least likely, with the specific evidence for each.\n2. For each, the single query or artifact that would confirm or kill it fastest.\n3. Anything in the data I haven't accounted for.\n\nDon't conclude — I want the decision tree, not a verdict."},
+  {cat:"SOC & operations", task:"Draft the incident write-up", model:"Sonnet 5", effort:"Med", think:false, why:"Structure and tone are the work; the facts are already yours", tags:"incident report writeup postmortem soc document rca", ex:"Turn my rough timeline into a write-up for the engineering lead.", prompt:"Turn my notes into an incident write-up.\n\nAudience: [ENGINEERING LEAD / RISK COMMITTEE / CUSTOMER]\nLength: [TARGET]\nTimeline and facts:\n[PASTE ROUGH NOTES]\n\nStructure: what happened, impact, detection, response, root cause, what changes.\nPlain declarative sentences, no hedging. Flag in brackets anything you inferred that I should verify before this goes out."},
+  {cat:"SOC & operations", task:"Track a regulatory / policy change", model:"Sonnet 5", effort:"High", think:true, why:"Effective dates and transitional rules are what actually bite", tags:"regulation compliance law policy statute deadline monitor tax", ex:"What's the current status of this provision, and from when does it apply?", prompt:"Research the current status of [PROVISION / REGULATION].\n\nWith sources and dates:\n1. What the rule was before, and what it is now.\n2. The effective date, and any transitional or grandfathering rule stated separately.\n3. What it obliges in practice for [MY SITUATION].\n4. What is still proposed vs. actually in force — be explicit.\n\nWhere sources disagree, say so rather than picking one. Flag anything you couldn't verify."},
+  {cat:"Planning & strategy", task:"Pressure-test a design decision", model:"Opus 5", effort:"XHigh", think:true, why:"Hard-to-reverse choices deserve the strongest case against them", tags:"decision stress test critique weighting scoring architecture reversible", ex:"Here's the weighting choice I'm leaning toward — attack it.", prompt:"I need to lock a design decision and I want it stress-tested, not validated.\n\nDecision: [THE CHOICE]\nOptions: [A / B / C]\nMy leaning: [YOURS] because [REASONING]\nConstraints: [DATA, HISTORY, COMPUTE, REVERSIBILITY]\n\n1. Make the strongest case against my leaning.\n2. Name each option's failure mode and what it would look like in the data a year out.\n3. Tell me which is hardest to reverse, and what I'd measure to know I chose wrong.\n4. Then recommend, and name the one assumption it rests on."},
+  {cat:"Learning & explanation", task:"Tutor / quiz me", model:"Sonnet 5", effort:"Med", think:false, why:"Interactive, low per-turn load", tags:"tutor quiz test practice flashcards study drill", ex:"Quiz me on Spanish travel vocabulary.", prompt:"Act as my tutor for [TOPIC]. Quiz me one question at a time, wait for my answer, then give feedback before the next. Start easy and ramp up."},
 ];
 
 const CODE_ROWS = [
-  {cat:"Explore & understand", task:"Map / understand a codebase", model:"Sonnet 4.6", mode:"Plan", effort:"Med", why:"Read-only mapping before touching anything", tags:"explore understand map codebase architecture read", tip:"Plan mode is read-only — let it survey and list key files before you allow edits.", ex:"Map how authentication flows through this repo.", prompt:"Explore this codebase and explain how [AREA, e.g. authentication] works end to end. Don't change anything yet — just map it and point me to the key files."},
+  {cat:"Explore & understand", task:"Map / understand a codebase", model:"Sonnet 5", mode:"Plan", effort:"Med", why:"Read-only mapping before touching anything", tags:"explore understand map codebase architecture read", tip:"Plan mode is read-only — let it survey and list key files before you allow edits.", ex:"Map how authentication flows through this repo.", prompt:"Explore this codebase and explain how [AREA, e.g. authentication] works end to end. Don't change anything yet — just map it and point me to the key files."},
   {cat:"Explore & understand", task:"Quick codebase question", model:"Haiku 4.5", mode:"Default", effort:"Low", why:"Fast, cheap pointer lookup", tags:"where find locate quick question codebase", tip:"Great low-cost use — just asking where something lives.", ex:"Where is the rate-limit config defined?", prompt:"Where in this repo is [THING] defined/handled? Just point me to the file(s), don't change anything."},
-  {cat:"Explore & understand", task:"Explain / document existing code", model:"Sonnet 4.6", mode:"Accept edits", effort:"Med", why:"Reading + light editing for docs", tags:"explain document docstring comments understand", tip:"Tell it to keep behavior unchanged while adding docs.", ex:"Explain this service and add docstrings.", prompt:"Explain what [FILE/MODULE] does, then add clear docstrings/comments. Keep behavior unchanged."},
-  {cat:"Implement", task:"Implement a feature (multi-file)", model:"Opus plan", mode:"Plan → accept", effort:"High", why:"Plan first, then execute across files", tags:"implement feature build add multi-file", tip:"Approve the plan before it edits. Opus-plan = Opus plans, Sonnet executes.", ex:"Add CSV export to the reports page.", prompt:"Plan, then implement: [FEATURE]. First propose a plan and wait for my approval; then make the changes across the files needed and summarize them."},
-  {cat:"Implement", task:"Routine edit / small change", model:"Sonnet 4.6", mode:"Accept edits", effort:"Low", why:"Capable and cheap; no thinking needed", tags:"edit small change rename tweak boilerplate", tip:"No thinking keyword needed for simple edits.", ex:"Rename this variable everywhere and fix imports.", prompt:"[SMALL CHANGE, e.g. rename X to Y across the repo]. Make the edits and show me a summary of what changed."},
-  {cat:"Implement", task:"Set up CI / config / scripts", model:"Sonnet 4.6", mode:"Accept edits", effort:"Med", why:"Mostly known patterns", tags:"ci config setup github actions scripts pipeline", tip:"Name the target (e.g. GitHub Actions) and ask how to verify.", ex:"Add a GitHub Actions workflow to run tests on PRs.", prompt:"Set up [CI/CONFIG, e.g. a GitHub Actions workflow] that [GOAL]. Create the files and explain how to verify it works."},
-  {cat:"Debug & fix", task:"Fix a failing test / bug", model:"Opus 4.8", mode:"Accept edits", effort:"Max", why:"Deep reasoning earns its keep on real bugs", tags:"bug fix debug failing test error root cause", tip:"Add 'ultrathink' for gnarly bugs; have it run the test to confirm.", ex:"This test fails intermittently — find and fix the cause.", prompt:"The test [NAME/PATH] is failing: [PASTE ERROR]. Find the root cause and fix it, then run the test to confirm. Think carefully before editing."},
-  {cat:"Refactor", task:"Refactor a module", model:"Opus 4.8", mode:"Plan → accept", effort:"High", why:"Needs a plan and care to keep behavior", tags:"refactor restructure cleanup module rework", tip:"Ask for a 'think' pass + plan; apply incrementally, keep tests green.", ex:"Refactor the payment module to support multiple providers.", prompt:"Refactor [MODULE] so that [GOAL]. Think hard, propose the approach first, then apply it incrementally and keep the tests passing."},
-  {cat:"Review", task:"Review code / a PR", model:"Opus 4.8", mode:"Plan", effort:"High", why:"Catching subtle issues needs depth; read-only", tags:"review pr code critique security audit", tip:"Use plan mode so it reviews without editing.", ex:"Review the changes on this branch for bugs and security.", prompt:"Review the current changes (or [BRANCH/FILES]) for bugs, security issues, and edge cases, ordered by severity. Don't fix yet — just report."},
-  {cat:"Test", task:"Write tests", model:"Sonnet 4.6", mode:"Accept edits", effort:"Med", why:"Mostly mechanical once logic is known", tags:"tests unit test coverage pytest jest write", tip:"State the framework and what to cover; have it run them.", ex:"Add unit tests for the parser.", prompt:"Write [framework] tests for [FILE/FUNCTION], covering the happy path, edge cases, and errors. Run them and fix any failures."},
+  {cat:"Explore & understand", task:"Explain / document existing code", model:"Sonnet 5", mode:"Accept edits", effort:"Med", why:"Reading + light editing for docs", tags:"explain document docstring comments understand", tip:"Tell it to keep behavior unchanged while adding docs.", ex:"Explain this service and add docstrings.", prompt:"Explain what [FILE/MODULE] does, then add clear docstrings/comments. Keep behavior unchanged."},
+  {cat:"Implement", task:"Implement a feature (multi-file)", model:"Opus plan", mode:"Plan → accept", effort:"XHigh", why:"Plan first, then execute across files", tags:"implement feature build add multi-file", tip:"Approve the plan before it edits. Opus-plan = Opus plans, Sonnet executes.", ex:"Add CSV export to the reports page.", prompt:"Plan, then implement: [FEATURE]. First propose a plan and wait for my approval; then make the changes across the files needed and summarize them."},
+  {cat:"Implement", task:"Routine edit / small change", model:"Sonnet 5", mode:"Accept edits", effort:"Low", why:"Capable and cheap; no thinking needed", tags:"edit small change rename tweak boilerplate", tip:"No thinking keyword needed for simple edits.", ex:"Rename this variable everywhere and fix imports.", prompt:"[SMALL CHANGE, e.g. rename X to Y across the repo]. Make the edits and show me a summary of what changed."},
+  {cat:"Implement", task:"Set up CI / config / scripts", model:"Sonnet 5", mode:"Accept edits", effort:"Med", why:"Mostly known patterns", tags:"ci config setup github actions scripts pipeline", tip:"Name the target (e.g. GitHub Actions) and ask how to verify.", ex:"Add a GitHub Actions workflow to run tests on PRs.", prompt:"Set up [CI/CONFIG, e.g. a GitHub Actions workflow] that [GOAL]. Create the files and explain how to verify it works."},
+  {cat:"Debug & fix", task:"Fix a failing test / bug", model:"Opus 5", mode:"Accept edits", effort:"XHigh", why:"Deep reasoning earns its keep on real bugs", tags:"bug fix debug failing test error root cause", tip:"Add 'ultrathink' for gnarly bugs; have it run the test to confirm.", ex:"This test fails intermittently — find and fix the cause.", prompt:"The test [NAME/PATH] is failing: [PASTE ERROR]. Find the root cause and fix it, then run the test to confirm. Think carefully before editing."},
+  {cat:"Refactor", task:"Refactor a module", model:"Opus 5", mode:"Plan → accept", effort:"XHigh", why:"Needs a plan and care to keep behavior", tags:"refactor restructure cleanup module rework", tip:"Ask for a 'think' pass + plan; apply incrementally, keep tests green.", ex:"Refactor the payment module to support multiple providers.", prompt:"Refactor [MODULE] so that [GOAL]. Think hard, propose the approach first, then apply it incrementally and keep the tests passing."},
+  {cat:"Review", task:"Review code / a PR", model:"Opus 5", mode:"Plan", effort:"High", why:"Catching subtle issues needs depth; read-only", tags:"review pr code critique security audit", tip:"Use plan mode so it reviews without editing.", ex:"Review the changes on this branch for bugs and security.", prompt:"Review the current changes (or [BRANCH/FILES]) for bugs, security issues, and edge cases, ordered by severity. Don't fix yet — just report."},
+  {cat:"Test", task:"Write tests", model:"Sonnet 5", mode:"Accept edits", effort:"Med", why:"Mostly mechanical once logic is known", tags:"tests unit test coverage pytest jest write", tip:"State the framework and what to cover; have it run them.", ex:"Add unit tests for the parser.", prompt:"Write [framework] tests for [FILE/FUNCTION], covering the happy path, edge cases, and errors. Run them and fix any failures."},
   {cat:"Plan", task:"Plan a large change across the codebase", model:"Opus plan", mode:"Plan", effort:"Max", why:"Long-horizon; explore then phased plan", tags:"plan migration large architecture roadmap codebase", tip:"Explore first; ask for phases, risks, and affected files before any edit.", ex:"Plan a migration from REST to GraphQL.", prompt:"Plan [LARGE CHANGE] across this codebase. Explore first, then give me a phased plan with risks and the files affected. Don't implement yet."},
-  {cat:"Autonomy", task:"Autonomous multi-step task", model:"Opus 4.8", mode:"Auto", effort:"High", why:"Hands-off run with a safety net", tags:"autonomous auto agent multi-step batch checklist", tip:"Auto mode reviews each action with a safety classifier (Team/Enterprise/API plans).", ex:"Work through this checklist of fixes across the repo.", prompt:"Work through these tasks autonomously: [LIST]. Pause and ask me if anything is risky or ambiguous, and summarize what you did at the end."},
+  {cat:"Autonomy", task:"Autonomous multi-step task", model:"Opus 5", mode:"Auto", effort:"High", why:"Hands-off run with a safety net", tags:"autonomous auto agent multi-step batch checklist", tip:"Auto mode reviews each action with a safety classifier (Team/Enterprise/API plans).", ex:"Work through this checklist of fixes across the repo.", prompt:"Work through these tasks autonomously: [LIST]. Pause and ask me if anything is risky or ambiguous, and summarize what you did at the end."},
+  {cat:"Autonomy", task:"Unattended run in CI or a script", model:"Haiku 4.5", mode:"dontAsk", effort:"Low", why:"A hanging approval prompt is worse than a refusal when nobody's watching", tags:"ci unattended headless automation script cron pipeline deny", tip:"dontAsk denies anything outside the allowlist instead of prompting, so the job fails fast. Set it by flag or in settings — it never appears in the Shift+Tab cycle.", ex:"Run this check in CI and fail loudly if it can't.", prompt:"Non-interactive run. Anything outside the allowlist should fail rather than wait for me.\n\nTask: [SCOPED, DETERMINISTIC TASK]\nAllowed: [READ, GREP, GLOB, SPECIFIC TEST COMMANDS]\nOutput: [EXACT FORMAT — JSON / SUMMARY LINE / EXIT CODE MEANING]\n\nIf you can't finish within those permissions, stop and report exactly what was blocked. Don't attempt a workaround."},
+  {cat:"Autonomy", task:"Throwaway work in a disposable VM", model:"Sonnet 5", mode:"Bypass", effort:"Med", why:"The one place bypass belongs — the blast radius is the box itself", tags:"vm container sandbox disposable bypass dangerous experiment spike", tip:"Containers, VMs and ephemeral runners only — never your laptop or anything holding credentials. Needs its own launch flag, and deny rules still hold.", ex:"Prove this approach works in a scratch VM, then tell me the clean steps.", prompt:"This is a disposable [VM / CONTAINER]. Nothing here is precious and there are no credentials on it.\n\nGoal: [WHAT TO BUILD OR PROVE]\nSuccess looks like: [OBSERVABLE OUTCOME]\n\nInstall what you need and iterate freely. At the end tell me: what worked, what you installed, and the minimal clean set of steps to reproduce it properly elsewhere."},
 ];
 
 const COWORK_ROWS = [
@@ -370,73 +399,144 @@ const COWORK_ROWS = [
   {cat:"Data & files", task:"Pull data from a connected app", tools:"Notion / Slack / Drive", method:"Connector", why:"Direct, authenticated read", tags:"pull data notion slack drive find search app", tip:"Name the app, or let Cowork pick the right connector.", ex:"Find all Notion pages about onboarding and summarize them.", prompt:"From [CONNECTED APP], find [WHAT] and return it as [FORMAT, e.g. a summary / table]."},
   {cat:"Cross-tool workflows", task:"Chain a task across tools", tools:"multiple connectors", method:"Connector", why:"Reads from one tool, acts in another", tags:"workflow chain cross-tool automate notion tasks action items", tip:"Be explicit about the sequence; confirm before it writes.", ex:"Turn the action items from these notes into Notion tasks.", prompt:"Take [INPUT from tool A] and [ACTION in tool B] — e.g. turn the action items in [doc] into tasks in [Notion]. Confirm with me before writing anything."},
   {cat:"Cross-tool workflows", task:"Test / QA an app via screen", tools:"your apps", method:"Computer use", why:"Interacts where there's no API", tags:"test qa app screen ux click computer use simulator", tip:"Best for tasks with no API; expect it to be slower.", ex:"Open the app and find UX issues in the signup flow.", prompt:"Open [APP] and [TASK, e.g. walk through the signup flow and list UX issues]. Describe what you click and what you find."},
+  {cat:"Data & files", task:"Work that needs your own machine", tools:"shell + Python", method:"Local exec", why:"Local paths, hardware or a LAN service a cloud sandbox can't reach", tags:"local execution vm shell python lan hardware homelab offline", tip:"Local execution runs in a Linux VM on your hardware — needs virtualisation, up to 25 GB disk and 8 GB RAM. Use it only when remote genuinely can't reach the thing.", ex:"Query the box on my LAN and summarize what it returns.", prompt:"This has to run locally — it needs [LOCAL PATH / LAN SERVICE / DEVICE] that a cloud sandbox can't reach.\n\nTask: [WHAT TO DO]\nDo not touch: [PATHS THAT ARE OFF LIMITS]\n\nShow me each command before you run anything that writes or deletes; read-only exploration you can do freely. When you're done, summarize what changed on disk."},
+  {cat:"Cross-tool workflows", task:"Recurring briefing on a cadence", tools:"connectors", method:"Scheduled", why:"Describe it once; it runs remotely even with the laptop shut", tags:"schedule recurring daily briefing morning report automate cron", tip:"Type /schedule in any Cowork task to make it recurring. Each run is a fresh session with your connectors, skills and plugins — so the prompt must carry all its own context.", ex:"Every weekday, surface only what needs a decision from me.", prompt:"Every weekday at [TIME], do this:\n\n1. Pull [SOURCES — calendar, mail, folder, connector].\n2. Surface only what needs a decision or reply from me. Skip anything purely informational.\n3. Flag anything with a deadline inside [WINDOW].\n\nWrite it to [DESTINATION] as [FORMAT], newest first, leading with the most time-sensitive item. If a source is unreachable, say so at the top rather than silently omitting it."},
+  {cat:"Research & analysis", task:"Reconcile a connector against local data", tools:"connectors + files", method:"Connector", why:"The real unlock — a live query checked against an export on disk", tags:"reconcile cross-reference join compare mismatch audit spreadsheet", tip:"Name both sides and the join key, and say up front what to do with mismatches — that's where reconciliation work lives or dies.", ex:"Match this export against what the connector returns and show me the gaps.", prompt:"Reconcile two sources for me.\n\nSource A: [CONNECTOR AND WHAT TO QUERY]\nSource B: [LOCAL FILE AND SHEET / COLUMN]\nJoin on: [KEY]\n\nProduce: matched rows, rows only in A, rows only in B, and rows matching on key but disagreeing on [FIELD] with both values side by side. Don't silently drop anything — anything that won't join goes in a leftovers list with the reason."},
+];
+
+const DESIGN_ROWS = [
+  {cat:"Decks & documents", task:"Deck from a rough outline", model:"Opus 4.7 vision", effort:"High", output:"PPTX · Canva", why:"Outline to on-brand deck in one pass", tags:"deck slides presentation pptx canva pitch outline board", tip:"Feed it a deck whose style you like plus the real numbers. Decks render as interactive HTML in the canvas, so you refine slides live instead of regenerating.", ex:"Turn this outline into a 12-slide board deck, on brand.", prompt:"Build a [N]-slide deck for [AUDIENCE AND OCCASION].\n\nOutline: [YOUR BULLETS]\nStyle reference: [ATTACHED DECK / URL / DESIGN SYSTEM]\nNon-negotiables: [BRAND, TERMINOLOGY, SLIDES THAT MUST EXIST]\n\nOne idea per slide; the headline states the point rather than naming the topic. Where I've given numbers, chart them and tell me which chart type you chose and why. Flag any slide where my outline is too thin to carry it."},
+  {cat:"Decks & documents", task:"One-pager or summary sheet", model:"Opus 4.7 vision", effort:"Med", output:"PDF · HTML", why:"Dense information laid out to be read at a glance", tags:"one-pager onepager summary brief handout leave-behind pdf", tip:"Say what the reader must take away in ten seconds — that decides the hierarchy.", ex:"Condense this into a single page a stakeholder can skim.", prompt:"Make a one-pager on [SUBJECT] for [READER].\n\nIn ten seconds they must take away: [THE ONE THING]\nSupporting points: [LIST]\nConstraints: [BRAND, FORMAT, PRINT OR SCREEN]\n\nBuild a clear visual hierarchy around that takeaway and cut anything that competes with it. Tell me what you left out."},
+  {cat:"Prototypes", task:"Interactive prototype from a sketch", model:"Opus 4.7 vision", effort:"High", output:"Prototype · URL", why:"Clickable prototype for feedback and testing, no PR needed", tags:"prototype interactive clickable mockup wireframe test ux flow", tip:"Say which interactions must be real and which can be faked. Refine with inline comments and Claude-built sliders rather than re-prompting.", ex:"Make this sketch clickable so I can test the signup flow.", prompt:"Turn this into an interactive prototype: [ATTACH SKETCH / SCREENSHOT / DESCRIPTION]\n\nMust actually work: [THE FLOWS I WANT TO TEST]\nCan be faked: [EVERYTHING ELSE]\nStates to cover: [EMPTY, LOADING, ERROR, SUCCESS]\n\nBuild the happy path first and show me before filling in the rest. Then give me sliders for [THE VARIABLES I'LL WANT TO TWEAK]."},
+  {cat:"Prototypes", task:"Explore several directions at once", model:"Opus 4.7 vision", effort:"High", output:"Canvas", why:"The exploration you normally can't afford", tags:"explore directions variants options divergent concepts range", tip:"Name the axis they should differ on, or you'll get one idea in five palettes. To branch safely, tell it to save what you have and try something different.", ex:"Give me five genuinely different directions, not five palettes.", prompt:"Give me [N] genuinely different directions for [ARTEFACT].\n\nThey should differ on [AXIS — e.g. formal vs conversational, dense vs spacious, editorial vs product], not just colour.\n\nFor each: one line on the idea, then the artefact. Don't converge them toward a house style. After I pick one, save the others so I can come back."},
+  {cat:"Systems & handoff", task:"Apply the real design system", model:"Opus 4.7 vision", effort:"High", output:"Design system", why:"Reading actual components beats being told about them", tags:"design system tokens brand components repo consistency library", tip:"Point it at the repo or design files and let it extract the system, then reuse that across later projects. Without a real token source the output stays generic.", ex:"Read our components and rebuild this using only our real tokens.", prompt:"Here is our codebase / design files: [REPO OR FILES]\n\nRead the real components and extract the design system: type scale, colour tokens, spacing, radii, component patterns. Show me what you extracted and flag inconsistencies rather than smoothing them over.\n\nThen rebuild [ARTEFACT] using only that system. If something I asked for has no token, tell me instead of inventing one."},
+  {cat:"Systems & handoff", task:"Hand off to implementation", model:"Opus 4.7 vision", effort:"High", output:"Code handoff", why:"Packaged handoff instead of a screenshot and hope", tags:"handoff implement engineering spec claude code export bundle", tip:"Export the handoff bundle to Claude Code rather than describing the design in prose. Separate spec from suggestion or every pixel becomes a requirement.", ex:"Package this for the engineer, marking what's binding.", prompt:"Package this design for implementation in [STACK].\n\nBinding: [LAYOUT, TOKENS, INTERACTION BEHAVIOUR]\nSuggestion only: [WHAT THE ENGINEER CAN FREELY CHANGE]\n\nInclude the states, responsive behaviour at [BREAKPOINTS], and accessibility requirements. Call out anywhere the design implies a backend capability we haven't discussed."},
+];
+
+const AUTO_ROWS = [
+  {cat:"Runs without you", task:"Must run while the machine is off", trigger:"Schedule / API / GitHub", runtime:"Anthropic cloud", scope:"Committed repo only", why:"The only option that doesn't depend on your laptop", tags:"cloud routine remote schedule github api trigger unattended off", tip:"Cloud routines run on Anthropic infrastructure and can fire on a schedule, an API call or a GitHub event. They can't see uncommitted local state. Run allowances differ by plan — check yours before relying on a tight cadence.", ex:"Run this every morning whether or not my laptop is on.", prompt:"Set up a cloud routine.\n\nTrigger: [CADENCE / API / GITHUB EVENT]\nRepo and branch: [WHERE]\nTask: [WHAT TO DO, ASSUMING ONLY WHAT'S COMMITTED]\nOutput: [PR, COMMENT, FILE, NOTIFICATION]\n\nIf it can't complete, fail loudly with the reason rather than half-finishing. Tell me what it needs committed that's currently only on my machine."},
+  {cat:"Runs without you", task:"Needs local files or a LAN service", trigger:"Schedule", runtime:"Your machine", scope:"Local + uncommitted", why:"Local paths and hardware no cloud runner can reach", tags:"local scheduled task desktop worktree files lan awake", tip:"Fires only while the app is open and the machine awake. Runs against your working directory as-is, uncommitted changes included — enable the worktree toggle to give each run its own isolated Git worktree.", ex:"Every morning, review this local repo and flag what changed.", prompt:"Create a local scheduled task.\n\nWhen: [CADENCE]\nFolder: [PATH]\nTask: [WHAT TO DO]\nIsolation: [SEPARATE WORKTREE / WORKING DIRECTORY AS-IS]\n\nTouch nothing outside [SCOPE]. If the working directory is dirty in a way that would make the run meaningless, skip and tell me instead of proceeding."},
+  {cat:"Runs without you", task:"Recurring workflow without a terminal", trigger:"/schedule", runtime:"Anthropic cloud", scope:"Connectors + folders", why:"Same engine, set up in Cowork instead of the CLI", tags:"cowork scheduled briefing report non-developer recurring", tip:"Set it up from the Cowork interface; each run is its own session with your connectors, skills and plugins. Review upcoming and past runs under Scheduled.", ex:"Weekly report compiled from my connected tools.", prompt:"/schedule\n\nCadence: [WHEN]\nTask: [WHAT TO DO EVERY TIME]\nSources: [CONNECTORS AND FOLDERS]\nDeliver to: [DESTINATION AND FORMAT]\n\nAssume no memory of previous runs. If nothing meaningful changed since last time, say exactly that in one line rather than padding a report."},
+  {cat:"Runs without you", task:"Watch something during this session", trigger:"In-session loop", runtime:"Current session", scope:"Session only", why:"Poll until a condition flips without babysitting it", tags:"loop watch poll monitor wait migration deploy session cron", tip:"Claude Code can schedule itself in-session. It dies with the session — close the terminal or sleep the machine and it's gone, with no retry.", ex:"Tell me when the migration finishes; stay quiet until then.", prompt:"Watch [THING] and tell me when [CONDITION] is true.\n\nCheck every [INTERVAL]. Don't narrate the checks — stay silent unless the condition flips, the check itself fails twice in a row, or [TIMEOUT] passes.\n\nWhen it flips, tell me what changed and what you recommend next."},
+  {cat:"Making it repeatable", task:"Turn a repeated instruction into a skill", trigger:"Auto or /name", runtime:"Any surface", scope:"Personal or repo", why:"The signal is repetition — you keep pasting the same procedure", tags:"skill skillmd reusable slash command procedure playbook standardize", tip:"A skill is a folder with SKILL.md — frontmatter plus instructions; the directory name becomes the slash command. The description decides whether Claude loads it automatically, so write it for that job.", ex:"I paste this same checklist every week — make it a skill.", prompt:"Turn this into a skill.\n\nThe procedure I keep repeating: [PASTE IT]\nIt should fire when: [THE SITUATIONS — this becomes the description]\nWhere it must work: [LOCAL ONLY / ALSO COWORK AND CLOUD SESSIONS]\nEffort it should run at: [LEVEL]\n\nWrite the SKILL.md, then tell me which directory it belongs in given where I need it to work, plus three test prompts that should trigger it and one that shouldn't."},
+  {cat:"Making it repeatable", task:"Make a skill work in Cowork and cloud", trigger:"Auto or /name", runtime:"Any surface", scope:"Repo or plugin", why:"Personal skills silently don't load in Cowork or cloud sessions", tags:"skill cowork cloud session repo plugin precedence enable portable", tip:"~/.claude/skills/ follows you across local projects but is NOT loaded in Cowork or cloud sessions. For those: enable it for your claude.ai account, commit it to the repo's .claude/skills/, or ship it in a plugin declared in .claude/settings.json.", ex:"My skill works locally but my routine can't see it.", prompt:"This skill works locally but not in [COWORK / A CLOUD ROUTINE]: [NAME OR PASTE IT]\n\nTell me which of these fits my case and why: enable it for my claude.ai account, commit it to the repo's .claude/skills/, or ship it in a plugin declared in .claude/settings.json.\n\nThen give me the exact file layout, and flag any frontmatter that would be valid in Claude Code but rejected elsewhere."},
+  {cat:"Making it repeatable", task:"Cut a heavy skill's token cost", trigger:"Auto or /name", runtime:"Any surface", scope:"Bundled files", why:"Reference files load on demand; script code never enters context", tags:"tokens context cost optimize skill reference scripts efficiency", tip:"Split it: thin SKILL.md, detail in reference files read only when needed, deterministic work in scripts. A skill can carry dozens of reference files and you pay only for the ones a given task opens.", ex:"This skill eats context every time it fires.", prompt:"This skill is too expensive in context: [PASTE OR DESCRIBE IT]\n\nRestructure it:\n1. Keep SKILL.md thin — just when to fire and how to orchestrate.\n2. Move detail into reference files, and say in SKILL.md exactly when each should be read.\n3. Move anything deterministic into a script so only its output costs tokens.\n\nShow me the file layout and what a typical run would actually load."},
 ];
 
 const FLAVOURS = [
   { id:"ai", short:"AI", label:"Claude AI", accent:"#e8b04b", glow:"rgba(232,176,75,.14)",
-    kicker:"model · effort · thinking", chips:["model","effort","think","cost"],
+    kicker:"model · effort · thinking · cost", chips:["model","effort","think","cost"],
     placeholder:"Type a task… e.g. project planning, confluence, research, explain",
     sub:"Dial in before you start. Search a task or browse the Table view, hover any tag for what it means, and <b>click a task</b> for an example + ready-to-use prompt. The cost meter shows how fast each combo burns your usage.",
     note:"Set model, effort, and thinking in Claude's menu (next to send) to match the tags, then paste. Replace anything in [BRACKETS].",
     legend:`<div class="legrow"><span class="effort e-low" style="min-width:54px">LOW</span> Quick, cheapest — routine work</div>
       <div class="legrow"><span class="effort e-med" style="min-width:54px">MED</span> A little more care, still light</div>
-      <div class="legrow"><span class="effort e-high" style="min-width:54px">HIGH</span> Best balance — usual default</div>
-      <div class="legrow"><span class="effort e-max" style="min-width:54px">MAX</span> Most thorough, priciest</div>
+      <div class="legrow"><span class="effort e-high" style="min-width:54px">HIGH</span> The default everywhere — best balance</div>
+      <div class="legrow"><span class="effort e-xhigh" style="min-width:54px">XHIGH</span> Long-horizon coding &amp; agentic work</div>
+      <div class="legrow"><span class="effort e-max" style="min-width:54px">MAX</span> Deepest reasoning, priciest</div>
       <div class="legrow" style="margin-top:12px"><span class="think on"><span class="led"></span>thinking</span> visible reasoning — on to verify</div>
       <div class="legrow"><span class="cost"><i class="f1" style="height:6px"></i><i class="f2" style="height:9px"></i><i class="f3" style="height:12px"></i><i style="height:15px"></i><i style="height:18px"></i></span> usage burn, 1 light → 5 heavy</div>`,
     principles:[
-      "<b>Default to Sonnet 4.6 at High.</b> Escalate to Opus only for genuinely hard, high-stakes, or long-horizon tasks.",
-      "<b>Effort before model.</b> If a Sonnet answer feels shallow, bump effort before reaching for Opus — usually enough, far cheaper.",
-      "<b>Thinking on = verifiability.</b> Use it when you want to <i>check</i> the reasoning, not just get an answer.",
-      "<b>Lighter = more headroom.</b> Lots of small tasks? Low/Med + Haiku/Sonnet keeps you well under your limits."],
+      "<b>Default to Sonnet 5 at High.</b> It now covers a lot that used to justify Opus. Escalate for genuinely hard, high-stakes, or long-horizon work.",
+      "<b>Effort before model.</b> If an answer feels shallow, raise effort before reaching for a bigger model — usually enough, far cheaper.",
+      "<b>Thinking and effort are separate switches.</b> Any combination is valid. Effort sets thoroughness on every reply; thinking decides whether you can <i>check</i> the reasoning.",
+      "<b>Opus 5 thinks by default</b> — and above HIGH effort you can't turn it off. Give it the whole spec up front and let it run.",
+      "<b>Lighter = more headroom.</b> Lots of small tasks? Low/Med on Haiku or Sonnet keeps you well under your limits."],
     rows:AI_ROWS },
   { id:"code", short:"Code", label:"Claude Code", accent:"#5fcf8e", glow:"rgba(95,207,142,.14)",
     kicker:"model · effort · mode", chips:["model","effort","mode"],
     placeholder:"Type a task… e.g. refactor, failing test, review, plan",
     sub:"Claude Code is agentic — it reads, plans, and edits across files. Pick the model and permission <b>mode</b>; the prompts show how to scope each task. (Cost is context-driven, so it's left out here.)",
     note:"In Claude Code, pick the model (and effort) via /model, set the permission mode (e.g. plan), then paste. Replace anything in [BRACKETS].",
-    legend:`<div class="legrow"><span class="ptag">Plan</span> read-only — proposes a plan, no changes until you approve</div>
-      <div class="legrow"><span class="ptag">Accept edits</span> makes file changes as it goes</div>
-      <div class="legrow"><span class="ptag">Default</span> asks before each consequential action</div>
-      <div class="legrow"><span class="ptag">Auto</span> autonomous, safety-classified (Team/Ent/API)</div>
+    legend:`<div class="legrow"><span class="ptag">Default</span> asks before each consequential action</div>
+      <div class="legrow"><span class="ptag">Accept edits</span> makes file changes as it goes; bash still asks</div>
+      <div class="legrow"><span class="ptag">Plan</span> read-only — blocks edits, not exploration</div>
+      <div class="legrow"><span class="ptag">Auto</span> a classifier approves instead of you</div>
+      <div class="legrow"><span class="ptag warnmode">dontAsk</span> denies rather than prompting — unattended runs</div>
+      <div class="legrow"><span class="ptag warnmode">Bypass</span> nothing prompts — isolated VMs only</div>
       <div class="legrow" style="margin-top:12px"><span class="tag m-opus"><span class="swatch"></span>Opus plan</span> Opus plans, Sonnet executes</div>
-      <div class="legrow"><span class="effort e-high" style="min-width:54px">EFFORT</span> same low→max dial as chat, set in /model</div>`,
+      <div class="legrow"><span class="effort e-xhigh" style="min-width:54px">EFFORT</span> low→max, set with /effort or in /model</div>`,
     principles:[
       "<b>Explore → plan → code → commit.</b> For anything multi-file, make it plan first and approve the plan.",
-      "<b>Use 'think' / 'ultrathink' before reaching for Opus.</b> The thinking cue often bridges the gap more cheaply.",
-      "<b>Routine edits don't need thinking.</b> Keep simple changes on Sonnet at low effort.",
+      "<b>Rules outrank modes.</b> deny and explicit ask rules apply in <i>every</i> mode, bypass included — only allow rules become moot there. Set a deny on destructive commands once and forget it.",
+      "<b>Raise effort before switching model.</b> XHIGH earns its keep on refactors and long agentic runs; MAX shows diminishing returns.",
+      "<b>Plan mode is not a safe mode.</b> It blocks edits — the commands it runs to explore still prompt.",
       "<b>Cost is context-driven.</b> Keep the working context lean — long sessions and big file reads dominate usage."],
     rows:CODE_ROWS },
   { id:"cowork", short:"Cowork", label:"Claude Cowork", accent:"#b88ce8", glow:"rgba(184,140,232,.15)",
-    kicker:"tools · method · prompt", chips:["tools","method"],
+    kicker:"tools · method", chips:["tools","method"],
     placeholder:"Type a task… e.g. report, inbox, deck, folder",
     sub:"Cowork acts on your desktop and connected apps. The key choices are which <b>tools</b> it can use and the <b>method</b> — the prompts show what's possible. (No effort/cost dial here.)",
     note:"In Cowork, enable the listed tools in the Customize panel first, then paste. Have Claude draft/preview before it sends or writes. Replace anything in [BRACKETS].",
-    legend:`<div class="legrow"><span class="ptag">Connector</span> direct authenticated link — fastest, preferred</div>
-      <div class="legrow"><span class="ptag">Browser</span> Claude in Chrome when no connector fits</div>
-      <div class="legrow"><span class="ptag">Computer use</span> controls your screen — flexible, slower (Pro/Max)</div>
+    legend:`<div class="legrow"><span class="ptag">Connector</span> ① direct authenticated link — fastest, tried first</div>
+      <div class="legrow"><span class="ptag">Browser</span> ② the fallback when no connector fits</div>
+      <div class="legrow"><span class="ptag">Computer use</span> ③ your screen — last resort, asks per app</div>
+      <div class="legrow" style="margin-top:12px"><span class="ptag">Scheduled</span> runs on a cadence, remotely — laptop can be shut</div>
+      <div class="legrow"><span class="ptag">Local exec</span> shell + Python in a VM on your hardware</div>
       <div class="legrow" style="margin-top:12px"><span class="ptag tools">Tools</span> connectors/files a task draws on — enable them first</div>`,
     principles:[
-      "<b>Prefer connectors over the screen.</b> They're faster and more reliable than computer use.",
-      "<b>Connect the tools you use most.</b> Authorize once; Claude reuses them across sessions.",
-      "<b>Draft first, then approve.</b> Have Claude show sends/writes before it commits them.",
+      "<b>Connector → browser → screen.</b> Claude works down that chain on its own; the earlier it stops, the faster and more precise the run.",
+      "<b>Remote is the default.</b> The agent loop runs in an isolated cloud sandbox with no outside network unless allowlisted, and only the folders you authorise. Reach for local execution only when remote genuinely can't.",
+      "<b>Draft first, then approve.</b> Have Claude show sends and writes before it commits them.",
+      "<b>Scheduled runs have no memory.</b> Each one is a fresh session — the prompt must carry all its own context.",
       "<b>Be explicit about the sequence.</b> For cross-tool work, spell out read-from-A → act-in-B."],
     rows:COWORK_ROWS },
+  { id:"design", short:"Design", label:"Claude Design", accent:"#79b8ff", glow:"rgba(121,184,255,.15)",
+    kicker:"model · effort · output",  chips:["model","effort","output"],
+    placeholder:"Type a task… e.g. deck, prototype, one-pager, design system",
+    sub:"Anthropic Labs' visual surface — its own URL, its own canvas, metered separately. Describe it, Claude drafts a first version, then you refine by conversation, inline comment, direct edit, or sliders Claude builds for you.",
+    note:"Open claude.ai/design, feed it real context up front (screenshots, a deck whose style you like, your repo), then paste. Replace anything in [BRACKETS].",
+    legend:`<div class="legrow"><span class="ptag out">PPTX · Canva</span> decks — export or hand off to Canva to finish</div>
+      <div class="legrow"><span class="ptag out">Prototype · URL</span> clickable and shareable, no PR needed</div>
+      <div class="legrow"><span class="ptag out">Canvas</span> explore directions side by side before committing</div>
+      <div class="legrow"><span class="ptag out">Design system</span> extracted from your real components</div>
+      <div class="legrow"><span class="ptag out">Code handoff</span> packaged straight into Claude Code</div>
+      <div class="legrow" style="margin-top:12px"><span class="tag m-opus"><span class="swatch"></span>Opus 4.7 vision</span> the engine at launch — re-verify, it may have moved</div>`,
+    principles:[
+      "<b>Import beats describing.</b> It can work from prompts, files, websites or a codebase — real context up front beats any amount of prose.",
+      "<b>Give it your design system.</b> Point it at the repo and it reads actual components. Without a real token source the output stays generic no matter how capable the model is.",
+      "<b>Name the axis when exploring.</b> Ask for different <i>directions</i>, or you'll get one idea in five palettes.",
+      "<b>Research preview.</b> Availability and export formats can change — confirm before a production workflow depends on them."],
+    rows:DESIGN_ROWS },
+  { id:"auto", short:"Routines", label:"Routines & Skills", accent:"#5fcf8e", glow:"rgba(95,207,142,.14)",
+    kicker:"trigger · runtime · scope", chips:["trigger","runtime","scope"],
+    placeholder:"Type a task… e.g. schedule, briefing, skill, watch, loop",
+    sub:"Two questions decide everything here: does it need to run when your machine is off, and does it need local files? Answer those and the right mechanism picks itself. Skills are how any of it becomes repeatable.",
+    note:"Cloud routines and Cowork scheduled tasks are set up in the app; local tasks live in Claude Code Desktop's Routines page. Skills are a SKILL.md folder. Replace anything in [BRACKETS].",
+    legend:`<div class="legrow"><span class="ptag">Anthropic cloud</span> runs with your machine off; committed state only</div>
+      <div class="legrow"><span class="ptag">Your machine</span> local files and tools; needs the app open and awake</div>
+      <div class="legrow"><span class="ptag">Current session</span> in-session loop — dies with the session</div>
+      <div class="legrow"><span class="ptag">Any surface</span> a skill, wherever it's enabled</div>
+      <div class="legrow" style="margin-top:12px"><span class="ptag">Scope</span> what the run can actually see when it fires</div>`,
+    principles:[
+      "<b>Machine off? Cloud routine.</b> That single question rules out half the options immediately.",
+      "<b>Cloud can't see uncommitted work.</b> If a routine needs it, commit it — including the skill it calls.",
+      "<b>Personal skills don't load in Cowork or cloud sessions.</b> ~/.claude/skills/ is local-only; commit to the repo or ship a plugin for anything a routine must reach.",
+      "<b>Make it a skill when you notice repetition.</b> Same instructions pasted twice, or a CLAUDE.md section that grew from a fact into a procedure.",
+      "<b>Pin effort in the frontmatter.</b> Otherwise a routine skill inherits whatever the session was set to.",
+      "<b>Routines share your usage budget</b> with Chat, Cowork and Code — a badly tuned one can quietly eat the week."],
+    rows:AUTO_ROWS },
 ];
 
 function effInfo(e){const s=(e||"").toLowerCase();
-  if(s.includes("max")) return {cls:"e-max",rank:4,key:"max"};
+  if(s.includes("max")) return {cls:"e-max",rank:5,key:"max"};
+  if(s.includes("xhigh")||s.includes("x-high")||s.includes("extra")) return {cls:"e-xhigh",rank:4,key:"xhigh"};
   if(s.includes("high")) return {cls:"e-high",rank:3,key:"high"};
   if(s.includes("med")) return {cls:"e-med",rank:2,key:"med"};
   return {cls:"e-low",rank:1,key:"low"};}
 function modelInfo(m){const s=(m||"").toLowerCase();
   if(s.includes("plan")) return {cls:"m-opus",rank:3,key:"opusplan"};
-  if(s.includes("opus")) return {cls:"m-opus",rank:3,key:"opus"};
+  if(s.includes("fable")) return {cls:"m-fable",rank:5,key:"fable"};
+  if(s.includes("opus")) return {cls:"m-opus",rank:4,key:"opus"};
   if(s.includes("sonnet")) return {cls:"m-sonnet",rank:2,key:"sonnet"};
   return {cls:"m-haiku",rank:1,key:"haiku"};}
-function modeKey(m){const s=(m||"").toLowerCase();return s.includes("plan")?"plan":s.includes("accept")?"accept":s.includes("auto")?"auto":"default";}
-function methodKey(m){const s=(m||"").toLowerCase();return s.includes("connector")?"connector":s.includes("browser")?"browser":"computer";}
-function costBars(model,eff){let base=modelInfo(model).rank;const add=[0,0,0.5,1,1.5][effInfo(eff).rank]||0;return Math.max(1,Math.min(5,Math.round(base+add)));}
+function modeKey(m){const s=(m||"").toLowerCase();
+  return s.includes("bypass")?"bypass":s.includes("dontask")||s.includes("don't ask")||s.includes("no-ask")?"dontask":
+         s.includes("plan")?"plan":s.includes("accept")?"accept":s.includes("auto")?"auto":"default";}
+function methodKey(m){const s=(m||"").toLowerCase();
+  return s.includes("schedul")?"scheduled":s.includes("local")?"local":
+         s.includes("connector")?"connector":s.includes("browser")?"browser":"computer";}
+function costBars(model,eff){const base=modelInfo(model).rank;const add=[0,0,0.4,0.8,1.1,1.4][effInfo(eff).rank]||0;return Math.max(1,Math.min(5,Math.round(base+add)));}
 const HEIGHTS=[6,8,10,13,16,18];
 function costHTML(n,tip){let h="";for(let i=1;i<=5;i++){const f=i<=n?"f"+n:"";h+=`<i class="${f}" style="height:${HEIGHTS[i]}px"></i>`;}return `<span class="cost"${tip?` data-tip="cost:${n}"`:""}>${h}</span>`;}
 function esc(s){return (s==null?"":""+s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
@@ -447,6 +547,12 @@ function thinkTag(t,tip){return `<span class="think ${t?"on":""}"${tip?` data-ti
 function modeTag(m,tip){return `<span class="ptag"${tip?` data-tip="mode:${modeKey(m)}"`:""}>${esc(m)}</span>`;}
 function methodTag(m,tip){return `<span class="ptag"${tip?` data-tip="method:${methodKey(m)}"`:""}>${esc(m)}</span>`;}
 function toolsTag(m,tip){return `<span class="ptag tools"${tip?` data-tip="tools"`:""}>${esc(m)}</span>`;}
+function outTag(m,tip){return `<span class="ptag out"${tip?` data-tip="output"`:""}>${esc(m)}</span>`;}
+function trigTag(m,tip){return `<span class="ptag"${tip?` data-tip="trigger:${trigKey(m)}"`:""}>${esc(m)}</span>`;}
+function runTag(m,tip){return `<span class="ptag"${tip?` data-tip="runtime:${runKey(m)}"`:""}>${esc(m)}</span>`;}
+function scopeTag(m,tip){return `<span class="ptag"${tip?` data-tip="scope"`:""}>${esc(m)}</span>`;}
+function trigKey(m){const s=(m||"").toLowerCase();return s.includes("github")||s.includes("api")?"event":s.includes("loop")||s.includes("session")?"loop":s.includes("/")||s.includes("auto")?"invoke":"schedule";}
+function runKey(m){const s=(m||"").toLowerCase();return s.includes("cloud")||s.includes("anthropic")?"cloud":s.includes("session")?"session":s.includes("any")?"any":"local";}
 function chipHTML(key,row,tip){
   if(key==="model")return modelTag(row.model,tip);
   if(key==="effort")return effTag(row.effort,tip);
@@ -455,32 +561,42 @@ function chipHTML(key,row,tip){
   if(key==="mode")return modeTag(row.mode,tip);
   if(key==="method")return methodTag(row.method,tip);
   if(key==="tools")return toolsTag(row.tools,tip);
+  if(key==="output")return outTag(row.output,tip);
+  if(key==="trigger")return trigTag(row.trigger,tip);
+  if(key==="runtime")return runTag(row.runtime,tip);
+  if(key==="scope")return scopeTag(row.scope,tip);
   return "";
 }
-const COLLABEL={model:"Model",effort:"Effort",think:"Think",cost:"Cost",mode:"Mode",method:"Method",tools:"Tools"};
+const COLLABEL={model:"Model",effort:"Effort",think:"Think",cost:"Cost",mode:"Mode",method:"Method",tools:"Tools",output:"Output",trigger:"Trigger",runtime:"Runtime",scope:"Scope"};
 
 const EFFORTS=[
-  {key:"low",cls:"e-low",label:"LOW",desc:"Quick, cheapest. Routine, low-ambiguity work; stretches usage furthest."},
-  {key:"med",cls:"e-med",label:"MED",desc:"A little more care, still light on usage."},
-  {key:"high",cls:"e-high",label:"HIGH",desc:"Best balance of quality and speed — the usual default."},
-  {key:"max",cls:"e-max",label:"MAX",desc:"Most thorough and slowest; for hard, correctness-critical work."},
+  {key:"low",cls:"e-low",label:"LOW",desc:"High-volume or latency-sensitive work; stretches usage furthest."},
+  {key:"med",cls:"e-med",label:"MED",desc:"Cost-saving step down from the default; still light on usage."},
+  {key:"high",cls:"e-high",label:"HIGH",desc:"The default everywhere — complex reasoning, coding, agentic work."},
+  {key:"xhigh",cls:"e-xhigh",label:"XHIGH",desc:"Long-horizon agentic and coding work; Opus 4.7+ and Fable/Mythos 5."},
+  {key:"max",cls:"e-max",label:"MAX",desc:"Deepest reasoning, no cap on spend. Diminishing returns — try XHIGH first."},
 ];
 const MODELS={
-  opus:{name:"Opus 4.8",desc:"Most capable — for genuinely hard, high-stakes, or long-horizon work.",pr:"Reach for Opus only when Sonnet at higher effort isn't enough — it costs several times more."},
+  fable:{name:"Fable 5",desc:"Most capable widely released model — the most demanding reasoning and long-horizon agentic work. $10/$50.",pr:"Carries safety classifiers that can decline a request; integrations need a fallback. Mythos 5 is the same model without them, Glasswing only."},
+  opus:{name:"Opus 5",desc:"GA 24 Jul 2026. 1M context, thinking on by default. Anthropic's recommended start for complex agentic coding and enterprise work. $5/$25.",pr:"Give it the full spec up front and let it run — it finishes tasks rather than leaving stubs. Thinking can't be disabled above HIGH effort."},
   opusplan:{name:"Opus plan",desc:"Opus plans, Sonnet executes — Opus's reasoning for the plan, Sonnet's efficiency for the edits.",pr:"A strong default for big, multi-file work in Code."},
-  sonnet:{name:"Sonnet 4.6",desc:"The balanced workhorse: fast, capable, far cheaper than Opus.",pr:"Default here; bump effort before switching models."},
-  haiku:{name:"Haiku 4.5",desc:"Fastest and lightest; great for clear-cut, high-volume tasks.",pr:"Keep simple, repetitive tasks here to protect your limits."},
+  sonnet:{name:"Sonnet 5",desc:"Released 30 Jun 2026. The workhorse: 1M context, selectable effort, default for Free and Pro. $2/$10 intro, then $3/$15 from 1 Sep 2026.",pr:"Covers a lot that used to justify Opus. Bump effort before switching models."},
+  haiku:{name:"Haiku 4.5",desc:"Fastest and lightest; great for clear-cut, high-volume tasks. $1/$5.",pr:"Keep simple, repetitive tasks here to protect your limits."},
 };
 const MODES={
-  plan:{n:"Plan mode",d:"Claude researches and proposes a plan, read-only, making no changes until you approve."},
-  accept:{n:"Accept edits",d:"Claude makes file changes as it goes (acceptEdits). Use once you trust the task."},
-  default:{n:"Default",d:"Claude asks permission before each consequential action."},
-  auto:{n:"Auto mode",d:"Claude works autonomously while a safety classifier reviews each action. (Team/Enterprise/API.)"},
+  plan:{n:"Plan mode",d:"Read-only: Claude researches and proposes a plan, changing nothing until you approve. Note it blocks <b>edits</b>, not exploration — the commands it runs to look around still prompt."},
+  accept:{n:"Accept edits",d:"Claude makes file changes as it goes (acceptEdits); bash still asks. Commit first."},
+  default:{n:"Default",d:"Claude asks before each consequential action. Reads auto-approve. Right for unfamiliar code and shared machines."},
+  auto:{n:"Auto mode",d:"A classifier decides approvals instead of you — built for long runs where prompting becomes rubber-stamping. Appears once your account and model qualify."},
+  dontask:{n:"dontAsk",d:"Inverts the default: unapproved actions are <b>denied</b> rather than prompted, so an unattended job fails fast instead of hanging. Never in the Shift+Tab cycle — set it by flag or in settings."},
+  bypass:{n:"Bypass permissions",d:"Nothing prompts. Isolated containers, VMs and ephemeral CI runners only — never a machine with real credentials. Needs its own launch flag; admins can disable it. Your deny rules still apply."},
 };
 const METHODS={
-  connector:{n:"Connector",d:"A direct, authenticated link to an app (Gmail, Drive, Slack…). Fastest and most reliable; Cowork prefers it."},
-  browser:{n:"Browser",d:"When no connector fits, Cowork drives Chrome via Claude in Chrome."},
-  computer:{n:"Computer use",d:"Claude controls your screen — clicking and typing. Most flexible but slower; needs your desktop awake. (Pro/Max.)"},
+  connector:{n:"Connector",d:"A direct, authenticated link to an app (Gmail, Drive, Slack…). Fastest and most precise — Claude reaches here first."},
+  browser:{n:"Browser",d:"The fallback when no connector fits: Cowork drives Chrome."},
+  computer:{n:"Computer use",d:"Claude controls your screen — the <b>last resort</b> in the chain, and it asks before touching each app. Flexible but slowest."},
+  scheduled:{n:"Scheduled task",d:"Runs on a cadence you set, remotely — so it fires even with your laptop asleep or the desktop app closed. Each run is a fresh session, so the prompt must carry all its own context."},
+  local:{n:"Local execution",d:"Shell and Python inside a Linux VM on your own hardware. Needs hardware virtualisation and can take up to 25 GB disk / 8 GB RAM. Use it only when a cloud sandbox genuinely can't reach what you need."},
 };
 function daysBetween(a,b){return Math.floor((b-a)/86400000);}
 function buildTip(spec){
@@ -492,6 +608,12 @@ function buildTip(spec){
   if(kind==="mode"){const m=MODES[val];return `<h4>${m.n}</h4>${m.d}`;}
   if(kind==="method"){const m=METHODS[val];return `<h4>${m.n}</h4>${m.d}`;}
   if(kind==="tools")return `<h4>Tools</h4>The connectors or files this task draws on. Enable them in Cowork's Customize panel first.`;
+  if(kind==="output")return `<h4>Output</h4>What Claude Design hands back. Export covers PDF, PPTX, standalone HTML and a live URL, plus a Canva handoff and a packaged handoff to Claude Code.`;
+  if(kind==="scope")return `<h4>Scope</h4>What this automation can actually see when it runs. Cloud routines only see what's committed; local runs see your working directory, uncommitted changes included.`;
+  if(kind==="trigger"){const T={schedule:["Schedule","Fires on a cadence you set."],event:["Event","Fires on an API call or a GitHub event — cloud routines only."],loop:["In-session loop","Claude schedules itself inside the current session and polls until a condition flips. Dies with the session."],invoke:["Invoked","Claude loads it when the description matches, or you call it directly with /name."]}[val]||["Trigger",""];
+    return `<h4>${T[0]}</h4>${T[1]}`;}
+  if(kind==="runtime"){const R={cloud:["Anthropic cloud","Runs on managed infrastructure — your machine can be off entirely."],local:["Your machine","Only fires while the app is open and the machine awake."],session:["Current session","Lives and dies with the session — closing the terminal or sleeping the machine kills it."],any:["Any surface","Works wherever the skill is enabled."]}[val]||["Runtime",""];
+    return `<h4>${R[0]}</h4>${R[1]}`;}
   if(kind==="think"){return val==="on"?`<h4>Thinking · on</h4>Claude shows a reasoning block before answering. Turn on to <b>verify the steps</b> on math, research, and planning.`:`<h4>Thinking · off</h4>Claude answers directly — fine for low-ambiguity tasks and lighter on usage.`;}
   if(kind==="cost")return `<h4>Usage burn · ${val}/5</h4>Rough relative cost of this model + effort combo. <b>Lower means more headroom</b> in your limits.`;
   if(kind==="date"){const d=daysBetween(new Date(BUILD_DATE+"T00:00:00"),new Date());
@@ -594,7 +716,7 @@ document.addEventListener("keydown",e=>{
   if(e.key==="/"&&document.activeElement!==qEl){e.preventDefault();qEl.focus();qEl.select();}
   if(e.key==="Escape"&&document.activeElement===qEl){qEl.value="";query="";render();qEl.blur();}});
 
-document.getElementById("meta-line").innerHTML=VERSION+" · 3 surfaces<br>AI · Code · Cowork";
+document.getElementById("meta-line").innerHTML=VERSION+" · 5 surfaces<br>AI · Code · Cowork · Design · Routines";
 document.getElementById("footer-ver").textContent=VERSION;
 
 (function dateBadge(){const d=daysBetween(new Date(BUILD_DATE+"T00:00:00"),new Date());
